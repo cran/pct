@@ -1,7 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pct · [![Coverage status](https://codecov.io/gh/ITSLeeds/pct/branch/master/graph/badge.svg)](https://codecov.io/github/ITSLeeds/pct?branch=master) [![Travis build status](https://travis-ci.org/ITSLeeds/pct.svg?branch=master)](https://travis-ci.org/ITSLeeds/pct)
+[![](http://www.r-pkg.org/badges/version/pct)](http://www.r-pkg.org/pkg/pct)[![Coverage
+status](https://codecov.io/gh/ITSLeeds/pct/branch/master/graph/badge.svg)](https://codecov.io/github/ITSLeeds/pct?branch=master)
+[![Travis build
+status](https://travis-ci.org/ITSLeeds/pct.svg?branch=master)](https://travis-ci.org/ITSLeeds/pct)
+
+# pct
 
 The goal of pct is to increase the accessibility and reproducibility of
 the data produced by the Propensity to Cycle Tool (PCT), a research
@@ -31,6 +36,11 @@ transport policies enabling cycling in cities worldwide, this package is
 for you\!
 
 ## Installation
+
+``` r
+# from CRAN
+install.packages("pct")
+```
 
 You can install the development version of the package as
 follows:
@@ -97,6 +107,62 @@ plot(lines[1:10,], lwd = 4)
 # mapview::mapview(lines[1:3000, c("geo_name1")])
 ```
 
+## Estimate cycling uptake
+
+An important part of the PCT is its ability to create model scenarios of
+cycling uptake. Key to the PCT uptake model is ‘distance decay’, meaning
+that short trips are more likely to be cycled than long trips. The
+functions `uptake_pct_govtarget()` and `uptake_pct_godutch()` implement
+uptake models used in the PCT, which use distance and hilliness per
+desire line as inputs and output the proportion of people who could be
+expected to cycle if that scenario were realised. The scenarios of
+cycling uptake produced by these functions are not predictions of what
+*will* happen, but illustrative snapshots of what *could* happen if
+overall propensity to cycle reached a certain level. The uptake levels
+produced by Go Dutch and Government Target scenarios (which represent
+increases in cycling, not final levels) are illustrated in the graph
+below (other scenarios could be produced, see the [source
+code](https://itsleeds.github.io/pct/reference/uptake_pct_govtarget.html)
+see how these models work):
+
+``` r
+distances = 1:20
+hilliness = 0:5
+uptake_df = data.frame(
+  distances = rep(distances, 6),
+  hilliness = rep(hilliness, each = 20)
+)
+p_govtarget = uptake_pct_govtarget(
+    distance = uptake_df$distances,
+    gradient = uptake_df$hilliness
+    )
+p_godutch = uptake_pct_godutch(
+    distance = uptake_df$distances,
+    gradient = uptake_df$hilliness
+    )
+uptake_df = rbind(
+  cbind(uptake_df, scenario = "govtarget", pcycle = p_govtarget),
+  cbind(uptake_df, scenario = "godutch", pcycle = p_godutch)
+)
+library(ggplot2)
+ggplot(uptake_df) +
+  geom_line(aes(
+    distances,
+    pcycle,
+    linetype = scenario,
+    colour = as.character(hilliness)
+  )) +
+  scale_color_discrete("Gradient (%)")
+```
+
+<img src="man/figures/README-decay-1.png" width="100%" />
+
+The proportion of trips made by cycling along each origin-destination
+(OD) pair therefore depends on the trip distance and hilliness. The main
+input dataset into the PCT is OD data and, to convert each OD pair into
+a geographic desire line, geographic zone or centroids. Typical input
+data is provided in packaged datasets `od_leeds` and `zones_leeds`:
+
 ## Reproduce PCT for Leeds
 
 This example shows how scenarios of cycling uptake, and how ‘distance
@@ -109,17 +175,19 @@ zone data):
 class(od_leeds)
 #> [1] "tbl_df"     "tbl"        "data.frame"
 od_leeds[c(1:3, 12)]
-#>    area_of_residence area_of_workplace  all bicycle
-#> 1          E02002363         E02006875  922      43
-#> 2          E02002373         E02006875 1037      73
-#> 3          E02002384         E02006875  966      13
-#> 4          E02002385         E02006875  958      52
-#> 5          E02002392         E02006875  753      19
-#> 6          E02002404         E02006875 1145      10
-#> 7          E02002411         E02006875  929      27
-#> 8          E02006852         E02006875 1221      99
-#> 9          E02006861         E02006875 1177      56
-#> 10         E02006876         E02006875 1035      10
+#> # A tibble: 10 x 4
+#>    area_of_residence area_of_workplace   all bicycle
+#>    <chr>             <chr>             <dbl>   <dbl>
+#>  1 E02002363         E02006875           922      43
+#>  2 E02002373         E02006875          1037      73
+#>  3 E02002384         E02006875           966      13
+#>  4 E02002385         E02006875           958      52
+#>  5 E02002392         E02006875           753      19
+#>  6 E02002404         E02006875          1145      10
+#>  7 E02002411         E02006875           929      27
+#>  8 E02006852         E02006875          1221      99
+#>  9 E02006861         E02006875          1177      56
+#> 10 E02006876         E02006875          1035      10
 class(zones_leeds)
 #> [1] "sf"         "data.frame"
 zones_leeds[1:3, ]
@@ -188,7 +256,7 @@ routes_vital = sf::st_sf(
 plot(routes_vital)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-routes_vital-1.png" width="100%" />
 
 Now we estimate cycling
 uptake:
@@ -204,7 +272,7 @@ Let’s see how many people started cycling:
 
 ``` r
 sum(routes_vital$bicycle_govtarget) - sum(routes_vital$bicycle)
-#> [1] 768
+#> [1] 769
 ```
 
 Nearly 1000 more people cycling to work, just in 10 desire is not bad\!
@@ -212,7 +280,7 @@ What % cycling is this, for those routes?
 
 ``` r
 sum(routes_vital$bicycle_govtarget) / sum(routes_vital$all)
-#> [1] 0.1153505
+#> [1] 0.1154491
 sum(routes_vital$bicycle) / sum(routes_vital$all)
 #> [1] 0.03963324
 ```
@@ -229,7 +297,7 @@ lwd = rnet$bicycle_govtarget / mean(rnet$bicycle_govtarget)
 plot(rnet["bicycle_govtarget"], lwd = lwd)
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+<img src="man/figures/README-rnetgove-1.png" width="100%" />
 
 We can view the results in an interactive map and share with policy
 makers, stakeholders, and the public\! E.g. (see interactive map
