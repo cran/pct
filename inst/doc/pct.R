@@ -58,7 +58,7 @@ leaflet(data = wight_lines_30) %>%
 knitr::include_graphics("https://user-images.githubusercontent.com/1825120/54882128-c4f02980-4e4e-11e9-8eb8-49c43507165a.png")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  wight_od_all = get_od(area = "wight")
+#  wight_od_all = get_od(region = "wight")
 #  summary(wight_od_all$geo_code1 %in% wight_centroids$geo_code)
 #  #>    Mode    TRUE
 #  #> logical    2851
@@ -78,11 +78,11 @@ sum(wight_lines$all)
 ## ---- eval=FALSE, echo=FALSE---------------------------------------------
 #  # aim: test result of get_desire_lines
 #  library(pct)
-#  wight_od_all = get_od(area = "wight")
+#  wight_od_all = get_od(region = "wight")
 #  wight_od = wight_od_all[
 #    wight_od_all$geo_code2 %in% wight_centroids$geo_code,]
 #  wight_lines_census = stplanr::od2line(wight_od, wight_centroids)
-#  wight_lines_census2 = get_desire_lines(area = "wight")
+#  wight_lines_census2 = get_desire_lines(region = "wight")
 #  nrow(wight_lines_census)
 #  nrow(wight_lines_census2)
 
