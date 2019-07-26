@@ -29,6 +29,9 @@ knitr::opts_chunk$set(
 #  remotes::install_cran(pkgs)
 #  # remotes::install_github("ITSLeeds/pct")
 
+## ----testcode, eval = FALSE----------------------------------------------
+#  source("https://raw.githubusercontent.com/ITSLeeds/TDS/master/code-r/setup.R")
+
 ## ----setup, out.width="100%", message=FALSE------------------------------
 library(pct)
 library(dplyr)   # in the tidyverse
