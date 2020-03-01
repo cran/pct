@@ -1,4 +1,4 @@
-## ---- eval=FALSE, echo=FALSE---------------------------------------------
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  header-includes:
 #  - \usepackage{fancyhdr}
 #  - \pagestyle{fancy}
@@ -7,14 +7,14 @@
 #  - \fancyfoot[LE,RO]{\thepage}
 #  output: pdf_document
 
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   out.width = "50%"
 )
 
-## ---- eval=FALSE, echo=FALSE---------------------------------------------
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  # get citations
 #  refs = RefManageR::ReadZotero(group = "418217", .params = list(collection = "JFR868KJ", limit = 100))
 #  refs2 = RefManageR::ReadBib("vignettes/refs.bib")
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 #  RefManageR::WriteBib(refs, "vignettes/refs_training.bib")
 #  # citr::tidy_bib_file(rmd_file = "vignettes/pct_training.Rmd", messy_bibliography = "vignettes/refs_training.bib")
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  install.packages("remotes")
 #  pkgs = c(
 #    "cyclestreets",
@@ -40,10 +40,10 @@ knitr::opts_chunk$set(
 #  remotes::install_cran(pkgs)
 #  # remotes::install_github("ITSLeeds/pct")
 
-## ----testcode, eval = FALSE----------------------------------------------
+## ----testcode, eval = FALSE---------------------------------------------------
 #  source("https://raw.githubusercontent.com/ITSLeeds/TDS/master/code-r/setup.R")
 
-## ----setup, out.width="30%", message=FALSE-------------------------------
+## ----setup, out.width="30%", message=FALSE------------------------------------
 library(pct)
 library(dplyr)   # in the tidyverse
 library(tmap) # installed alongside mapview
@@ -65,7 +65,7 @@ tmap_mode("view")
 tm_shape(active) +
   tm_lines("Percent Active", palette = "RdYlBu", lwd = "all", scale = 9)
 
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  # old code - create with leaflet
 #  pal = colorBin(palette = "RdYlBu", domain = active$`Percent Active`, bins = c(0, 2, 4, 10, 15, 20, 30, 40, 90))
 #  leaflet(data = active) %>%
@@ -79,7 +79,7 @@ tm_shape(active) +
 #    addPolylines(color = ~pal(`Percent Drive`), weight = active$all / 100) %>%
 #    addLegend(pal = pal, values = ~`Percent Drive`)
 
-## ---- out.width="30%"----------------------------------------------------
+## ---- out.width="30%"---------------------------------------------------------
 # Create car dependent desire lines
 car_dependent = lines_all %>% 
   mutate(`Percent Drive` = (car_driver) / all * 100) %>% 
@@ -87,31 +87,31 @@ car_dependent = lines_all %>%
 tm_shape(car_dependent) +
   tm_lines("Percent Drive", palette = "-RdYlBu", lwd = "all", scale = 9)
 
-## ---- echo=FALSE, out.width="90%"----------------------------------------
+## ---- echo=FALSE, out.width="90%"---------------------------------------------
 # u = "https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png"
 # f = "vignettes/flow-diag2.png"
 # download.file(u, f)
 # knitr::include_graphics("flow-diag2.png")
 knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(pct)
 library(dplyr) # suggestion: use library(tidyverse)
 z_original = get_pct_zones("isle-of-wight")
 z = z_original %>% 
   select(geo_code, geo_name, all, bicycle, car_driver)
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 # the solution:
 # View(z)
 z_highest_cycling = z %>% 
   top_n(n = 1, wt = bicycle)
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 plot(z$geometry)
 plot(z_highest_cycling$geometry, col = "red", add = TRUE)
 
-## ----get routes----------------------------------------------------------
+## ----get routes---------------------------------------------------------------
 # Aim: get top 5 cycle routes
 l_original_msoa = get_pct_lines("isle-of-wight")
 l_msoa = l_original_msoa %>% 
@@ -168,21 +168,21 @@ l_top_driving = l %>%
 plot(z$geometry)
 plot(l_top_driving, add = TRUE, lwd = l_top_driving$car_driver / mean(l_top_driving$car_driver), col = "red")
 
-## ----p2------------------------------------------------------------------
+## ----p2-----------------------------------------------------------------------
 l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
 # plot(l_msoa["pcycle"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
 
-## ----eval=FALSE, echo=FALSE----------------------------------------------
+## ----eval=FALSE, echo=FALSE---------------------------------------------------
 #  rnet = get_pct_rnet("isle-of-wight")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 l_msoa$euclidean_distance = as.numeric(sf::st_length(l_msoa))
 l_msoa$pcycle_govtarget = uptake_pct_govtarget(
   distance = l_msoa$rf_dist_km,
   gradient = l_msoa$rf_avslope_perc
   ) * 100 + l_msoa$pcycle
 
-## ----change, echo=FALSE--------------------------------------------------
+## ----change, echo=FALSE-------------------------------------------------------
 l_msoa$pcycle_dutch = uptake_pct_godutch(
   distance = l_msoa$rf_dist_km,
   gradient = l_msoa$rf_avslope_perc
@@ -195,41 +195,41 @@ plot(l_msoa["pcycle_dutch"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 
 # cor(l_original_msoa$govtarget_slc / l_original_msoa$all, l_msoa$pcycle_govtarget)
 # plot(l_original_msoa$dutch_slc / l_original_msoa$all, l_msoa$pcycle_dutch)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(stplanr)
 l_top = l_msoa %>% 
   top_n(n = 1, wt = bicycle)
 
-## ---- eval=FALSE, echo=FALSE---------------------------------------------
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  r_top = stplanr::route_osrm(l_top)
 #  sf::write_sf(sf::st_as_sf(r_top), "r_top.geojson")
 #  piggyback::pb_upload("r_top.geojson")
 #  piggyback::pb_download_url()
 
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 r_top = sf::read_sf("https://github.com/ITSLeeds/pct/releases/download/0.0.1/r_top.geojson")
 tm_shape(r_top) +
   tm_lines(lwd = 5)
 
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  r_cs = stplanr::line2route(l_top)
 #  leaflet() %>%
 #    addTiles() %>%
 #    addPolylines(data = r_cs)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 route_data = sf::st_sf(wight_lines_30, geometry = wight_routes_30$geometry)
 
-## ---- echo=FALSE, message=FALSE------------------------------------------
+## ---- echo=FALSE, message=FALSE-----------------------------------------------
 rnet_walk = overline2(x = route_data, "foot")
 tm_shape(rnet_walk) +
   tm_lines(lwd = "foot", scale = 9)
 
-## ---- eval=FALSE, echo=FALSE---------------------------------------------
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  rnet_school = get_pct_rnet(region = "isle-of-wight", purpose = "school")
 #  plot(rnet_school)
 
-## ---- echo=FALSE, eval=FALSE---------------------------------------------
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  # Demo PCT Analysis#
 #  # Make a commuting quiet route network for Isle of Wight
 #  # and combine it with the travel to school route network

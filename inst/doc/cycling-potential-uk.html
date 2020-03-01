@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Cycling potential in UK cities</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Cycling potential in UK cities</h1>
+
+
+
+<p>What modal shift to cycling do you think we could achieve in UK cities in an ideal scenario? Answers to that question are vital to support high level ambition for active transport and wider sustainability policies in settlements worldwide. In UK cities such as Leeds (where the motivation for this article originated, via <a href="https://twitter.com/PaulChatterton9/status/1190925153322098690">Twitter</a>) there is already a wealth of freely available data on cycling potential, based on the Propensity to Cycle Tool (<a href="http://www.pct.bike/">PCT</a>) project, of which this package is a part. This article will briefly explain how to get cycling potential data for any city in England and Wales, based on a case study of Leeds.</p>
+<div id="getting-the-region-of-interest" class="section level1">
+<h1>Getting the region of interest</h1>
+<p>The first stage in many projects involving geographic data is to define the region of interest. In our case we will use the boundary of the Leeds local authority as the basis of analysis. The PCT is based on ‘PCT regions’ that we can visualise as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(pct)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(tmap)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">tm_shape</span>(pct_regions) <span class="op">+</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="st">  </span><span class="kw">tm_polygons</span>() <span class="op">+</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="st">  </span><span class="kw">tm_text</span>(<span class="st">&quot;region_name&quot;</span>, <span class="dt">size =</span> <span class="fl">0.6</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAC+lBMVEUCAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs8PDw9PT0+Pj4/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExNTU1OTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhZWVlaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29wcHBxcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+AgICBgYGCgoKDg4OEhISFhYWGhoaHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+QkJCRkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2enp6fn5+goKChoaGioqKjo6OkpKSlpaWmpqanp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u8vLy9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXW1tbX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7////rLhIsAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO1dd1xTWb7f996W6eroFMeCYkdRVIqi0lGsiL3LaG56AkmAQEKQagwCRpogiICgIFVFAZUBAZEiICU583Z2Z97szk7dac5OcTWfz7v33JSbAlwwBHZ3fn+EW37JPb8v555zfvX8RvUrDUq/GesGjHf6FaAh6FeAhqBfARqCyAF0t/bfkO6aEaCjYy3MaNBRMwIkIcX1L0YSUly/AjQE/QrQEDS+AHr2hYUehJGEFNe4Aqg3mN5rmSdhJCHFNa4AKkmMKrPMkzCSkOIaTwB9RufEc4FFHoWRhBTXOALoQUgOALf5FkNIQopr/AD0V24dQOk2954FHoaRhBTX+AEoOw9AauFaaCqTkOIaLwA9u8d5hAMEkvOejfrjMJKQ4hofAD2+FnGiUY0P6I7I/nqUnwdJQoprfAD0CTtbCbTUm8Y+0/Z0lB/5rwWQqkcEiNRXLskZ7Uf+awH0I7tBDyHQG3ZntJ8pIcU1TgBSdXGb9RFqof40yo+UkOIaLwCpSrL1AWoPGO25TEKKa9wAdFeuDxAQjfaSWkKKa9wA9DX7oT5A5fxR7kISUlzjBiBV4TmDLhTwzeg+UEKKa7wA9A8gqjAAKPyD0X2khBTX+ADon9U8UaYBPiC+bXQfKiHFNT4A6g9uNoQH9IR0j+5DJaS4xgdA908b4QNKTo/yQyWkuMYeIEWS5AK7zBig9oAno/hU1b8MQF8Glt/Jf2iMDwCn00dXYZWQ4hpbgIrDPhZe1kNFxtEe9rOTo/S4FVvN+nAJKa6xA+jZx0xV8XFeORgIoDZ+7n8cQFf8JF5Xv999fHNDwZbd+xaWiWf72Z6J44Hr3kmedIcoun2zbM1e+7SuTbs8K087Lc6O+tbX370Lfutzbyb/3x+g4oOqrm1Jp1V/cSjepaplqPa6gkoPCJB8JxAeAwy5bANoWiASgNp18g1Bsqg/VauKufBbp5JVZf8BAIWp/tebW6FSTS8ORQFSbtoDapxxgJggIhTwZDI6AG8ddvT1dZFTrx6M+ivC2Y7Ab7ErVd3/IQCdlak+dEaPbtNigmkoQIl0cE4H0BbQZCMWgp4aOa3fhxeUqTp7HH7rpFx1+T8EoMe7/Te3okd/fss1CQOoyZ5C9dQAdMr7kGNG1ya/NSlyGth1/NbqgHO2Edi3/uZyhLPZTM3ASUKKa+xmsccJUvp1U+sf3TxPezwKz9WShBTXWAH0UzY3S3mZX9I9GELSerM/l0ASUlxjBNCTRHknikAqI3cwgK6nmPu5RJKQ4hobgJ5lyhQQguKA3IR+k+B0PgKghfd3Mz+YSBJSXGMA0LPHqsLIPjUOmULqHRPwKEVMUUX7I5nYnA82IAkprjEA6AHCEj3SYRFy0QRAvdyqxACEQuX81ZxP1icJKa4xAOhqXmevFomLTEGVMT4tfF4HPMjPMueT9UlCimsMAEq8SYCCWqIw0YEu4p7o/odpvNGb6SWkuCwO0A8tgb0EKJA2E/icY0rRDnSvlkGhy098Z75n65OEFJdFAfr+YePTC3y91SGr1hifduTKaTqDH0iLefQIJJBLqRgBSUhxWRKgatbJaBH7kR4YoZeNAboSiE5jzXXKXqyrZVWZ5dkmSEKKy4IAfUu9BkBJsT4YgeVG+PSxbhCHo3JzPNsUSUhxWQ6g23lRQiMwLlGMzdFKRivhrKDIDM82SRJSXBYDqC2oKMfYdxGaqH9+P6VGeY9KvHJ11CZ6CSkuiwEUV22EDkoPEHS6qkjAT65VFXLFDH74CSJHZ8D3z/9wkyQhxWUpgD4PUJoCCHCu98ppVDhSt1ICgktRmBL69Djkt5/74aZJQorLUgBVpZnEB2SxWcGddbTMygetfBPuVZQqUp/74aZJQorLUgBlGsZuaKihBXvTmHSEqR2O5DQiQ0fgKMUJSUhxWQqg+NsDAIRTXKYCXzEq6w8YAASCe/Cf+Jj53K3QIwkpLgsBdJvXOTA6Sd706dJOn11ul067+Wy2TpG7HrQ9g16H7rEOzw3T6x9u2r/xi8MLzZsrJSHFZRmA7oaaUrm0r9TWqn0eYSGgwVa+AVzYD+SbQKUHeh26x+5kAY49P+7ZB1/VMp6zFQYkIcVlEYCexZjQuAgA0c4GOx9GR/G35VQIEObrkDj7Q/fYvT2HvHzo77r7f/NvDNCNCGObhsYJnxWHApK5d7E4CNQtR6HJ2YsDhN6C7rFj0UC8c+eHqvCM27Tna4UhSUhxWQKg93kmwlvUAClhDwInZnb5+LldRY/qrE5pAILusSy7I5HzN9kd2vLRR/Nyn6sZhiQhxWUJgNriQedGH+cm4ygFdFCO5XR4+jntM2FWJFAzL+Wu2WNeJaS4LAEQiARhIlBQahylgA7KMg46DMsdB3X/AHC78gyn4Z/P1QojkpDisgRAjXKADcHAOEoBHZRlHGwY9kZKB0cI7UWRvMIPvjBj0JmEFJclAMopBOJgkJNrHKWAjjYyDjYM76riGqYiGFNrThhfkGy2yEUJKS4LAPQ9twt0bdjg3GgcpQABgsPw9fvBYbqpriEsMLrJFEadTH78o1+epzXDFWr0Afr5ZMqQfQOjR1pjdUMrK/NaCvWK9lZJaV/fA3gUnqDM5JvJQkROqNEH6GloHSmAgDQL/9tHDYpA/1RrXrrmIH4YgjBZ1MCEUPo19L7odLU5pjRyQlngFWvnPSAFUFqMnMrN7KnhRmZD+1ALTyTkMiXxSGYv6G3tu95QKC+UY9bY3qpk4afP06LhCGWJQfo9Yc+Q6LSXJLDpsXdLo7jcfE00Q0t2UdWdLFmjCfbSoL89V5PIC2URVSNPZtqcqKPbCF+Ov4mtg6j9BEqufb4mkRbKIgA9ic0fQt7zUaRg0VFOzHOHNZATyjLmjr8Lhhioi4TDBEh5Jeh514zkhLKQwawtbNCXrJI33B4EQGTXc7aJnFCWMrmeuTKIrMqgkGHjA0qTn7NJ5ISyFED3EwcTto1twkU/BPWyn3MxRE4oSwGkHPwdYrQMGyCQfPP5mkROKEsB9Jg96PQdVDN8gOpFz+cPIieUxVzP+VmDyNrD00VyGjh9cNJlScHbWXHYYfjzhVGTE8piAH3NrwP9+dHGsneWFzIodPzYhFcMv24AELwGmvhn/+85WkROKMuFv3TzH+VzMC1UHVwPFYq+lhQPK2cbuQmv2NI6kLFPcz2W0+d+scx1s0sLvC3joNfaN+1cue85ECInlAUDqK6E8IKSAXhEzQXdwusVTHTiyqXQAtc7gQpTXrFYOthcqrkuY2/NAAKe8nYrvC3joNdEXFC7sGnk7SEnlAUBetLzQXwJZgw7cfWcnEbNpp9IojV3st6lghpTXrGuOQ9XAM112ZT5D0EXzcmvHd5GAaL2r5m6wXd5SM2Iq+iQE8qiQZxfcxQAJJb9lR75dbUM9GRH1YOo+DOYxCa8YmC/nwRorsvoaT7gajtgRGkAovWu3kjhpckRdtUIjfnkhLIoQF8IAKgK+1n1vUr1SwiunYVdgBKb8IqBa79vA5rr6CDtH3Z+1Ta3Oi1AZcc2+s3fyk9pk574cEStISeUZQGiRZfz/ogfl6dCgKqQ6oHm/qs7B7oDlI/6cxF1qGducHDDiFpDTijLBpJ/fouBl016UhGo1u8LqYmm9dhQF+N6HmrqkyIU7l38uEzy8QgbQ04oS0faqz0St6K04R7dlL6BgBiAeqIEuq+wR4rPOAVITVyd7qVgsANDSYPTeedqXXQoIRaCNmI/mYQU11gBRIy3b25AHhkhYZKushAmW0AnarbUETukJaS4xgggkb5bkB7a2EDCFl2F3EJfyXPJxEGLO+KkRAkprjEC6Jp+RGtrPCLk4lGMypaBFfsIEyEOI48SlpDiGguAnvWkZDB79eXsAdlCTDtrZlOpObW6m3X5pbqTEybMatXSkTZDQoprDACqCw0vTjYxhQuCG9BZXwiqBCz+9Rp0nFG01N0JEHE52glPnmT8LQVnpO8YOaEsCFCeutgN7T3j9wQaefZKAMiJxM7zmWxEGEqnshgykBauGXJ6+aYM2/LqEbaHnFCWB+iJCXsPbuRR0G+2yCI1PaP0Gm4XicvQcN1mmsAHNPG+HVl7yAllUYBgNaBca6azHIbkYbF3FUQjz3Hruew1uzwrifJXe6/XHN5Tm9UIRZgwyspU3bqgGn79JXJCWRQgWA0oZyFm/8FC8rDYu8N6Rp7FXBgbTRS/3mOv5rCdagwQ+vr1B+P1BP8NAILVgHIc1PYfgMXe7SEaedgrz8HYaK34GBSUuWjvittMu+59+k03wypVbj7FrpsduReiYIGqH/Ye9yVffJGcUBYFCFYDggDBkDwYe6cz8oRZbdiHx0ZruwcGEHcxVqUKA0i+sEN4TKlfpQqaGWMZUbBAlVyq+qMP6faQE8qiAMFqQCEYQF0bNrzUcOo3+8R/CHx95uQswYzNDo4rXvShga4JG9bQ9UzRe23Wuk0Ub3bd/OrROUf95vgwlznMqtRWqYJmxmYfBixQxXU7fHgj6faQE8ry66BfhIUwrnxvecy21As02BPgQJS9HEv4NTJFy6fSa1bErN90btVCK8quBcBto8x9HV6l6pb4CG5mDHWWYAWqziaofnqfdEPICTUGC8XPEnjMOwCkCbfePES5DHsCHIhYtgpTpmj5ct9lb9TMWUZdPd1q9UpbYGdtM3GC7bkuH68FG/c6iJMwM6PMT7LuCGfz471H15PPCCIn1JjoYn9lo0ucTm8P4LFWAQcd2A3eXQMHHiNTdDLtATpK7c7MXbLeydMhced6+ru7KVwGhcKVsMU5uLlNGX1t2K0gJ9RYAPQ5G64G1zLALl88IQNam7MnhNX3mjJFz3J0q4uzDzhoxeVsW50ss1+xPI6fGB6dnFXVlZR1CtftHwaQf7eGJdQYAPQk5jxDP/tHWVDaEpeYSqNRs02ZoiMvAFBFl2Sfy27rVBuOOvIrIC49gtZ4OXqk7K4adhvJfWEMACqJORlOEL8bdEZy+IjgRNAtcIPXb8IUHZKdHcFgBEafEiMJhvfqBB8lnLqSwmVG0j8ZZjvICWV5gL5ksSPUgasP6641pSERzBPaDsUlWHx6HgHFVayMUC5VeLkLXioONgQIlPE6bhVUf/nPRsZwo2HICWV5gPJ44Wo86ijMABq7/iIhjPougptTMe1VQheEMBB2WUesFpYTBnXds0MSHtXxqmAYzN+G66YnJ5SFANJF8nz5ruM5tXinTwFQZODSkAc24gAprtMUtXmK9jwKK7Kn/gB+l15HsLbevV5HvSgJre+IkHaMpE3khBptgD73PC7aXLBl9zeYmoRp8zn2rwfe2Aj1KLs4ADT5dVCzT/JmOtPozuvnHwqat2QKDapbZeu8XVp8rVO6ltl4Vnqs9enTWI9iqaHcVNDKjQKK67yRbK5JTqjRBkgmV2VsLd6lgmoSps0f2rdS5Oxyu3ZdkjvnLiqsOr8Oavbyraiib/8O1cfGx6Gj0kO3yL6wH4g2ckpneroB0FIaCbV6Ba0a7U7N1E4A7pewu4YfbUZOKHMDhCpcF4jnqI7UvrU4VAXVJFSbX7Hy2Ia0JXPnuixZPoOx2dlfzgSI9eZZETXT50x23+8ITr444c19tjZr3ziDqvwvefsu3nVsktVa4Wq3mbMXbnyBssPVZwZ303QH2zM8ey87n/ZNW6wqQROVJQ2LHjZC5IQyP0D659FpqqytxWEqqCah2vyhFblL+8TC2uN7Ymk3HdiypGOJrq7KYycc1wPuJBSgIy9ttwPrZ8t3eaAqvw+9x+0UL4QhmO28QbyZZeO6zZF3UtgqXx1W6b5py5kNQCTo3WMPZDFoh4oV3xsmROSEMj9AeVGOH6sqmNA2U7Bly/xZq94MFuw+OtXH03nDxF3+b1a9QWt++53XOAftfWeyp3o5bLda7WSzc/JL+xb/ZsqS+1N+6/MH2wlLp1lP9Htxxpz/nmd9/i10HT1lilvXst/+NmaPrdNUn3b5FlbA9B00VFdDFbl1089RoZv/TugwNyohJ5RZAfrpCQQo+bRqdwccdIp3fRKxp+bIUliEHH7kRX0qZ4dg9kQZ54ItZZ3dey5eqCK2Z2GQCFkeNmPzMo+j78h8Vq6usbdFRySft7V6WV+AI9MH5IoiUL3sYKbUDouAgdajHAQpgbNaVQy5Vg5PKLMB9OyLR8UMapA/khf1lfP3jvigUxz61eJFG96fBouQw480P9c5S7Zg9kQMoLL3rB8u3/PWlOknjvnMmeDi89obiz0yXtjjs8g7cPXbKADnfqPRy/woWzc2o3rZTEdCiBCuyFXg+AClaHgZQCSEUpkRoHRubOZD0MpZGxml2h6diA866OCTt1/1yXJYhBz7WOrl+6gV2YHZE2WcHNsqTHcXieHMDdX63V6KWHcZR8yKptih186+qV7zNFPVifUNyMBVLto5wwrHIyGUyowAleAlWWWbeFGq8lc+V0HbDAbQNo7rDViEHPtg8TkAhB9bvcG5Ucapey24F9XdG8TsyzFYb3BdkXDY5gDVQ8bp8tluLZbTQh0cNGvKMxoUOIOUIIhrJSUNeaFUZgTohnoLvurgq3rXNdPadw3yJpWqMFaBZc/xspSgryCMzogoQnV3RWE4+ySFjqoW1KMCkL0XR5pNVFp125Mw4wYGqFJGShryQqnMBtATVZUmkv69aNUzdVf/sefGtxCgH+/KWAnFgQ9VT5Mx40RKRqKoMJmScLl5tRMOw/0r3fXicNCXNmfjWtxmr0gOBaCDToGKfzW1XgNChXBggJT84UQrDikUJLMA9CSHnVp4Qd3KXvbDNMZFuNfuWXGi8C8q1eNKXkJVPwpd0IV//BRF52afpNyoij9FZ4dxKYRQn050ti7X7bd6jxLEpqTfZVEoQhElR3u5gT1I5llBJilxSAmlJrMA9DRSGopoS2rmR1xo5/SpVF8Vc2+BCk5AaECKunJkb4rwL0WJF2NTC0QBcn7hjcLrBrurgkuEpKC7JdXQ+fwwK0dEKMtgsjyumnrYX5GSh4xQajLPK/bXS2xqDqGhpZHP/u88+xwmSn9XK6GwfwW/JK5RAeRUvTrtugSVdJkpuduZuhp6VbzGQcqhZZSQkoeUUDiZa5Aupwi1cTy9yUhecWC+ybC6W4EsGrvZIGFFl6BSxTW1TUJ+hO61ikNoyN0BAWogJzVJoTAyF0BP72edVkvRGMyQJ6d1DCBC3ZI5Mw8KsGAF3JphkKAyb6VrpdF30gnxaF2tl5jGBXI1pBxGtNDQQmFkPlXjlzB1zld0XPuAAgAQJqrau93TCxCtGVjsgtMijnxD03aH2L1T/HFOPCkM615pMpqr9gcihJnaOgWE5DE1nSaf3UJGKLPqYkkCWIu9EBkMH8wn2JfjuQ4LYNC6DDHdYfkiTtwGpvMi3y3T7a8dABobIlYjrzgYXTTKOOchEA3UWM37BrUNdc/RQJVDvroyKaHMqqwC3h3w4BS9ejB8YCUhxvqjWACD1mUoP+K8deqi5b9/+RXPjW9Mm2312h+oE2ek+C/hT547MW73Hya/tuCg1dzfLat/02rimaRVdvaYCRJ9NxcgundTOgePKzpHPt6MnFBm1eb7eZE0ymD53yhhlYR4e2ECi9ZlKHcKr1kw8423aOcmTXt1zc5XNm5f4G8Dlu3dslB5bt2yGYAx+eC8gzMWOTh6r/29v6/1vHeaKHZLZueHUI++xVy2hGu1YnKL3+yD8xeiUNm4f0M2BoacUOa1B/18g3lpcHwgdQRT0/UuHEoDmTMdp/p6TXRZD2QvHVn11rnXHlpxZMudvJ1sF4OUSQftDy6Za/Pqy29PXuK8WnSw1HVz16GXVtL854L0SRtXn9nX6vK6r9vr6Du38M+kY2DICWVmg1nFORL4oJSsnyXOp8d5rtixCtxYscMJhE6MWGiTM8fPl8PzBwesXWYAHg7QdDtaqMuC+dsiQsHyI1fb3/Zw918OcibE2M+d3w6/LGP6r/yFdAwMOaHMDNDdAaoiG9I1up67J+EdR1832Ry/FQvirf0WOnr+t3/d1P+J5NDe2ea0fN3rB/biAG1+aeKcN6avcmLsy3XbdH75pIX+ECA2Vb4iCn75pBuLryIdA0NOKDMDVJtMDiAgKiScRLD1o+sfIPVaF73iYAFU8GUcOGnVOB+zdXVuhFY09QVtnp3T9h1FYSrSMTDkhDIvQJ8EkSzHBSKJWQXCIoO7sad0LnrKMo2CDyk9cCBltY53Y1hme3JCmROgf14LGniNa0CFzIKOeylXYE7LA47BzKeQEoIU8vRypSoZpgpSYXSX10OqlcMUypwAXY8YvOCoHgbZJ5gUaQSjDPRUMAL0ayg+CObeI5xSidlPfYip3bZQ6ubr8Hlyt6quqiQ/p6zhn09Vqr8MkDBFTigzAtTIHXQJraP8yOq7TQrQgaDrOiSazQtnX9W7X8LXOw0m9q90JML0j2YWaBvyoUSamXo+v6gklx2ICM/QAy42Kr4wfvssC9AniXFBpCq49BblUdMRKlWkaEABUvYkV1qvkdoICRw3F0KdQqtnxafq7jVQa1gmxyAF9zNtW8JLNFfvNStbb9R3XJZH8gPSOscSoAe8ojtQhaxOCQ/OSRYObNQqpIdcBh09gBlrEwQv1FiV1Lhp7mLCl85s1gKEUVK8DpL0E2lSkz97LV7blj8bBxGh9LA8NPnLMQPoOxaUqU0uZNb+8cMCKjKgvlHJLgUAs3FkzH8nBYZ07H2J4vFWhCYy+p7zgXdtDzsTbSDr/Fer8zeUWcjdBBMpUShdDLjwJ3VjCk1teYeSIi+wbqwAKoDVSAsDKj/+AD17wr81ED6ghIV+QBtH8n4AQzpuLgzcvRpoIqMF4SDFzWsVlXE+Cc/fSFpMWcVS52+ko/+HJqrxBjgYtReqM/Kf8VpNMqDUKiwiDEUWBOhhEGY9rOd/rT6vHHg9XRiIfkAbx4X9eLLGTXewZ502MhrVyirdu2gr1gq8NmL+U9p6l+vL1fkbtQgmehW3y/RPV/OhsewHqunbGHVHpesq5VoOoC/59SCvqPe0tt5RUc5ALewLvIZ+QhtHzl4AkzVQgHav00ZG80Ug0R3eP7G8FQXI/Qi12l0IulPTrxXx8cWlKHWAH8/K/v6DJ9/FDFZbtz9Rqt0T0GIAPTvJT06MTA9iaxPbQgdazIF2BItPhMpBndUpWChZ7g6OOGgjo5vstx9yg/dlK9prnINWxtEUx+xcrDbFMIPP47/xYKAk8u5IRMgVXDB9U03KLPEXlgboSXlDw62/qzp0Jfnl2QM2MAbhpxmNEaeNS+QpaqLCQV8cF5ux20/y9AZ91kB50UlCRWf9APe0VBT0mYUBMqZvBQMsd1F6WCxFDIVoppYYshVST/Ym02JMjreiyESTEQwNgYGD7W+iRejET2MNkKpDPFgLk8INr1Qj6pdSnUyYFZcgB530ATZMqo4/7eUGDKz1LalhSHavMXPPYqH6l7WJivLMMQfomciUVq9e+nVS7hhdpibFEQECIJlRXEjR+V11Nnx80Ri3IqPqvu4UgETkBMvU/K/ULEIJAPWJHow1QKozpiyvaoDKAowv08ofQGFlHOgtk3E67WZPu6TznGFxwLocTHQVucrhzY3qUm9wFUl7AKgaAwkWTawtG7frbXwRigHU546vISvlYw1Qg8ggPlznHzztZheNNfiUB9UlTXv5uMfKaExYh9kUDroqlHHCwpK38PXjgAk5mK3yTYW7bWRHGfbdR+ntofPKS9idgKaJIYLRxJqVJ7qKgIcoQFihOEg97B/HGCCjN0yX2yzfwKPCBm8EzQsIKc/OfCxoVbZ/4vStvi4yzuFwWh11q9ZzhgJEzMFslx+lHluw1X73Cobd1Pl2i1mBl9G3TON/hXZGzcoTBQgeogBhheJwOtk2tgD9Ocjw7dLlNsu3svEGYxuPEFKeHcIOhtkumTnpddesnhoZR/xuQKKvUOs5Q1eV0I2G8uKetFXsA/OpbPnxenFwjToL+BZSRQBIs/JEAYKHKEBYdh5OuWVjC9B1I8u0Lrc5zq4Wb/Bm0LhIe3m+x6qkNfFbnA4wKj3nz6RKqY2r5thTdJ4zdFUJT1BeeC6xz6ES4jjxh8gSCQBpVp4oQGoDNszOwzkKrowtQJ9wDav86wrYHXTreQgb7HHIIUN72dYDkdgp1MI2sGkIQi3uQa4D03SZiVxICo4yLO0VPITPUkcpdWMLkCo7p7dugCVtZAodwRbaBvUlwtI6EU2uU1YktQ79z8v2I3LCQhHtCmoK519r7K+JCzVUugIHAtSAejqT7o8xQJ8zqJRM062LZ+QkyQ0Bqj+QKQMZiPZcHosBxGmNRLK1kVZagC7zcF2sJNDgp4MLASniI8ziMQZIlctOMN6UDlJbt0IwW1H3u7buZcRlzn654rKXZusxTuKcA++iAHV4bpx+VIytau47oxfKXF2tjoliNSHTF9kGL3Ixv6rwnvETDSmL2ZR8aqwBKhlov7CH8uBAjlFNgQte3Nb3KFTN1mMc+rruFHd85zFPLwdlhQdmR3MX8EKjSvLTNEuIfpnBihOEckOoSUNt4QEe8mXtvGdjDNAV02ZPZTFXUnu336imwIUVGZJVS5I0O2txDu1MrXTHdx7bI11RUOOM2dGWch3f2UB0nCj4xspaD0sdjmy6SuW5c7IguYjGpX07tgD9PMB2PlImZi8zrilw3ovbDXgRzD4BDhCfj3Dn7cd3HpMfQAqd+aK+PdbSDAGNGPSgFJpQaFqosXERDB6bTi82utcXI4iQF52Or4rJJS3U6ADUFWMSHxBRgP81qClwc/9r3jQBY5M9xXULBKjJ3nHxQh985zEWLZ3q3LRgvtNauCjQ/paMc4mB/YU6vW6K62JGZF64UxF8hFWsr+4DkECNVUdOylrHGKBbGToxiE0sQuLUY3c/caiooylBX01eXnXPe/S+7MQ8eLFW59qZpY0AACAASURBVL1hp8QHGE3hMl86ZhXCf0cHECsRLo/kriEdoKNEp+6jy2eB1joQ+f4YA5SmtTwYLHfaIwKwUaQ3gcnULQO6g7Wu524KNUKGwFDgUqHWM1aInKzQ1vRSpwFX+E/brt5m8/58m3fd7y+yp7uh8+IcGa4B2694w8NtlYfVkvuuLmtQdb+chWh9LUruF2MKkN03R7BZHIqjtl/ARmNtU6RRryuqZEEP7rDz8dqbLalCggGtoBGcR9iBJ9jeiy/hxTuwLzGuhO2gFZTeCYyTH5ZvOoDNdbu2OGu22RTsoKW4B4lAlDs6LybM5mo0YLcodpxLjPO6mKPTQ+O4Zbrin7ek5IUaDYCo6XuxWRx6vWQc3WSOt64cobBp6ArmJL0INCp7E2J5eerXTm3HWTc3QbDU1nF6stz14HQfFOaFO3eusX17Hd2+0nGa1dvH51vv4fssmeru5c38nf8OVzur3cddN72y7ign4PWZK9+Z+eJhvcru4JCj7zanS4lEPwLufxk7gEo9vbBZHE7SMo5uMlc3r6OADVdJp8QyaqY0YHJ+nbq/zXU9bf/G5GDpf9vET5D57t5oN7kpcHb1sou+ryx5i7d4uueExfZzfd/8w8aZy6f4s/xeWba1yXqJE+/UEabfpkSH2ds5+94Qewp6+NP0KrvrF/3C32P2D2ML0KXFcBaHk7SMo5vMNQ2Mxp0erWfiK2iSbvWqEe1v/kvk65znhfq4TGTYyXxXiOTbSoNneK89NPct1qH6aa8675zx+pt7Xn5p8bKIJTZeG194a7Fj9IJjtDmLqq3nH3Kyn23rZdVlNfHlJVPmbNalbVIW830mzErBh0P1gHg2bxhCjQJAfwxcDWdxOElTODqbheYfyNHL8VGvGtH+ZrtQvtd567x5F6Z4+Mq2z0tDhQz+7SQxCJk8a0H7rtXAf+7e+fJDi7zeWDttJr3Cbr99Z42z1mDiwOLQFwGxexCnmEYIoa1xA4ZW6TuiMfVqPK3i3QSDkTJGpHeuXjWi/W3HAvk+50svve1mv5Aq85+0Sb45N3g6a8KRDRMPrYzCAZrtMjWDPdE1bMb8tVeT1p0jBCg6zp23cB/omututSH2PpwT4MbA+96O2Gdglb5cMByhzA3Q48TYOKNapBrXC6TMQ276d9cybk5V9zcWDXRPo2PdD539NsDEVuDv52enMSbtdYImssXLg7EVXyaVYqjQg3Q2LTCwBM4JECB0gWRolb5QOXYAddCYmQpirpNS08+1522UQndDqW4SrvQyOnVfhFTH6dX4fbB3RAk6OLitqfO963TD7ClFXAdIDodzAgEgPat06t0xA+hhQEMHtojV5DppvDKaTo7F/yy3fReDQ1vtBbdkoFcW4TaQkrk4Yxu2MsR+JWnnTE+i38dTxqJWq+F4JKOaUPok2XBkgltL4wDpWaVPt44VQNU8OPpCL4XGSQP/ajo55rQ5EJyCwaGr9gItGUBbV/HwWlCPMcJqr9i3Z/gGEv0+q5GYxriTGixuU4zCAJrplPfgyAS3lsYBIlql+7hfjgFA7ze2914Q4ysd3OuidtLAv5pOjp7v3Xy30l3i7A8XSZATRgShV9Sz2SE/BuXlSCq+ATv67YWvHjum9ft4vM56AQEgRhPscNM9BYm5rJ82JkoZ3EFffoasUGYD6ElNmkAeH5us9ozjXhe1kwb+1XRy9JzhUpqI9RfckoFxwoggoLOBsKpvzfE6jm/ALmacctnMC9D6fSoXOr+DstZj4Q9KCND9okQWcc8xUMd+aBIXLUU9tDhAXcIiYtSAXJvrpPHKaDo5Fv9jvRLOYppJq8YZRgRh31PbQFBGluc6fAP2rDkLJs1a8buF69w3vRBQN3n21Cl2L2PD2VymOpzRvcx17SxNOGOos+vtTUvtjFM6iXRHoAmbthhAj0MGDkk0IiV74MgYDWXz6vC83R5KQfNxR2rIHGz4cdyxLz9lmT82nOUfXaIOZ3QX8CQMTTnqDbOR1buiQ5eUgJ6LLMppk79dxO8jJZQZAWoyLE03OCUIB7pThWtMHVVIA8iF5ubLYnRm38vFSv+ud7JyOkQpWnEAHc5ikHpdOKP31KXtyHJJmNM+lw1HGnZMWzXPmhoRIKjpppiIhQFZkZ+TEsosAH1d2f61SvVD4PUB/BemqdHUHo8YtdGpXaBPFERlUi+DfiGX0QSizqMA+XAKbcRCpuQCX8ShzD6PDmeHkVvacMZUarmD77Y96Ydm7tgpQYe8Y8itmsYrNVjOQqpxu1oDvx9CKHMCFJ0kDbwmZg66w6wx1dEM2n2NxhHG5mEWxCQakx17tTwBKUZXOMkMBWDWojq/t7tVRpfP/NmiJnuPJUuw4cxzvqs2nDFl6qY1CQk0IJkejTuit2gc0WUU4xT8xBtDCWVOgMJaQKG0YVjdByWl2GA/0VxudVEaAq5QxX11tzL7MdcHtlwQpIIUNrSe5rPPFHJi4ljab1xXWykVSadp3Ajci3jPuK4QD4ZzEv3TheKfhhLKjAD1BxoW3iBHNZqd0zRyXEYVfAYduarvqEFYwUL8So0sUXilR1CgvfWAgrtbeymnss9qAMgx2i66AblcFEZHCttBd9Gl+ludvfmhfx9KKPMB9HGqgHzukz6VU7uBQtfxJNgY3/+e4a+doMQTR9kmis7oJcVNtLfZgYSQ8naKUV/ODhHkd1VyEAoSFS2K5dJTvhhCKPMB9FFqYMFwt03T0emIO0yK9kWrZ5vMoqoweGfk2jSoJgR/dBlHr0IKe8AFdFtpanwMX/LzkP91swGUH1g4cniAjM7mXnyPq41VEZ/V3dL5QLD7Mh90yss6iuoQcgoX60FwyVxEb8YNKHRNpwqzQj92HA8xKlSho+7Ie0P9180IEKfm2p0hXeADA8Rp78eGIvylUsQjuiBpka3mqIbbpwYI0hl/XrIGIEX8ImYutvY+z+/BNQ4IUDh1C03dKOO2NdIznloOoO8oovQY9gB7Nw5K91fvorvJOND2QV/VVu4tn29tXaVzDK14Yc2KlSvnVAqmLFo4ZfKqCJ9102Yf9PZZYvXygin/NXHHG6smb5ph4zDhlenWExYceNXutVkn7Kd4Ttzp9vrGV1bM27Dq9Zk2yx1m87WhrzpSyMVJ/7AYQM8+eqZSfS8hm+BMIOi8knGg7SPWjbVzvtux25dKdY4hygwQMCXu3XVB/7PAjncp7YTPOxmVNt7rXtsQ/Dsrp/kvWsvdFvtM2uewR77EavHaOXYHX/efxxOwWo+9KTjkEeKy/i1AmSM7slBtZFFDg0+FyuhUw6TM0QMIp8phaRg4odpBKQoQtH3E8cDJWXvURg21Y4hiAw7/1m6RC/LCKhp6HvXqpI6aed7rplDFv39l7qsvTrCf5yKecnzW63Nmv+l0aO+R8lcOHqO9tao9xKpr32vLX5/1WqXb/0x6af4O11kTNm6egnYiQUjnsq3Yq9ybLvqBjFDmBKjNtDY4KAVEAFhHErN9JNLBwWW4UUPtGKIsnv/CpTWvJM46vei/bdy81r3psmTKW4UvTp81Zeec/3rl+PzXX5vhEewy6Y3XPGdPfXG92Cu0bupBv3b+mqgjVlfLHKdNOLpo3aqJpw7xHXliWqvwGNqJFE5rViKsbnAnOOuxkQCjC9Cnqdx0YwD6jS/pUYODuo6kn9vVJnuKsz00ahSv8IWOoTn00Bdetn9twe+8Vr9w/O0Xp9hPtZvt7/SG9/IpTm6Tpr32P2++ueQPh10mrZz8u8Wzps3osrF1239w46r1E9a7zAx+68UXp1hPcil+4ZWXDh2jOUzbMnUuloV3/L/YFcmS0KAuUkKZEaDHrEL9XS07aqqa+i6yjTef06PGYk0dSUhnsajc/lQKFTeBwDcPZP+2Ddx0Z/rppyA62WzxsF6UCr3J2UunOxC2kEKplloHdA5K+CEWKquzcqbu26f6tPtjwyXQ6APUE9JSR1j7XmPzE5LF9LhmtqkabTpqddYrM8HBCjXkUjSbJMA3r9fxtB8KkOiwQQriMWu7d1L3OkBvcjCVUaDnTcZSoXUOSvjRtd5uzsal60+7FJEWypwA/T0vOJbN1yxgWgLgjgRPn35HI1lbAKfAeqC4wtCuF+Cbd+w02HfmpntcslEKInoStEAdPL5qHiEGuBeknzL+8QouSxh5rzWUvFDmBAijL2I0lsR72jLkt8SF5xIKjFtrmk5crhcjDEK9vIcYVvn3AHgUZGqOfMTX1Aa5INSGYRcIaXyeyWT6DlQ7eyAaO4BUAeph6F50svZa1ZXaliiyC4CkU5wsmqhGG5nSzYvsUqYHCCVUBDGV/JWnDTrrCsBVM2V+DL1MURswYA5oTcLYAfSEiv6/+8SscEE9YRn/pCTvVhhJgHKo5aHvRbCpkeqRKyEsgilmPDhZ0AMu8wyzGVCSaiP7ADUfnTEbpUJqJtYBI2NQzb+n3kQua+GlsQPoe9r5OqX8/HeAaIX6LCo+Nxhb5feVX5SfGmL/5pKQi1hHUCC4e7Sc1g3aM/A3rjTAGCAlISyERYlIi0MSr+FjXo8wrDiCwqAZd907wUY6mMUAUn1UHsmOMCgCXqspxpodW3YvP25Qfa0xIC8GwsCMkF+/knmRSwh7NpVW0EnRHZ+kxp7KJrid47lZCvCAYvQfyTg7TKHMCRBKXxpuAvtHLLalMb8lF6sZ+lSaPzA8FXxeEx9XlFoKExFmnJ53JJqtCaJRaEHuo2B5m9ciGrBy3NEZBG5N9IPQIH69/0zUd8MXSo/MHf7y5ET4lZigHO45mJz+VcBAbs662Mg/qhq0PnYQd86A4ZLgkUza0FxcHBGutZxlsi6kiBmhMrhjAHGg0wBUjZtOOgofdmLD2sOIDJNLxOEIZfYAqmcP0+4/0Z4VGljoMeqWIgFcyZ2nqq/5upSpi9F6PDIOCBQGnOEiwSGSNLc1UaF4TMy+ladzFcj22DAxR2S/y+2SLjwEWlCSlq6YK0fZgliUAHZQQt7gRc3ICTXKe/t8zjV03/Xmcq7+/O2XKJLfJuheiHSq/viKAtRIKwO3sOQdpexg7olIaHE+thb9iOEykr3WuezBwkW04SHQgrJj8XsVHuBaLJ1LqXr2yf0rgxfkJCfUaG9+lJ5cqlc9oTcoE68M8eMZZqzWzK6gGxTewjbj9TurjjHCdlv122XtOCvcc/VB2zORqzzdbHa8ttCz8m1deAimx030OvyoxrmXFZ1wJrO6d8gtsskJNdoAfXYpOYKo42dlw8vfbrabV760HqQdwN+NNaud9Qq9YZvxznX2x2OMsMi5PraHOIPiB53wLOGGoFkz11c5LNeFh2B63PT1K6ghdqmChJrrJedi2J8N0TRyQo3+Bmz/zIjUvWZKJu6a+hM9U344PAT4qPecdRWh7wYRICwn2msGHmMEI+cwg1projq4d9N666WvTp50Va4ND0H1ONvtPK/0g9MD+Oj4rJRKJVGZfzaDUBbYoe5Zhm6kfhCEX6uwO+S1p3V551J1ZNVu7nVnPYC2gCabrb54jBGMnLtKCA9PsqsTC6uC9hNnegAQaGvpbEJf3Mb0qPt5QrmAnwKeVyhLbOH3NVuUfL0bdF8uC2ZkYReeZq8MBuJdwIsbqo6sOka5pgfQKe9DjhnH1+ExRjByLk2bNy1jUJ2gcSNcoJd+TvAcnjj9qeox0gzaS/i6oegff2q8S5zVyAllkT0OH394W86mUDOS1bUg6yNPYfFT11Nfuq+OrNp6iD9X6xPTRNSdCqjuksrjxdKUG+AyqxS0VGP5MJ1xiFhtZ2nmhPO1a+duQmmuSv4paQjCyr8PUtNU/9dSmRkTGhnMCJeL7g5bKIvtkklQiX4RGKXelonRfqIp8aKNqDsTHRx1Jjn/XCKPQjlPobCCEb6ohivVOvE7KJR4umYtlUucCPtv1rXdY1MofGrCFV5Cdvl7rffa0BV5DHG3SHJCjcVWxh9h6khJSiXU4fHo3/neHBnH1zpFf5OEpUeW7oD+LUW3EvSgAnaU5TCFukmxT5gJCpA7IAaJA7XUUkPUlc1FclmSbn+GxkTuL4RmkBNqLAB6IDjbVMAThNGpSeC6T3nM5uiDy7x2oNrDfkIRFHSu8qYd0/m3NFSD6PK+QC867MgTokLrkD6apqKwQQofgZLz9LZiJSfUWAB0NiKeLpKWA2UDL4K3ZbPLnqXe2Xx7CFAXMddru/iwukAgkcI1628l7mO+xUL1ECFC0XQsA4B0pZlAfuEIhBoDgL5h9YBuXEVvuqaoW2yd77FWIbWP5eTsJU7mbJnHWaNcL/QVtImAOQbYTgi4jzl3SR1ItdUGksKMFejNhpoa+t5qXzHxCIQaRYC++hClP36Ajs6f6RmN/qm/PQ0e/XvS4QSnzuqUrgiKzNtzRRGhtAtOAj/RkSQIELrC1gTyx9LBZrrW6AozVvCofExTQ7ulhpQBesVcyQk1KgB9132t5GoaV4wSjc2MO8llnPlAfeunp6oPBNXG40MxV//8xilqfbNxjM19u0V2lThAVKAJ5O+a89AO0Rq24bobD/THgCYABKR6BYHJCTUKALWEsmKz8/NLoLFQUNpbUaXsLeFhK5An70UyGGJ+qQk7Y5iBaS3KqIw7JGGoJksFlV6bb7nfL1AXOwvX3ZpA/xpn9L3VUtyjcQFQSokGgHRRFE0teFsAVxjBl95R9DWZir26bRj7WsM1aa2VTt2izlLBAcLfwWu/b+VXawHC1t2aQP8aZ/S91X47WjEeAHqssyKGxmVXaMqKKh+1NRmkLukg6GMazlWAabLcZpdhIeYODoXWfnUnCMsoGLA+qob6eX8dDwBV6Qo+S6EFHy7+cKuGuv6NXsU/7ES8CJ9rCLl4TMP8Bngv1Ye4DKrLlCBnHwU5zThMoQjDGe1lgwYG1ouyRyCU+QHq1aWkdtOxuGe4+MOtGur6N3oV/9CTa9NT9utAwOmEYRy4+p48EO+HimtyToD0Aqad9be3S88AZQwjmMoOHyBuu785NejBSIQyP0A/MnXNag4MvdwNF3+4VUNd/0av4h96snU2shuXHlMy1AUo8E2g9MstogqIdKZdie3ShUxEmFSiWRv28rEyHop+0FwTa7radFuw5LJhBNVYAfQPBvGfmBsUKG/DolGgVUMNkF7FP+wkYtNCLrZzIVQy8GTEHUgILLakX24xbMOGxbFu265IbYhR7EqB1qOmkNMNSxcpy2IDmbdHKpT5vRrFCfrtu7TRaptbVRO0aqgB0qv4h53wKVa0gEZ1qhmejHiMiRdb0i+36OMRgABjBSSLUP3julBvpxLQK5V2fGXKu0FOKPMB9Mei+vfRVfNt0X2D/2BFGJAiSMAgPkRlbAQ6osvVAOHJiHTWTgiQXrlF680Mk8UmEoip+I0UTkZrujYOJzFrnGw8UnRSHhavqOcalYC+TAtGVzlViOF1nDp7AShgoW9lHXIPA+jiPN83V4rms5icwxAgYrnFyunR767Vqy2pplC9RIbuKj47EgkMgtpHtXgg36GlAUq9DpR5EfJqYwzaqzCjFiXKRGJiz3mm+BFIgKbT9IBqZVE4JbKiVUZhZwNYzWvRKX9CvTzHeS247qmrrIAerRbbYYnjkEcQArzRrvqoEzy4VszHSuufu/U8QpkToMghKvRlJHNv9XcYRBecCWyQiE+qC/9liJOYF7OC0MVM7w1ecgCWe7E3wINQL0+Y2ApVq64FSzwz6hbZOMmdZi9wOTnn5VXoIH5s9maHVbGzgnZ7Q/jQj5X+cV67FhVJT6t21JtosKUBYkrjh0jgKKRSKAbFyHnoWBIXr450UTCFKH5B0jZ0pdMWBbNW9evlTd2EpYdLnB25tGVvVvrz5FvnsqnLVu3ejQ3iy6dv81odt+O3l73hpCfg9Wa+u3ovOOHwdKMsbKRCmRGgJmGKYOj9DYUXFHXXdKetJgYmRRCiC6jTq5dXyoPp4QActtnkOzNo1RKvtR5+9n7uLuvbJdNXh6xy8i2Nnn7a0xtOel3HZtqfX/7O0iW2qprfmdyd1sIAVWWCfOGQAKWxmUKG9ux+GtXUwpdPKPC3dq9SWy9v7kpYFhgA8e5VW5z2hNivXuAgXzltMt8FG8QveftN3+fmCVxs4aSXH1gZnnFW2tv84Ge3Av9xANA9OXiADJ2febe9g1EDlYj+2mQEmWuqTD9CCOvMosi1Om0FV30D4gUz74Nt5s7j3YEKu64cBXrkcnaH7aEtH8Ht/AQFKrqpWGALA9QlBf3GSX+mKIVJqZCLI5nMmAfasi8E20b9fm6UbmeRFiFMvbtdDzoKyujGu0WEnzW61FYcH8TIHHofSBJCqcwIULsM3Ne47m4aFcDRpzBKTGlBqy6uh6jYV/paJzMIy5reUCTiDoih1IdlIHSDpML2olMCWkY5cWZUlov5Wc1/ezJ0g8fgFUvTFJ8dCqCbTF4dALq4HoJiX7sOnaeoxMV4TnpLaP41SpU4mxLKU6dgtZemxMdGCgOz2/qabqZzo0u0Vqd4aTfZnSBJCKUyH0DP8jMVYRKsjbBjwL5ACG/B/AtEobGEVG1cz9sExd7XBQWIn6rdTLJYwPpU9bUwEQkIimLcordge9KnBPEy7rb3vP+x2lv7y8N0jhR/+87Fk+k7ZIXCyFwApUa0gs4gTq26Y8C+QAhvwfwLOnyKKRgA2rie5UTFvgadyM9ThZCvJk0k/PNlruSLHyuaGn56/Ms3ySF1ytiY238x6iQ/NolPpLeBwgijrLDnEQojMwHUEYYNs71pIZqOgfUFQngLpoQSehClsKYfaOJ6YEoGOvMsDYazU+iEU+AhJSz3HigJrv3f7gtvBl4JKruLr2RuRfISEp+pik0s/J52lgfKgr8iJQ5JoSCZB6AvhLeh4J2UbnXHgAq3LryFAFC/8lEWJf4kS1ZqYs5rKUiP2B4XJJAWFogCQtqbwk7ErwWg9qKc3YY/6X0xChUE6GOmYSu+afqUlDQkhcLJLAA1YdUTIEkK1R0DKty68BY1QMp7NTUiGvNCr0r1/f3E0Nt64Mg4ZUutbWI9drf47trWrVJ91jTX3unSvrexqI1Fdcjvv/6HU17U557HRZuLN7Ecig4vJLVh8YiFUpM5AMoP0xrSM/SjebVUw8EsodkBksTEkicaP+tDYSJxKzUZRxCQ9e4NeZRmQ/TdrpfqbfEZcW+S+7by2rC8KJlclbG1eK+qe1stg1TTRyqUhswBEMEMfJ1tWmGtp1wB4JZIfx9P1c+FQc1AW1taxkGnso2snCi4IXqKN499NiHxLRQgifORd723K9ghzXlR7EpV+1b0Fftf738dgL4m1N5/JDS5ySlQsiKU13kKo++2cCtBdyjzRFrJnVIhC5vKtsZEaTZEPyv75fTbp7EeVBrnu021bcPTvKiYNFUWDtBtGqmmj1AoLT03QN+2ZxKte/kikwCBYFbgSVObVX8cdu7MlR+UtdnS87tXh9lvc+PKojQboj/e7b+5mm2rBAr5rQ3hquOHVXlRf3Flhm6DAH00L9fE7w2DBhGKQM8L0EO+NJGYuHROYhKfbtZXn5j+gR/kNE2+yZ9SghjMQIOV3g+y02lcmfbLnzxQ1Txv11GThBTX8wHUnRRkkOfcFmC0XSFGiVcG/O1nRH/wjz8a3f/l0g3C0PWV954NQ+uhpEhCiut5APohg1thZK64Qc0wxqcubJCsm7EiCSmu5wGoN9zU7h53aMZXLw+cGDl2JCHF9TwA1ZqovYBtbGC8Qk67Q7LRliQJKS7yAOVF5UXpX71YDFdxWfobXD6g6Kxf6kLSilD1sHHrgvGvjBlJSHE9D0An7xINPxqA+hFd6qm6kHSxbjP4f1OA5vu7d6lF+9YXPb7iJ/G6+nDGXlgIGtWhMHOgdgeNBdYwYwCzA+GKVNnsrRu/+H7Pbu+/Yb+RF+X4oeoGfeSCmYskpLjIAXRAVcxVA/SnavS4+KCq02GtP14IGtWhMHOgdgeNyEDM+wztQHgPE6x97/2vzshV99pxgLLEqv0dQz5z1ElCioscQMs52xFMNFRB+iuCHqNL2bzZ+9SFoKEO5deu3UFjln07ehXagaAi5d+1z2rlN1yskjwO0A82360ZuVxmIwkpLnIAbVadPa7uQUGZ6DEKkHSpphC0jAPNgWgP2ndKejK+pWL5nmZ1KRe8B11tjzuacTZedfsuDpCK4Z8ycrnMRhJSXOQAmhZwzjYEB+jWavQ4IuyzYw6aQtAyatDSbW510kNRtlschbSZ62aKstSlXHCAMm0XeH70eNcu70/UAD36w9cjl8tsJCHFNcJ1UEkwIYw5Ip4tYPFY0jpYZ+7+mfaW4DLCBlkNIdJe/W+3HiP11FEmCSmukQH0E4NQAq8t4P8+/PSHrwhZxj81Sk5wEBEe5KQUNxh8O3HjUPm2FiEJKa4RAfQkh7gD3YUC4y/8eOvrZx1CuGla1UmyjioLk4QU10gA+lYqI+qoyaaCbzDqhrEuF5/TdDxqJCHFNUyA/vmT6ruLvBydMqFIiuYMZH7oCG6p6+2PaCP1CMuThBTXsAB6WsLg3pMn6zzk/eXJSX0DDijPrrGiuBHpAxbwGWOSkOIaDkDfSuO6msMkhEiM68LUIVyZn9WQ9wVbmCSkuIYB0IexmSg2/drhRyEukdWNsHHjgSSkuMgDVMe7om/oKQxjSAwr7P4rkYQUF3mAMssB6I6OStY4vno5n7YMxxU+7khCios8QLlXAChIAhmC6CsQozvSETdtfJCEFBdpgJ4lXwSgOkb17KOuZLhVQzNvWKEC448kpLhIA/SYfaclRwCTZp5dxKpAgytJI23a+CAJKS7yr1gvI+jKB7jW8B22H7HyXNrIGjZeSEKKaxjTPCGnKKUYVF0MHhcq58hJQoprZNp89pmWwAsmctT+pUhCimtkAP0cy64dVmPGI0lIcY3QYPbjv/jrhZGEFNdYVH8ZJyQhxfUrQEPQrwANW/9GeQAAADFJREFUQeQAOlr7b0hHzQjQ3bEWZjTo7tBykwboP5h+BWgI+hWgIehXgIagXwEagv4fx0yNOoxoaOcAAAAASUVORK5CYII=" /><!-- --></p>
+<p>We are interested in Leeds in the <code>west-yorkshire</code> area. Using the <code>pct</code> package we can get zone data from the PCT as follows (note: this would work by setting <code>region_of_interest</code> to any of the regions shown in the map above:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>region_of_interest =<span class="st"> &quot;west-yorkshire&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>zones_region =<span class="st"> </span><span class="kw">get_pct_zones</span>(<span class="dt">region =</span> region_of_interest)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt; Warning in make_crs(value): the following proj4string elements are going to be</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; ignored: +init=epsg:4326 +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 ;</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; remove the +init=epsg:XXXX to undo this</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; Warning in CPL_crs_from_epsg(as.integer(substr(x[1], 12, 20))): NAs introduced</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; by coercion</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; Warning in CPL_crs_from_epsg(as.integer(substr(x[1], 12, 20))): GDAL Error 1:</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; PROJ: proj_create_from_database: crs not found</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># zones_region = get_pct_zones(region = region_of_interest, geography = &quot;lsoa&quot;) # for smaller zones</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="kw">names</span>(zones_region)</span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;   [1] &quot;geo_code&quot;                &quot;geo_name&quot;               </span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;   [3] &quot;lad11cd&quot;                 &quot;lad_name&quot;               </span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;   [5] &quot;all&quot;                     &quot;bicycle&quot;                </span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;   [7] &quot;foot&quot;                    &quot;car_driver&quot;             </span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt;   [9] &quot;car_passenger&quot;           &quot;motorbike&quot;              </span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt;  [11] &quot;train_tube&quot;              &quot;bus&quot;                    </span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt;  [13] &quot;taxi_other&quot;              &quot;govtarget_slc&quot;          </span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt;  [15] &quot;govtarget_sic&quot;           &quot;govtarget_slw&quot;          </span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt;  [17] &quot;govtarget_siw&quot;           &quot;govtarget_sld&quot;          </span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;  [19] &quot;govtarget_sid&quot;           &quot;govtarget_slp&quot;          </span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt;  [21] &quot;govtarget_sip&quot;           &quot;govtarget_slm&quot;          </span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt;  [23] &quot;govtarget_sim&quot;           &quot;govtarget_slpt&quot;         </span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt;  [25] &quot;govtarget_sipt&quot;          &quot;govnearmkt_slc&quot;         </span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt;  [27] &quot;govnearmkt_sic&quot;          &quot;govnearmkt_slw&quot;         </span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt;  [29] &quot;govnearmkt_siw&quot;          &quot;govnearmkt_sld&quot;         </span></span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt;  [31] &quot;govnearmkt_sid&quot;          &quot;govnearmkt_slp&quot;         </span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt;  [33] &quot;govnearmkt_sip&quot;          &quot;govnearmkt_slm&quot;         </span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt;  [35] &quot;govnearmkt_sim&quot;          &quot;govnearmkt_slpt&quot;        </span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt;  [37] &quot;govnearmkt_sipt&quot;         &quot;gendereq_slc&quot;           </span></span>
+<span id="cb2-31"><a href="#cb2-31"></a><span class="co">#&gt;  [39] &quot;gendereq_sic&quot;            &quot;gendereq_slw&quot;           </span></span>
+<span id="cb2-32"><a href="#cb2-32"></a><span class="co">#&gt;  [41] &quot;gendereq_siw&quot;            &quot;gendereq_sld&quot;           </span></span>
+<span id="cb2-33"><a href="#cb2-33"></a><span class="co">#&gt;  [43] &quot;gendereq_sid&quot;            &quot;gendereq_slp&quot;           </span></span>
+<span id="cb2-34"><a href="#cb2-34"></a><span class="co">#&gt;  [45] &quot;gendereq_sip&quot;            &quot;gendereq_slm&quot;           </span></span>
+<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt;  [47] &quot;gendereq_sim&quot;            &quot;gendereq_slpt&quot;          </span></span>
+<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt;  [49] &quot;gendereq_sipt&quot;           &quot;dutch_slc&quot;              </span></span>
+<span id="cb2-37"><a href="#cb2-37"></a><span class="co">#&gt;  [51] &quot;dutch_sic&quot;               &quot;dutch_slw&quot;              </span></span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="co">#&gt;  [53] &quot;dutch_siw&quot;               &quot;dutch_sld&quot;              </span></span>
+<span id="cb2-39"><a href="#cb2-39"></a><span class="co">#&gt;  [55] &quot;dutch_sid&quot;               &quot;dutch_slp&quot;              </span></span>
+<span id="cb2-40"><a href="#cb2-40"></a><span class="co">#&gt;  [57] &quot;dutch_sip&quot;               &quot;dutch_slm&quot;              </span></span>
+<span id="cb2-41"><a href="#cb2-41"></a><span class="co">#&gt;  [59] &quot;dutch_sim&quot;               &quot;dutch_slpt&quot;             </span></span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt;  [61] &quot;dutch_sipt&quot;              &quot;ebike_slc&quot;              </span></span>
+<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt;  [63] &quot;ebike_sic&quot;               &quot;ebike_slw&quot;              </span></span>
+<span id="cb2-44"><a href="#cb2-44"></a><span class="co">#&gt;  [65] &quot;ebike_siw&quot;               &quot;ebike_sld&quot;              </span></span>
+<span id="cb2-45"><a href="#cb2-45"></a><span class="co">#&gt;  [67] &quot;ebike_sid&quot;               &quot;ebike_slp&quot;              </span></span>
+<span id="cb2-46"><a href="#cb2-46"></a><span class="co">#&gt;  [69] &quot;ebike_sip&quot;               &quot;ebike_slm&quot;              </span></span>
+<span id="cb2-47"><a href="#cb2-47"></a><span class="co">#&gt;  [71] &quot;ebike_sim&quot;               &quot;ebike_slpt&quot;             </span></span>
+<span id="cb2-48"><a href="#cb2-48"></a><span class="co">#&gt;  [73] &quot;ebike_sipt&quot;              &quot;base_slcyclehours&quot;      </span></span>
+<span id="cb2-49"><a href="#cb2-49"></a><span class="co">#&gt;  [75] &quot;govtarget_sicyclehours&quot;  &quot;govnearmkt_sicyclehours&quot;</span></span>
+<span id="cb2-50"><a href="#cb2-50"></a><span class="co">#&gt;  [77] &quot;gendereq_sicyclehours&quot;   &quot;dutch_sicyclehours&quot;     </span></span>
+<span id="cb2-51"><a href="#cb2-51"></a><span class="co">#&gt;  [79] &quot;ebike_sicyclehours&quot;      &quot;base_sldeath&quot;           </span></span>
+<span id="cb2-52"><a href="#cb2-52"></a><span class="co">#&gt;  [81] &quot;base_slyll&quot;              &quot;base_slvalueyll&quot;        </span></span>
+<span id="cb2-53"><a href="#cb2-53"></a><span class="co">#&gt;  [83] &quot;base_slsickdays&quot;         &quot;base_slvaluesick&quot;       </span></span>
+<span id="cb2-54"><a href="#cb2-54"></a><span class="co">#&gt;  [85] &quot;base_slvaluecomb&quot;        &quot;govtarget_sideath&quot;      </span></span>
+<span id="cb2-55"><a href="#cb2-55"></a><span class="co">#&gt;  [87] &quot;govtarget_siyll&quot;         &quot;govtarget_sivalueyll&quot;   </span></span>
+<span id="cb2-56"><a href="#cb2-56"></a><span class="co">#&gt;  [89] &quot;govtarget_sisickdays&quot;    &quot;govtarget_sivaluesick&quot;  </span></span>
+<span id="cb2-57"><a href="#cb2-57"></a><span class="co">#&gt;  [91] &quot;govtarget_sivaluecomb&quot;   &quot;govnearmkt_sideath&quot;     </span></span>
+<span id="cb2-58"><a href="#cb2-58"></a><span class="co">#&gt;  [93] &quot;govnearmkt_siyll&quot;        &quot;govnearmkt_sivalueyll&quot;  </span></span>
+<span id="cb2-59"><a href="#cb2-59"></a><span class="co">#&gt;  [95] &quot;govnearmkt_sisickdays&quot;   &quot;govnearmkt_sivaluesick&quot; </span></span>
+<span id="cb2-60"><a href="#cb2-60"></a><span class="co">#&gt;  [97] &quot;govnearmkt_sivaluecomb&quot;  &quot;gendereq_sideath&quot;       </span></span>
+<span id="cb2-61"><a href="#cb2-61"></a><span class="co">#&gt;  [99] &quot;gendereq_siyll&quot;          &quot;gendereq_sivalueyll&quot;    </span></span>
+<span id="cb2-62"><a href="#cb2-62"></a><span class="co">#&gt; [101] &quot;gendereq_sisickdays&quot;     &quot;gendereq_sivaluesick&quot;   </span></span>
+<span id="cb2-63"><a href="#cb2-63"></a><span class="co">#&gt; [103] &quot;gendereq_sivaluecomb&quot;    &quot;dutch_sideath&quot;          </span></span>
+<span id="cb2-64"><a href="#cb2-64"></a><span class="co">#&gt; [105] &quot;dutch_siyll&quot;             &quot;dutch_sivalueyll&quot;       </span></span>
+<span id="cb2-65"><a href="#cb2-65"></a><span class="co">#&gt; [107] &quot;dutch_sisickdays&quot;        &quot;dutch_sivaluesick&quot;      </span></span>
+<span id="cb2-66"><a href="#cb2-66"></a><span class="co">#&gt; [109] &quot;dutch_sivaluecomb&quot;       &quot;ebike_sideath&quot;          </span></span>
+<span id="cb2-67"><a href="#cb2-67"></a><span class="co">#&gt; [111] &quot;ebike_siyll&quot;             &quot;ebike_sivalueyll&quot;       </span></span>
+<span id="cb2-68"><a href="#cb2-68"></a><span class="co">#&gt; [113] &quot;ebike_sisickdays&quot;        &quot;ebike_sivaluesick&quot;      </span></span>
+<span id="cb2-69"><a href="#cb2-69"></a><span class="co">#&gt; [115] &quot;ebike_sivaluecomb&quot;       &quot;base_slcarkm&quot;           </span></span>
+<span id="cb2-70"><a href="#cb2-70"></a><span class="co">#&gt; [117] &quot;base_slco2&quot;              &quot;govtarget_sicarkm&quot;      </span></span>
+<span id="cb2-71"><a href="#cb2-71"></a><span class="co">#&gt; [119] &quot;govtarget_sico2&quot;         &quot;govnearmkt_sicarkm&quot;     </span></span>
+<span id="cb2-72"><a href="#cb2-72"></a><span class="co">#&gt; [121] &quot;govnearmkt_sico2&quot;        &quot;gendereq_sicarkm&quot;       </span></span>
+<span id="cb2-73"><a href="#cb2-73"></a><span class="co">#&gt; [123] &quot;gendereq_sico2&quot;          &quot;dutch_sicarkm&quot;          </span></span>
+<span id="cb2-74"><a href="#cb2-74"></a><span class="co">#&gt; [125] &quot;dutch_sico2&quot;             &quot;ebike_sicarkm&quot;          </span></span>
+<span id="cb2-75"><a href="#cb2-75"></a><span class="co">#&gt; [127] &quot;ebike_sico2&quot;             &quot;perc_rf_dist_u10km&quot;     </span></span>
+<span id="cb2-76"><a href="#cb2-76"></a><span class="co">#&gt; [129] &quot;avslope_perc_u10km&quot;      &quot;geometry&quot;</span></span>
+<span id="cb2-77"><a href="#cb2-77"></a><span class="kw">tm_shape</span>(zones_region) <span class="op">+</span></span>
+<span id="cb2-78"><a href="#cb2-78"></a><span class="st">  </span><span class="kw">tm_fill</span>(<span class="st">&quot;bicycle&quot;</span>, <span class="dt">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>) <span class="op">+</span></span>
+<span id="cb2-79"><a href="#cb2-79"></a><span class="st">  </span><span class="kw">tm_shape</span>(pct_regions) <span class="op">+</span></span>
+<span id="cb2-80"><a href="#cb2-80"></a><span class="st">  </span><span class="kw">tm_borders</span>() <span class="op">+</span></span>
+<span id="cb2-81"><a href="#cb2-81"></a><span class="st">  </span><span class="kw">tm_text</span>(<span class="st">&quot;region_name&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>This shows the number of people who say they cycled to work in the 2011 Census. This may have changed slightly as cycling becomes more popular in some places, but is a good proxy for current cycling levels. But there are two big problems with this: the map is of West Yorkshire not Leeds, and it’s showing current cycling rates, not future potential.</p>
+</div>
+<div id="getting-cycling-potential-accross-local-authorities" class="section level1">
+<h1>Getting cycling potential accross local authorities</h1>
+<p>We can find out what local authorities there are in the zones as follows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">unique</span>(zones_region<span class="op">$</span>lad_name)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] &quot;Bradford&quot;   &quot;Calderdale&quot; &quot;Kirklees&quot;   &quot;Leeds&quot;      &quot;Wakefield&quot;</span></span></code></pre></div>
+<p>We are intersted in the zones in Leeds, which we can get as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>zones =<span class="st"> </span>zones_region <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">filter</span>(lad_name <span class="op">==</span><span class="st"> &quot;Leeds&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">tm_shape</span>(zones) <span class="op">+</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">tm_fill</span>(<span class="st">&quot;bicycle&quot;</span>, <span class="dt">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>) </span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Great, this represents the current level of cycling across the region of interest. What about cycling potential? Based on the modelling work in the PCT, we have pre-calculated this for a number of scenarios. Let’s take a look at cycling to work under the Government Target (near market), Go Dutch and Ebikes scenarios for cycling to work:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>scenarios_of_interest =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;govnearmkt_slc&quot;</span>, <span class="st">&quot;dutch_slc&quot;</span>, <span class="st">&quot;ebike_slc&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">tm_shape</span>(zones) <span class="op">+</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">tm_fill</span>(scenarios_of_interest, <span class="dt">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>, <span class="dt">n =</span> <span class="dv">9</span>, <span class="dt">title =</span> <span class="st">&quot;N. cycling&quot;</span>) <span class="op">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">tm_facets</span>(<span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">free.scales =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">tm_layout</span>(<span class="dt">panel.labels =</span> scenarios_of_interest)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>That’s great, but it doesn’t answer the question of mode share.</p>
+</div>
+<div id="cycling-mode-share" class="section level1">
+<h1>Cycling mode share</h1>
+<p>We can calculate this by dividing the number of people cycling to work by the total:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>zones_mode_share =<span class="st"> </span>zones <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">select</span>(scenarios_of_interest) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">mutate_at</span>(scenarios_of_interest, <span class="dt">.funs =</span> <span class="kw">list</span>(<span class="op">~</span><span class="st"> </span>.<span class="op">/</span>zones<span class="op">$</span>all <span class="op">*</span><span class="st"> </span><span class="dv">100</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; Note: Using an external vector in selections is ambiguous.</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; ℹ Use `all_of(scenarios_of_interest)` instead of `scenarios_of_interest` to silence this message.</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt; This message is displayed once per session.</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="kw">tm_shape</span>(zones_mode_share) <span class="op">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">tm_fill</span>(scenarios_of_interest, <span class="dt">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>, <span class="dt">title =</span> <span class="st">&quot;% cycling&quot;</span>) <span class="op">+</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="st">  </span><span class="kw">tm_facets</span>(<span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">free.scales =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="st">  </span><span class="kw">tm_layout</span>(<span class="dt">panel.labels =</span> scenarios_of_interest)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The summary mode shares can be estimated as follows, with results showing the % cycling currently (according to the 2011 census) and under scenarios of change:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>zones_region <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">st_drop_geometry</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">group_by</span>(lad_name) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">select</span>(<span class="st">`</span><span class="dt">2011 census</span><span class="st">`</span> =<span class="st"> </span>bicycle, <span class="kw">c</span>(scenarios_of_interest, <span class="st">&quot;all&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> <span class="op">~</span><span class="st"> </span><span class="kw">round</span>(<span class="kw">sum</span>(.)<span class="op">/</span><span class="kw">sum</span>(all)<span class="op">*</span><span class="st"> </span><span class="dv">100</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>all, <span class="st">`</span><span class="dt">Local Authority / % Cycling in scenario:</span><span class="st">`</span> =<span class="st"> </span>lad_name) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; Adding missing grouping variables: `lad_name`</span></span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Local Authority / % Cycling in scenario:</th>
+<th align="right">2011 census</th>
+<th align="right">govnearmkt_slc</th>
+<th align="right">dutch_slc</th>
+<th align="right">ebike_slc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Bradford</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">13</td>
+<td align="right">22</td>
+</tr>
+<tr class="even">
+<td align="left">Calderdale</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">18</td>
+</tr>
+<tr class="odd">
+<td align="left">Kirklees</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">11</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="left">Leeds</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">16</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="left">Wakefield</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">16</td>
+<td align="right">23</td>
+</tr>
+</tbody>
+</table>
+<!-- # Cycling routes -->
+<!-- We can get cycling routes for the area of interest as follows... -->
+</div>
+<div id="cycling-potential-nationwide" class="section level1">
+<h1>Cycling potential nationwide</h1>
+<p>To generalise the analysis outlined above, we can download national data from the PCT project as follows:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>zones_national =<span class="st"> </span><span class="kw">read_sf</span>(<span class="st">&quot;https://github.com/npct/pct-outputs-national/raw/master/commute/msoa/z_all.geojson&quot;</span>)</span></code></pre></div>
+<p>A summary of cycling potential nationwide can then be calculated as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>national_commute_totals =<span class="st"> </span>zones_national <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">st_drop_geometry</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">select</span>(all, <span class="dt">census_2011 =</span> bicycle, govtarget_slc, dutch_slc) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">summarise_all</span>(<span class="dt">.funs =</span> <span class="op">~</span><span class="kw">sum</span>(.))</span>
+<span id="cb9-5"><a href="#cb9-5"></a>national_commute_percentages =<span class="st"> </span>national_commute_totals <span class="op">/</span><span class="st"> </span>national_commute_totals<span class="op">$</span>all <span class="op">*</span><span class="st"> </span><span class="dv">100</span></span></code></pre></div>
+<table>
+<caption>Total counts and percentages of cycle commuters under different scenarios</caption>
+<thead>
+<tr class="header">
+<th align="right">all</th>
+<th align="right">census_2011</th>
+<th align="right">govtarget_slc</th>
+<th align="right">dutch_slc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">23903549</td>
+<td align="right">744459.0</td>
+<td align="right">1456131.9</td>
+<td align="right">4519209.3</td>
+</tr>
+<tr class="even">
+<td align="right">100</td>
+<td align="right">3.1</td>
+<td align="right">6.1</td>
+<td align="right">18.9</td>
+</tr>
+</tbody>
+</table>
+<p>We can calculate the mode share of cycling under these same scenarios for any area (e.g. the boundary of Greater London) or for a list of named local authorities, as follows:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>r =<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>, <span class="dt">text =</span> <span class="st">&quot;area</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">Greater London</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">Greater Manchester</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">Birmingham</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">Leeds</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="st">Glasgow</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="st">Liverpool</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="st">Newcastle</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="st">Bristol</span></span>
+<span id="cb10-10"><a href="#cb10-10"></a><span class="st">Cardiff</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="st">Belfast</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a><span class="st">Southampton</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="st">Sheffield</span></span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="st">&quot;</span>)</span>
+<span id="cb10-15"><a href="#cb10-15"></a>matching_las =<span class="st"> </span>pct_regions_lookup<span class="op">$</span>lad16nm[pct_regions_lookup<span class="op">$</span>lad16nm <span class="op">%in%</span><span class="st"> </span>r<span class="op">$</span>area]</span>
+<span id="cb10-16"><a href="#cb10-16"></a>matching_regions =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;london&quot;</span>, <span class="st">&quot;greater-manchester&quot;</span>)</span>
+<span id="cb10-17"><a href="#cb10-17"></a>pct_lookup =<span class="st"> </span>pct_regions_lookup <span class="op">%&gt;%</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">lad_name =</span> lad16nm)</span>
+<span id="cb10-19"><a href="#cb10-19"></a>zones_national =<span class="st"> </span><span class="kw">inner_join</span>(zones_national, pct_lookup)</span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="co">#&gt; Joining, by = &quot;lad_name&quot;</span></span>
+<span id="cb10-21"><a href="#cb10-21"></a>zones_national =<span class="st"> </span>zones_national <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">area =</span> <span class="kw">case_when</span>(</span>
+<span id="cb10-23"><a href="#cb10-23"></a>    region_name <span class="op">==</span><span class="st"> &quot;london&quot;</span> <span class="op">~</span><span class="st"> &quot;Greater London&quot;</span>,</span>
+<span id="cb10-24"><a href="#cb10-24"></a>    region_name <span class="op">==</span><span class="st"> &quot;greater-manchester&quot;</span> <span class="op">~</span><span class="st"> &quot;Greater Manchester&quot;</span>,</span>
+<span id="cb10-25"><a href="#cb10-25"></a>    lad_name <span class="op">%in%</span><span class="st"> </span>matching_las <span class="op">~</span><span class="st"> </span>lad_name,</span>
+<span id="cb10-26"><a href="#cb10-26"></a>    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> &quot;Other&quot;</span></span>
+<span id="cb10-27"><a href="#cb10-27"></a>    ))</span>
+<span id="cb10-28"><a href="#cb10-28"></a><span class="kw">table</span>(zones_national<span class="op">$</span>area)</span>
+<span id="cb10-29"><a href="#cb10-29"></a><span class="co">#&gt; </span></span>
+<span id="cb10-30"><a href="#cb10-30"></a><span class="co">#&gt;         Birmingham            Cardiff     Greater London Greater Manchester </span></span>
+<span id="cb10-31"><a href="#cb10-31"></a><span class="co">#&gt;                132                 48                983                346 </span></span>
+<span id="cb10-32"><a href="#cb10-32"></a><span class="co">#&gt;              Leeds          Liverpool              Other          Sheffield </span></span>
+<span id="cb10-33"><a href="#cb10-33"></a><span class="co">#&gt;                107                 61               5297                 70 </span></span>
+<span id="cb10-34"><a href="#cb10-34"></a><span class="co">#&gt;        Southampton </span></span>
+<span id="cb10-35"><a href="#cb10-35"></a><span class="co">#&gt;                 32</span></span>
+<span id="cb10-36"><a href="#cb10-36"></a>zones_aggregated =<span class="st"> </span>zones_national <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-37"><a href="#cb10-37"></a><span class="st">  </span>sf<span class="op">::</span><span class="kw">st_drop_geometry</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-38"><a href="#cb10-38"></a><span class="st">  </span><span class="kw">group_by</span>(area) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-39"><a href="#cb10-39"></a><span class="st">  </span><span class="kw">summarise</span>(</span>
+<span id="cb10-40"><a href="#cb10-40"></a>    <span class="dt">Commuters =</span> <span class="kw">sum</span>(all, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb10-41"><a href="#cb10-41"></a>    <span class="dt">Bicycle_census =</span> <span class="kw">sum</span>(bicycle),</span>
+<span id="cb10-42"><a href="#cb10-42"></a>    <span class="dt">Bicycle_govtarget =</span> <span class="kw">sum</span>(govtarget_slc),</span>
+<span id="cb10-43"><a href="#cb10-43"></a>    <span class="dt">Bicycle_godutch =</span> <span class="kw">sum</span>(dutch_slc)</span>
+<span id="cb10-44"><a href="#cb10-44"></a>    )</span>
+<span id="cb10-45"><a href="#cb10-45"></a></span>
+<span id="cb10-46"><a href="#cb10-46"></a><span class="co"># plot(zones_aggregated[&quot;Commuters&quot;], border = NA)</span></span>
+<span id="cb10-47"><a href="#cb10-47"></a>zones_aggregated <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-48"><a href="#cb10-48"></a><span class="st">  </span><span class="kw">inner_join</span>(r, .) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-49"><a href="#cb10-49"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">0</span>)</span>
+<span id="cb10-50"><a href="#cb10-50"></a><span class="co">#&gt; Joining, by = &quot;area&quot;</span></span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">area</th>
+<th align="right">Commuters</th>
+<th align="right">Bicycle_census</th>
+<th align="right">Bicycle_govtarget</th>
+<th align="right">Bicycle_godutch</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Greater London</td>
+<td align="right">3634280</td>
+<td align="right">155694</td>
+<td align="right">286092</td>
+<td align="right">803036</td>
+</tr>
+<tr class="even">
+<td align="left">Greater Manchester</td>
+<td align="right">1124157</td>
+<td align="right">25242</td>
+<td align="right">64580</td>
+<td align="right">245436</td>
+</tr>
+<tr class="odd">
+<td align="left">Birmingham</td>
+<td align="right">392517</td>
+<td align="right">6476</td>
+<td align="right">18391</td>
+<td align="right">77042</td>
+</tr>
+<tr class="even">
+<td align="left">Leeds</td>
+<td align="right">326680</td>
+<td align="right">6250</td>
+<td align="right">13856</td>
+<td align="right">52422</td>
+</tr>
+<tr class="odd">
+<td align="left">Liverpool</td>
+<td align="right">185117</td>
+<td align="right">3978</td>
+<td align="right">11877</td>
+<td align="right">48336</td>
+</tr>
+<tr class="even">
+<td align="left">Cardiff</td>
+<td align="right">148187</td>
+<td align="right">5804</td>
+<td align="right">12156</td>
+<td align="right">39406</td>
+</tr>
+<tr class="odd">
+<td align="left">Southampton</td>
+<td align="right">105192</td>
+<td align="right">5154</td>
+<td align="right">8762</td>
+<td align="right">24602</td>
+</tr>
+<tr class="even">
+<td align="left">Sheffield</td>
+<td align="right">226477</td>
+<td align="right">4276</td>
+<td align="right">7883</td>
+<td align="right">27674</td>
+</tr>
+</tbody>
+</table>
+<p>Next we can calculate the mode splits as follows:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>zones_aggregated_percents =<span class="st"> </span>zones_aggregated <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="op">-</span>Commuters, <span class="op">-</span>area), <span class="kw">funs</span>(.<span class="op">/</span>Commuters <span class="op">*</span><span class="st"> </span><span class="dv">100</span>))</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="co">#&gt; Warning: funs() is soft deprecated as of dplyr 0.8.0</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co">#&gt; Please use a list of either functions or lambdas: </span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co">#&gt; </span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="co">#&gt;   # Simple named list: </span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">#&gt;   list(mean = mean, median = median)</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#&gt; </span></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co">#&gt;   # Auto named with `tibble::lst()`: </span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="co">#&gt;   tibble::lst(mean, median)</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; </span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt;   # Using lambdas</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="kw">names</span>(zones_aggregated_percents)[<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>] =<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">names</span>(zones_aggregated_percents)[<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>], <span class="st">&quot;_percent&quot;</span>)</span>
+<span id="cb11-16"><a href="#cb11-16"></a>zones_aggregated_percents <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-17"><a href="#cb11-17"></a><span class="st">  </span><span class="kw">inner_join</span>(r, .) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-18"><a href="#cb11-18"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="dt">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; Joining, by = &quot;area&quot;</span></span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">area</th>
+<th align="right">Commuters</th>
+<th align="right">Bicycle_census_percent</th>
+<th align="right">Bicycle_govtarget_percent</th>
+<th align="right">Bicycle_godutch_percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Greater London</td>
+<td align="right">3634280</td>
+<td align="right">4.3</td>
+<td align="right">7.9</td>
+<td align="right">22.1</td>
+</tr>
+<tr class="even">
+<td align="left">Greater Manchester</td>
+<td align="right">1124157</td>
+<td align="right">2.2</td>
+<td align="right">5.7</td>
+<td align="right">21.8</td>
+</tr>
+<tr class="odd">
+<td align="left">Birmingham</td>
+<td align="right">392517</td>
+<td align="right">1.6</td>
+<td align="right">4.7</td>
+<td align="right">19.6</td>
+</tr>
+<tr class="even">
+<td align="left">Leeds</td>
+<td align="right">326680</td>
+<td align="right">1.9</td>
+<td align="right">4.2</td>
+<td align="right">16.0</td>
+</tr>
+<tr class="odd">
+<td align="left">Liverpool</td>
+<td align="right">185117</td>
+<td align="right">2.1</td>
+<td align="right">6.4</td>
+<td align="right">26.1</td>
+</tr>
+<tr class="even">
+<td align="left">Cardiff</td>
+<td align="right">148187</td>
+<td align="right">3.9</td>
+<td align="right">8.2</td>
+<td align="right">26.6</td>
+</tr>
+<tr class="odd">
+<td align="left">Southampton</td>
+<td align="right">105192</td>
+<td align="right">4.9</td>
+<td align="right">8.3</td>
+<td align="right">23.4</td>
+</tr>
+<tr class="even">
+<td align="left">Sheffield</td>
+<td align="right">226477</td>
+<td align="right">1.9</td>
+<td align="right">3.5</td>
+<td align="right">12.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="considerations" class="section level1">
+<h1>Considerations</h1>
+<p>The results above show that there is huge potential for cycling grow across England and Wales. Around 16% of commuters in Leeds could cycle to work if we ‘Go Dutch’ (25% if we Go Dutch and see high uptake of electric bikes) for the single mode journey to work data under consideration. However, there are some wider considerations that are not captured in the numbers (see the <a href="https://www.jtlu.org/index.php/jtlu/article/view/862">PCT paper</a> for details and other considerations):</p>
+<ul>
+<li>The PCT commute layer (don’t forget the travel to schools layer!) only considers single stage journeys - if we were to include cycling to the station or bus stop potential it would be greater than 16%, perhaps more like 30% if potential cycle/rail and cycle/bus trips are accounted for.</li>
+<li>Work patterns are changing, and with new digital work practices or a shift towards local economies, more people could work from home or at least near to home.</li>
+<li>The scenarios are snapshots of how cycling levels could change based current trip patterns, not predictions of what will happen. There are many other scenarios that could be developed, including intermediate scenarios between Go Dutch and the Government Target, and more ambitious scenarios, e.g. ‘Go Utrecht’, where cycling has reached around 60% of trips (<a href="https://www.citylab.com/transportation/2019/07/bicycle-friendly-city-utrecht-streetfilms-bike-lanes/593320/">source</a>).</li>
+</ul>
+<p>Other considerations that are often mentioned are hills and people who are unable to cycle. In fact the PCT accounts for hills and, as the example of Bristol shows, hilly cities can see rapid increases in cycling. Regarding ability to cycle, it is a more inclusive mode than driving, with 8 to 80 year-olds being able to cycle, and many more people being able to afford a bike than a car (which, thanks to the expense of buying, running and insuring the vehicle, is largely the mode of choice of the wealthy). The PCT does not account for the fact that some trips to work are also ‘caregiving’ trips, but with electric cargo bikes and <a href="https://en.wikipedia.org/wiki/Cycle_rickshaw">multi-person cycles</a> cycling-focused cities can, to a greater extent than car-dominated transport systems, deliver for all.</p>
+<div id="challenge" class="section level2">
+<h2>Challenge</h2>
+<p>To anyone interested in cycling in your city: try re-running the reproducible code above for your PCT region and local authority. Let us know on <a href="https://twitter.com/robinlovelace/status/1191378869728763904">social media</a> and <a href="https://github.com/ITSLeeds/pct/issues">GitHub</a> how you get on. Any comments/contributions to this analysis: <a href="https://github.com/ITSLeeds/pct/edit/master/vignettes/cycling-potential-uk.Rmd">welcome.</a></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
