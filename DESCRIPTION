@@ -1,7 +1,7 @@
 Package: pct
 Type: Package
 Title: Propensity to Cycle Tool
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
@@ -27,9 +27,9 @@ VignetteBuilder: knitr
 RoxygenNote: 7.0.2
 Language: en-GB
 NeedsCompilation: no
-Packaged: 2020-03-01 20:26:39 UTC; robin
+Packaged: 2020-06-15 09:32:16 UTC; robin
 Author: Robin Lovelace [aut, cre] (<https://orcid.org/0000-0001-5679-6536>),
   Layik Hama [aut] (<https://orcid.org/0000-0003-1912-4890>)
 Maintainer: Robin Lovelace <rob00x@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-03-02 00:30:06 UTC
+Date/Publication: 2020-06-15 09:50:02 UTC

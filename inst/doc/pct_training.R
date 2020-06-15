@@ -123,13 +123,13 @@ l = l_msoa
 l_top_cycling = l %>% 
   top_n(n = 5, wt = bicycle)
 plot(z$geometry)
-plot(l_top_cycling, add = TRUE, lwd = 5, col = "green")
-
+plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
+ 
 # top 5 driving routes
 l_top_driving = l %>% 
   top_n(n = 5, wt = car_driver)
 plot(z$geometry)
-plot(l_top_driving, add = TRUE, lwd = 5, col = "red")
+plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 
 # summary(sf::st_length(l_top_cycling))
 # summary(sf::st_length(l_top_driving))
@@ -147,26 +147,26 @@ l = l_original_lsoa %>%
 l_top_cycling = l %>% 
   top_n(n = 5, wt = bicycle)
 plot(z$geometry)
-plot(l_top_cycling, add = TRUE, lwd = 5, col = "green")
+plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "green")
 
 # top 5 driving routes
 l_top_driving = l %>% 
   top_n(n = 5, wt = car_driver)
 plot(z$geometry)
-plot(l_top_driving, add = TRUE, lwd = 5, col = "red")
+plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 
 ## ---- echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 300 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."----
 # at the lsoa level
 l_top_cycling = l %>% 
   top_n(n = 300, wt = bicycle)
 plot(z$geometry)
-plot(l_top_cycling, add = TRUE, lwd = l_top_cycling$bicycle / mean(l_top_cycling$bicycle), col = "green")
+plot(st_geometry(l_top_driving), add = TRUE, lwd = l_top_cycling$bicycle / mean(l_top_cycling$bicycle), col = "green")
 
 # top 5 driving routes
 l_top_driving = l %>% 
   top_n(n = 300, wt = car_driver)
 plot(z$geometry)
-plot(l_top_driving, add = TRUE, lwd = l_top_driving$car_driver / mean(l_top_driving$car_driver), col = "red")
+plot(st_geometry(l_top_driving), add = TRUE, lwd = l_top_driving$car_driver / mean(l_top_driving$car_driver), col = "red")
 
 ## ----p2-----------------------------------------------------------------------
 l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
@@ -221,7 +221,7 @@ tm_shape(r_top) +
 route_data = sf::st_sf(wight_lines_30, geometry = wight_routes_30$geometry)
 
 ## ---- echo=FALSE, message=FALSE-----------------------------------------------
-rnet_walk = overline2(x = route_data, "foot")
+rnet_walk = overline2(route_data, attrib = "foot")
 tm_shape(rnet_walk) +
   tm_lines(lwd = "foot", scale = 9)
 
