@@ -3,7 +3,7 @@
 #' Uptake model that takes distance and hilliness and returns
 #' a percentage of people likely to cycle along a desire line.
 #' Source: appendix of pct paper, hosted at:
-#' [www.jtlu.org](https://www.jtlu.org/index.php/jtlu/article/downloadSuppFile/862/360)
+#' [www.jtlu.org](https://www.jtlu.org/index.php/jtlu/article/download/862/1381/4359)
 #' which states that:
 #'
 #' ```
@@ -18,6 +18,11 @@
 #' pcycle = exp ([logit (pcycle)]) / (1 + (exp([logit(pcycle)])
 #' ```
 #'
+#' `uptake_pct_govtarget_2020()` and
+#' `uptake_pct_godutch_2020()`
+#' approximate the uptake models used in the updated 2020 release of
+#' the PCT results.
+#'
 #' @param distance Vector distance numeric values of routes.
 #' @param gradient Vector gradient numeric values of routes.
 #' @param alpha The intercept
@@ -25,14 +30,57 @@
 #' @param d2 Distance term 2
 #' @param d3 Distance term 3
 #' @param h1 Hilliness term 1
-#' @param i1 document!
-#' @param i2 document!
+#' @param h2 Hilliness term 2
+#' @param i1 Distance-hilliness interaction term 1
+#' @param i2 Distance-hilliness interaction term 2
 #'
 #' @export
 #' @examples
+#' distance = 15
+#' gradient = 2
+#' logit_pcycle = -3.959 +   # alpha
+#'   (-0.5963 * distance) +    # d1
+#'   (1.866 * sqrt(distance)) +  # d2
+#'   (0.008050 * distance^2) + # d3
+#'   (-0.2710 * gradient) +    # h1
+#'   (0.009394 * distance * gradient) +  # i1
+#'   (-0.05135 * sqrt(distance) * gradient) # i2
+#' boot::inv.logit(logit_pcycle)
+#' uptake_pct_govtarget(15, 2)
 #' l = routes_fast_leeds
 #' pcycle_scenario = uptake_pct_govtarget(l$length, l$av_incline)
-#' plot(l$length, pcycle_scenario)
+#' pcycle_scenario_2020 = uptake_pct_govtarget_2020(l$length, l$av_incline)
+#' plot(l$length, pcycle_scenario, ylim = c(0, 0.2))
+#' points(l$length, pcycle_scenario_2020, col = "blue")
+#'
+#' # compare with published PCT data:
+#' l_pct_2020 = get_pct_lines(region = "isle-of-wight")
+#' # test for another region:
+#' # l_pct_2020 = get_pct_lines(region = "west-yorkshire")
+#' l_pct_2020$rf_avslope_perc[1:5]
+#' l_pct_2020$rf_dist_km[1:5]
+#' govtarget_slc = uptake_pct_govtarget(
+#'   distance = l_pct_2020$rf_dist_km,
+#'   gradient = l_pct_2020$rf_avslope_perc
+#' ) * l_pct_2020$all + l_pct_2020$bicycle
+#' govtarget_slc_2020 = uptake_pct_govtarget_2020(
+#'   distance = l_pct_2020$rf_dist_km,
+#'   gradient = l_pct_2020$rf_avslope_perc
+#' ) * l_pct_2020$all + l_pct_2020$bicycle
+#' mean(l_pct_2020$govtarget_slc)
+#' mean(govtarget_slc)
+#' mean(govtarget_slc_2020)
+#' godutch_slc = uptake_pct_godutch(
+#'   distance = l_pct_2020$rf_dist_km,
+#'   gradient = l_pct_2020$rf_avslope_perc
+#' ) * l_pct_2020$all + l_pct_2020$bicycle
+#' godutch_slc_2020 = uptake_pct_godutch_2020(
+#'   distance = l_pct_2020$rf_dist_km,
+#'   gradient = l_pct_2020$rf_avslope_perc
+#' ) * l_pct_2020$all + l_pct_2020$bicycle
+#' mean(l_pct_2020$dutch_slc)
+#' mean(godutch_slc)
+#' mean(godutch_slc_2020)
 uptake_pct_govtarget = function(
   distance,
   gradient,
@@ -76,24 +124,83 @@ uptake_pct_govtarget = function(
 
 #' Calculate cycling uptake for UK 'Go Dutch' scenario
 #'
+#' This function implements the uptake model described in the original
+#' Propensity to Cycle Tool paper (Lovelace et al. 2017):
+#' https://doi.org/10.5198/jtlu.2016.862
+#'
 #' See [uptake_pct_govtarget()].
 #'
 #' @inheritParams uptake_pct_govtarget
 #' @export
 #' @examples
+#' # https://www.jtlu.org/index.php/jtlu/article/download/862/1381/4359
+#' # Equation 1B:
+#' distance = 15
+#' gradient = 2
+#' logit = -3.959 + 2.523 +
+#'   ((-0.5963 - 0.07626) * distance) +
+#'   (1.866 * sqrt(distance)) +
+#'   (0.008050 * distance^2) +
+#'   (-0.2710 * gradient) +
+#'   (0.009394 * distance*gradient) +
+#'   (-0.05135 * sqrt(distance) *gradient)
+#' logit
+#' # Result: -3.144098
+#'
+#' pcycle = exp(logit) / (1 + exp(logit))
+#' # Result: 0.04132445
+#' boot::inv.logit(logit)
+#' uptake_pct_godutch(distance, gradient, alpha = -3.959 + 2.523, d1 = -0.5963 - 0.07626,
+#'  d2 = 1.866, d3 = 0.008050, h1 = -0.2710, i1 = 0.009394, i2 = -0.05135
+#' )
+#' # these are the default values
+#' uptake_pct_godutch(distance, gradient)
 #' l = routes_fast_leeds
 #' pcycle_scenario = uptake_pct_godutch(l$length, l$av_incline)
 #' plot(l$length, pcycle_scenario)
 uptake_pct_godutch = function(
   distance,
   gradient,
-  alpha = -3.959,
-  d1 = -0.5963,
-  d2 = 1.832,
-  d3 = 0.007956,
-  h1 = -0.2872,
-  i1 = 0.01784,
-  i2 = -0.09770
+  alpha = -3.959 + 2.523,
+  d1 = -0.5963 - 0.07626,
+  d2 = 1.866,
+  d3 = 0.008050,
+  h1 = -0.2710,
+  i1 = 0.009394,
+  i2 = -0.05135
+  ) {
+  if(!exists(c("distance", "gradient")) |
+     !is.numeric(c(distance, gradient))) {
+    stop("distance and gradient need to be numbers.")
+  }
+  # is it in m
+  if(mean(distance, na.rm = TRUE) > 1000) {
+    message("Distance assumed in m, switching to km")
+    distance = distance / 1000
+  }
+  logit_pcycle = alpha + (d1 * distance) +
+    (d2 * sqrt(distance) ) + (d3 * distance^2) +
+    (h1 * gradient) +
+    (i1 * distance * gradient) +
+    (i2 * sqrt(distance) * gradient)
+  boot::inv.logit(logit_pcycle)
+}
+
+
+
+#' @rdname uptake_pct_govtarget
+#' @export
+uptake_pct_govtarget_2020 = function(
+  distance,
+  gradient,
+  alpha = -4.018,
+  d1 = -0.6369,
+  d2 = 1.988,
+  d3 = 0.008775,
+  h1 = -0.2555,
+  h2 = -0.78,
+  i1 = 0.02006,
+  i2 = -0.1234
 ) {
   if(!exists(c("distance", "gradient")) |
      !is.numeric(c(distance, gradient))) {
@@ -104,12 +211,61 @@ uptake_pct_godutch = function(
     message("Distance assumed in m, switching to km")
     distance = distance / 1000
   }
-  pcycle_scenario = alpha + (d1 * distance) +
-    (d2 * sqrt(distance) ) + (d3 * distance^2) +
-    (h1 * gradient) +
-    (i1 * distance * gradient) +
-    (i2 * sqrt(distance) * gradient)
-  # looks like this
-  pcycle_scenario = pcycle_scenario + 2.499 -0.07384 * distance
+  # Uptake formula from
+  # https://raw.githubusercontent.com/npct/pct-shiny/
+  # a59ebd1619af4400eeb7ffb2a8ecdd8ce4c3753d/
+  # regions_www/www/static/03a_manual/pct-bike-eng-user-manual-c1.pdf
+  #
+  # logit (pcycle)= -4.018 +  (-0.6369 *  distance)  +
+  #   (1.988  * distancesqrt)  +  (0.008775* distancesq) +
+  #   (-0.2555* gradient) + (0.02006* distance*gradient) +
+  #   (-0.1234* distancesqrt*gradient)
+  gradient = gradient + h2
+  pcycle_scenario = alpha +
+    (d1 * distance) +    # d1
+    (d2 * sqrt(distance)) +  # d2
+    (d3 * distance^2) + # d3
+    (h1 * gradient) +    # h1
+    (i1 * distance * gradient) +  # i1
+    (i2 * sqrt(distance) * gradient) # i2
+  boot::inv.logit(pcycle_scenario)
+}
+
+#' @rdname uptake_pct_govtarget
+#' @export
+uptake_pct_godutch_2020 = function(
+  distance,
+  gradient,
+  alpha = -4.018 + 2.550,
+  d1 = -0.6369 -0.08036,
+  d2 = 1.988,
+  d3 = 0.008775,
+  h1 = -0.2555,
+  h2 = -0.78,
+  i1 = 0.02006,
+  i2 = -0.1234
+) {
+  if(!exists(c("distance", "gradient")) |
+     !is.numeric(c(distance, gradient))) {
+    stop("distance and gradient need to be numbers.")
+  }
+  # is it in m
+  if(mean(distance, na.rm = TRUE) > 1000) {
+    message("Distance assumed in m, switching to km")
+    distance = distance / 1000
+  }
+  # Uptake formula from manual:
+  # logit_pcycle = -4.018  +  (-0.6369  *  distance)  +  (1.988  *  distancesqrt) +
+  # (0.008775  * distancesq) + (-0.2555 * gradient) + (0.02006 * distance*gradient) +
+  # (-0.1234 * distancesqrt*gradient) + (2.550 * dutch) +  (-0.08036* dutch * distance) +
+  # (0.05509* ebike * distance) + (-0.0002950* ebike * distancesq) + (0.1812* ebike * gradient)
+  gradient = gradient + h2
+  pcycle_scenario = alpha +
+    (d1 * distance) +    # d1
+    (d2 * sqrt(distance)) +  # d2
+    (d3 * distance^2) + # d3
+    (h1 * gradient) +    # h1
+    (i1 * distance * gradient) +  # i1
+    (i2 * sqrt(distance) * gradient) # i2
   boot::inv.logit(pcycle_scenario)
 }

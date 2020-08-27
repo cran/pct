@@ -7,7 +7,7 @@
 get_pct(
   base_url = "https://github.com/npct/pct-outputs-regional-notR/raw/master",
   purpose = "commute",
-  geography = "msoa",
+  geography = "lsoa",
   region = NULL,
   layer = NULL,
   extension = ".geojson",
@@ -19,7 +19,7 @@ get_pct(
 
 \item{purpose}{Trip purpose (typically \code{school} or \code{commute})}
 
-\item{geography}{Geographic resolution of outputs (\code{msoa} or \code{lsoa})}
+\item{geography}{Geographic resolution of outputs, \code{msoa} or \code{lsoa} (the default)}
 
 \item{region}{The PCT region or local authority to download data from (e.g. \code{west-yorkshire} or \code{Leeds}).
 See \code{View(pct_regions_lookup)} for a full list of possible region names.}
@@ -36,12 +36,12 @@ This function gets data generated for the Propensity to Cycle Tool
 project and returns objects in the modern \code{sf} class.
 }
 \examples{
+\donttest{
 rf = get_pct(region = "isle-of-wight", layer = "rf")
 names(rf)[1:20]
 vars_to_plot = 10:13
 plot(rf[vars_to_plot])
 z = get_pct(region = "isle-of-wight", layer = "z")
-\donttest{
 rf = get_pct(region = "west-yorkshire", layer = "rf")
 z_all = get_pct(layer = "z", national = TRUE)
 }

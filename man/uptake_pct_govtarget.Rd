@@ -2,6 +2,8 @@
 % Please edit documentation in R/uptake.R
 \name{uptake_pct_govtarget}
 \alias{uptake_pct_govtarget}
+\alias{uptake_pct_govtarget_2020}
+\alias{uptake_pct_godutch_2020}
 \title{Calculate cycling uptake for UK 'Government Target' scenario}
 \usage{
 uptake_pct_govtarget(
@@ -14,6 +16,32 @@ uptake_pct_govtarget(
   h1 = -0.271,
   i1 = 0.009394,
   i2 = -0.05135
+)
+
+uptake_pct_govtarget_2020(
+  distance,
+  gradient,
+  alpha = -4.018,
+  d1 = -0.6369,
+  d2 = 1.988,
+  d3 = 0.008775,
+  h1 = -0.2555,
+  h2 = -0.78,
+  i1 = 0.02006,
+  i2 = -0.1234
+)
+
+uptake_pct_godutch_2020(
+  distance,
+  gradient,
+  alpha = -4.018 + 2.55,
+  d1 = -0.6369 - 0.08036,
+  d2 = 1.988,
+  d3 = 0.008775,
+  h1 = -0.2555,
+  h2 = -0.78,
+  i1 = 0.02006,
+  i2 = -0.1234
 )
 }
 \arguments{
@@ -31,15 +59,17 @@ uptake_pct_govtarget(
 
 \item{h1}{Hilliness term 1}
 
-\item{i1}{document!}
+\item{i1}{Distance-hilliness interaction term 1}
 
-\item{i2}{document!}
+\item{i2}{Distance-hilliness interaction term 2}
+
+\item{h2}{Hilliness term 2}
 }
 \description{
 Uptake model that takes distance and hilliness and returns
 a percentage of people likely to cycle along a desire line.
 Source: appendix of pct paper, hosted at:
-\href{https://www.jtlu.org/index.php/jtlu/article/downloadSuppFile/862/360}{www.jtlu.org}
+\href{https://www.jtlu.org/index.php/jtlu/article/download/862/1381/4359}{www.jtlu.org}
 which states that:
 }
 \details{
@@ -53,9 +83,56 @@ which states that:
 
 pcycle = exp ([logit (pcycle)]) / (1 + (exp([logit(pcycle)])
 }
+
+\code{uptake_pct_govtarget_2020()} and
+\code{uptake_pct_godutch_2020()}
+approximate the uptake models used in the updated 2020 release of
+the PCT results.
 }
 \examples{
+distance = 15
+gradient = 2
+logit_pcycle = -3.959 +   # alpha
+  (-0.5963 * distance) +    # d1
+  (1.866 * sqrt(distance)) +  # d2
+  (0.008050 * distance^2) + # d3
+  (-0.2710 * gradient) +    # h1
+  (0.009394 * distance * gradient) +  # i1
+  (-0.05135 * sqrt(distance) * gradient) # i2
+boot::inv.logit(logit_pcycle)
+uptake_pct_govtarget(15, 2)
 l = routes_fast_leeds
 pcycle_scenario = uptake_pct_govtarget(l$length, l$av_incline)
-plot(l$length, pcycle_scenario)
+pcycle_scenario_2020 = uptake_pct_govtarget_2020(l$length, l$av_incline)
+plot(l$length, pcycle_scenario, ylim = c(0, 0.2))
+points(l$length, pcycle_scenario_2020, col = "blue")
+
+# compare with published PCT data:
+l_pct_2020 = get_pct_lines(region = "isle-of-wight")
+# test for another region:
+# l_pct_2020 = get_pct_lines(region = "west-yorkshire")
+l_pct_2020$rf_avslope_perc[1:5]
+l_pct_2020$rf_dist_km[1:5]
+govtarget_slc = uptake_pct_govtarget(
+  distance = l_pct_2020$rf_dist_km,
+  gradient = l_pct_2020$rf_avslope_perc
+) * l_pct_2020$all + l_pct_2020$bicycle
+govtarget_slc_2020 = uptake_pct_govtarget_2020(
+  distance = l_pct_2020$rf_dist_km,
+  gradient = l_pct_2020$rf_avslope_perc
+) * l_pct_2020$all + l_pct_2020$bicycle
+mean(l_pct_2020$govtarget_slc)
+mean(govtarget_slc)
+mean(govtarget_slc_2020)
+godutch_slc = uptake_pct_godutch(
+  distance = l_pct_2020$rf_dist_km,
+  gradient = l_pct_2020$rf_avslope_perc
+) * l_pct_2020$all + l_pct_2020$bicycle
+godutch_slc_2020 = uptake_pct_godutch_2020(
+  distance = l_pct_2020$rf_dist_km,
+  gradient = l_pct_2020$rf_avslope_perc
+) * l_pct_2020$all + l_pct_2020$bicycle
+mean(l_pct_2020$dutch_slc)
+mean(godutch_slc)
+mean(godutch_slc_2020)
 }

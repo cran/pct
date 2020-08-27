@@ -1,7 +1,7 @@
 Package: pct
 Type: Package
 Title: Propensity to Cycle Tool
-Version: 0.4.1
+Version: 0.5.0
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
@@ -24,12 +24,12 @@ Imports: boot, stplanr (>= 0.2.8), readr, sf
 Suggests: covr, curl, dplyr, ggplot2, knitr, leaflet, pbapply, remotes,
         rmarkdown, testthat, tmap
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Language: en-GB
 NeedsCompilation: no
-Packaged: 2020-06-15 09:32:16 UTC; robin
+Packaged: 2020-08-27 07:48:44 UTC; robin
 Author: Robin Lovelace [aut, cre] (<https://orcid.org/0000-0001-5679-6536>),
   Layik Hama [aut] (<https://orcid.org/0000-0003-1912-4890>)
 Maintainer: Robin Lovelace <rob00x@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-06-15 09:50:02 UTC
+Date/Publication: 2020-08-27 13:20:02 UTC

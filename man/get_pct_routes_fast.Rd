@@ -7,7 +7,7 @@
 get_pct_routes_fast(
   region = NULL,
   purpose = "commute",
-  geography = "msoa",
+  geography = "lsoa",
   extension = ".geojson"
 )
 }
@@ -17,7 +17,7 @@ See \code{View(pct_regions_lookup)} for a full list of possible region names.}
 
 \item{purpose}{Trip purpose (typically \code{school} or \code{commute})}
 
-\item{geography}{Geographic resolution of outputs (\code{msoa} or \code{lsoa})}
+\item{geography}{Geographic resolution of outputs, \code{msoa} or \code{lsoa} (the default)}
 
 \item{extension}{The type of file to download (only \code{.geojson} supported at present)}
 }
@@ -25,6 +25,9 @@ See \code{View(pct_regions_lookup)} for a full list of possible region names.}
 Wrapper around \verb{[get_pct()]} that gets rf data from the PCT.
 }
 \examples{
-z = get_pct_routes_fast("isle-of-wight")
-plot(z)
+\donttest{
+# don't test to reduce build times
+rf = get_pct_routes_fast("isle-of-wight")
+plot(rf)
+}
 }

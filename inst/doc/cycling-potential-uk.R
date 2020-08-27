@@ -18,11 +18,42 @@ region_of_interest = "west-yorkshire"
 zones_region = get_pct_zones(region = region_of_interest)
 # zones_region = get_pct_zones(region = region_of_interest, geography = "lsoa") # for smaller zones
 names(zones_region)
-tm_shape(zones_region) +
-  tm_fill("bicycle", palette = "RdYlBu") +
-  tm_shape(pct_regions) +
-  tm_borders() +
-  tm_text("region_name")
+plot(zones_region["bicycle"])
+
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
+#  
+#  # tm_shape(zones_region) +
+#  #   tm_fill("bicycle", palette = "RdYlBu") +
+#  #   tm_shape(pct_regions) +
+#  #   tm_borders() +
+#  #   tm_text("region_name")
+#  
+#  # reproducible example of fail
+#  
+#  remotes::install_github("mtennekes/tmap")
+#  library(tmap)
+#  u = "https://github.com/npct/pct-outputs-regional-notR/raw/master/commute/lsoa/isle-of-wight/z.geojson"
+#  z = sf::st_read(u)
+#  plot(z["bicycle"])
+#  qtm(z)
+#  tm_shape(z) +
+#    tm_fill("bicycle", palette = "RdYlBu")
+#  tmap_mode("view")
+#  qtm(z)
+#  
+#  # another region
+#  tmap_mode("plot")
+#  u = "https://github.com/npct/pct-outputs-regional-notR/raw/master/commute/lsoa/west-yorkshire/z.geojson"
+#  z = sf::st_read(u)
+#  plot(z["bicycle"])
+#  qtm(z)
+#  tm_shape(z) +
+#    tm_fill("bicycle", palette = "RdYlBu")
+#  tmap_mode("view")
+#  qtm(z)
+#  mapview::mapview(z)
+#  
+#  devtools::session_info()
 
 ## -----------------------------------------------------------------------------
 unique(zones_region$lad_name)
