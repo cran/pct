@@ -17,6 +17,8 @@ header-includes:
 - \fancyfoot[CO,CE]{For source code and support see github.com/ITSLeeds and github.com/npct}
 - \fancyfoot[LE,RO]{\thepage}
 output: pdf_document
+# output as .R script
+knitr::purl("vignettes/pct_training.Rmd")
 ```
 
 
@@ -69,13 +71,13 @@ It will show how the code underlying the PCT works, how the underlying data can 
 <!-- If you are new to R this course may not be appropriate for you. -->
 If you are an intermediate user, it may be worth brushing-up on your R skills, e.g. by taking a free online course such as that provided by [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) or by working through [Chapter 2 onwards of the open source book *Geocomputation with R*](https://geocompr.robinlovelace.net/spatial-class.html) (see reading list below for more transport-specific resources).
 
-<!-- ## Prior reading -->
+## Prior reading
 
-<!-- In addition to computer hardware (a laptop) and software (an up-to-date R set-up and experience using R) pre-requisites, you should have read, or at least have working knowledge of the contents of, the following publications, all of which are freely available online: -->
+In addition to computer hardware (a laptop) and software (an up-to-date R set-up and experience using R) pre-requisites, you should have read, or at least have working knowledge of the contents of, the following publications, all of which are freely available online:
 
-<!-- - The original paper on the Propensity to Cycle Tool [@lovelace_propensity_2017] -->
-<!-- - The transport chapter ([12](https://geocompr.robinlovelace.net/transport.html)) in the open source book [*Geocomputation with R*](https://geocompr.robinlovelace.net/)  [@lovelace_geocomputation_2019] -->
-<!-- - The vignette that describes the pct R package, which can be found here: https://itsleeds.github.io/pct/articles/pct.html -->
+- The original paper on the Propensity to Cycle Tool [@lovelace_propensity_2017]
+- The transport chapter ([12](https://geocompr.robinlovelace.net/transport.html)) in the open source book [*Geocomputation with R*](https://geocompr.robinlovelace.net/)  [@lovelace_geocomputation_2019]
+- The vignette that describes the pct R package, which can be found here: https://itsleeds.github.io/pct/articles/pct.html
 
 ## Prerequisites
 
@@ -102,96 +104,88 @@ To test your computer is ready to work with PCT data in R, try running the follo
  <!-- method for helping people set up their computers. Type this single line into the console and follow the instructions.  -->
 
 ```{r testcode, eval = FALSE }
-source("https://raw.githubusercontent.com/ITSLeeds/TDS/master/code-r/setup.R") 
+source("https://github.com/ITSLeeds/pct/raw/master/inst/test-setup.R") 
 ```
 
-If the new method does not work or you would like to be more hands on, run the code below.
-It should result in the map below, showing the % of short trips in Isle of Wight made by active modes.
+
+<!-- \newpage -->
+
+<!-- # Agenda -->
+
+<!-- - 09:30 - 10:00: Arrival and set-up -->
+<!-- - 10:00 - 11:00: Data and methods underlying the PCT -->
+<!-- - 11:00 - 12:30: Getting and analysing PCT data -->
+<!--     - Comparing PCT results with existing road infrastructure -->
+<!--         - Getting data from the CyIPT -->
+<!--         - Identfying 'weak links' -->
+<!--         - Identify gaps in the network -->
+
+<!-- Lunch break -->
+
+<!-- - 13:30 - 15:30: Extending the PCT: minihack -->
+<!--     - Alternative scenarios of cycling uptake -->
+<!--         - A 'replace short car trips' scenario -->
+<!--     - New input data -->
+<!--         - Travel to stations -->
+<!--     - Other extensions of the PCT -->
+
+<!-- Break and presentation of results -->
+
+<!-- - 16:00 - 16:30: Policy implementation -->
+<!--     - Building open source web applications -->
+<!--     - Community-building -->
+<!--     - User interface -->
+<!--     - Policy uptake -->
+
+## Agenda
+
+<!-- - The venue + facilities -->
+Part 1: how the Propensity to Cycle Tool works + demo: 'I do'
+
+  - Introductions (14:00 - 14:15)
+  - Walk through of [`test-setup.R`](https://github.com/ITSLeeds/pct/blob/master/inst/test-setup.R) (14:15 - 14:30)
+  - Demonstration of calculating cycling potential in a new context (14:30 - 14:40)
+  <!-- I will write an adapted version based on: https://github.com/ITSLeeds/pct/blob/master/data-raw/test-setup2.R -->
+  - Questions, break and debugging the test code in breakout rooms  (14:40 - 15:00)
+     - Room 1: technical questions and debugging code (Joey)
+     - Room 2: methodological questions about the PCT (Robin)
+     - Room 3: applying the PCT in new contexts (Rosa)
+     - Room 4: networking 
+
+Part 2: Co-coding session: getting started with transport data in R: 'we do'
+
+- Working through the code in [`pct_training.R`](https://github.com/ITSLeeds/pct/blob/master/inst/pct_training.R) (15:00 - 15:30)
+  - Breakout rooms 2 and 3 open for people who have questions
+- Live demo: overlaying PCT data with data from the Rapid tool and OSM (15:30 - 15:45)
+
+   ☕☕☕ 15 minute break  ☕☕☕
 
 
-```{r setup, out.width="30%", message=FALSE}
-library(pct)
-library(dplyr)   # in the tidyverse
-library(tmap) # installed alongside mapview
-region_name = "isle-of-wight"
-max_distance = 7
-zones_all = get_pct_zones(region_name)
-lines_all = get_pct_lines(region_name)
-# basic plot
-plot(zones_all$geometry)
-plot(lines_all$geometry[lines_all$all > 500], col = "red", add = TRUE)
+Part 3: using PCT data for local transport planning: 'you do'
 
-# create 'active' desire lines (less than 5 km)
-active = lines_all %>% 
-  mutate(`Percent Active` = (bicycle + foot) / all * 100) %>% 
-  filter(e_dist_km < max_distance)
+- Getting set-up with RStudio and input data (16:00 - 16:15, Robin)
 
-# interactive plot
-tmap_mode("view")
-tm_shape(active) +
-  tm_lines("Percent Active", palette = "RdYlBu", lwd = "all", scale = 9)
-```
+- Break-out rooms (16:15 - 17:00)
+   - Getting and visualising PCT data (e.g. `get_pct_rnet`)
+   - Running the PCT for new areas
+   - Advanced topics (different routing, uptake and route network summary methods - developments in **stplanr**)
 
-```{r, echo=FALSE, eval=FALSE}
-# old code - create with leaflet
-pal = colorBin(palette = "RdYlBu", domain = active$`Percent Active`, bins = c(0, 2, 4, 10, 15, 20, 30, 40, 90))
-leaflet(data = active) %>% 
-  addProviderTiles(providers$OpenStreetMap.BlackAndWhite) %>% 
-  addPolylines(color = ~pal(`Percent Active`), weight = active$all / 100) %>% 
-  addLegend(pal = pal, values = ~`Percent Active`)
-
-pal = colorBin(palette = "RdYlBu", domain = car_dependent$`Percent Active`, bins = c(0, 20, 40, 60, 80, 100), reverse = TRUE)
-leaflet(data = car_dependent) %>% 
-  addProviderTiles(providers$OpenStreetMap.BlackAndWhite) %>% 
-  addPolylines(color = ~pal(`Percent Drive`), weight = active$all / 100) %>% 
-  addLegend(pal = pal, values = ~`Percent Drive`)
-```
-
-We can also use the data to explore entrenched car dependence, as follows:
-
-```{r, out.width="30%"}
-# Create car dependent desire lines
-car_dependent = lines_all %>% 
-  mutate(`Percent Drive` = (car_driver) / all * 100) %>% 
-  filter(e_dist_km < max_distance)
-tm_shape(car_dependent) +
-  tm_lines("Percent Drive", palette = "-RdYlBu", lwd = "all", scale = 9)
-```
-
-\newpage
-
-# Agenda
-
-- 09:30 - 10:00: Arrival and set-up
-- 10:00 - 11:00: Data and methods underlying the PCT
-- 11:00 - 12:30: Getting and analysing PCT data
-    - Comparing PCT results with existing road infrastructure
-        - Getting data from the CyIPT
-        - Identfying 'weak links'
-        - Identify gaps in the network
-
-Lunch break
-
-- 13:30 - 15:30: Extending the PCT: minihack
-    - Alternative scenarios of cycling uptake
-        - A 'replace short car trips' scenario
-    - New input data
-        - Travel to stations
-    - Other extensions of the PCT
-
-Break and presentation of results
-
-- 16:00 - 16:30: Policy implementation
-    - Building open source web applications
-    - Community-building
-    - User interface
-    - Policy uptake
+- Presentation of work and next steps (17:00 - 17:15)
+- Networking and 'ideas with beers' 🍻🍻🍻 (17:20 - 18:00)
     
 # Exercises
 
+## Useful links
+
+These links may be useful when working through the exercises below:
+
+- The codebook describing each variable in the PCT route: [od_l_rf_codebook.csv](https://github.com/npct/pct-shiny/blob/master/regions_www/www/static/02_codebooks/commute/od_l_rf_codebook.csv)
+- Folder containing all [codebooks, including variables in zone, line and centroid datasets](https://github.com/npct/pct-shiny/tree/master/regions_www/www/static/02_codebooks)
+- The PCT tool itself, which can be used to cross-compare results from the analysis steps below: [www.pct.bike](https://www.pct.bike/)
+
 ## How the PCT works and what you can use it for
 
-- Take a look at the image below from [@lovelace_propensity_2017]. Which parts of the process are of most use for your work?
+- Take a look at the image below from [@lovelace_propensity_2017]. Which parts of the process are of most interest for your work?
 
 ```{r, echo=FALSE, out.width="90%"}
 # u = "https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png"
@@ -201,7 +195,7 @@ Break and presentation of results
 knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png")
 ```
 
-- In groups of 2, identify 3 real world questions/problems that you could use the PCT to help answer/solve
+<!-- - In groups of 2, identify 3 real world questions/problems that you could use the PCT to help answer/solve -->
 
 <!-- Communicating a vision -->
 <!-- Deciding on network scale/size/shape -->
@@ -225,18 +219,108 @@ Which types of data are most appropriate to tackle each of the questions/problem
 <!-- It does not predict future levels of cycling following new infrastructure -> -->
 <!--   Wait until follow-on work building CyIPT is developed -->
 
-## Getting and viewing PCT data
+## Getting PCT data
 
-- G1: Using the PCT's online interface, hosted at [www.pct.bike/m/?r=isle-of-wight](https://www.pct.bike/m/?r=isle-of-wight), identify the MSOA **zone** that has the highest number of people who cycle to work.
+In this section we will get PCT data at the MSOA level and plot the result in a simple map.
 
-- G2: Using data downloaded with the command `get_pct_zones()`, identify the zone that has highest level of cycling with the function `top_n()` and save the result as an object called `z_highest_cycling` (hint: you may want to start by 'cleaning' the data you have downloaded to include only a few key columns with the function `select()`, as follows):
+- G1: The first stage is to load packages we will use:
 
 ```{r}
 library(pct)
-library(dplyr) # suggestion: use library(tidyverse)
-z_original = get_pct_zones("isle-of-wight")
-z = z_original %>% 
-  select(geo_code, geo_name, all, bicycle, car_driver)
+library(dplyr)   # in the tidyverse
+library(tmap)    # installed alongside mapview
+```
+
+- G2: After setting the region name (to avoid re-typing it many times) run the following commands to download data at the four main levels used in the PCT:
+
+```{r}
+region_name = "isle-of-wight"
+zones_all = get_pct_zones(region_name, geography = "msoa")
+lines_all = get_pct_lines(region_name, geography = "msoa")
+routes_all = get_pct_routes_fast(region_name, geography = "msoa")
+rnet_all = get_pct_rnet(region_name)
+```
+
+- G3: Check the downloads worked by plotting the result as follows:
+
+```{r}
+plot(zones_all$geometry)
+plot(lines_all$geometry, col = "blue", add = TRUE)
+plot(routes_all$geometry, col = "green", add = TRUE)
+plot(rnet_all$geometry, col = "red", lwd = rnet_all$bicycle / 10, add = TRUE)
+```
+
+## Visualising PCT data
+
+At its heart, the PCT is a data visualisation tool.
+
+- V1: Create a static plot showing the route network layer with the `tmap` package
+
+```{r}
+tm_shape(rnet_all) +
+  tm_lines(lwd = "dutch_slc", scale = 9)
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+# tmap_mode("plot")
+tm_shape(zones_all) +
+  tm_polygons("all") +
+  tm_shape(rnet_all) +
+  tm_lines(lwd = c("bicycle", "dutch_slc"), scale = 9)
+```
+
+- V2: Create an interactive map showing the route network layer with the `tmap` package
+
+```{r}
+# interactive plot
+tmap_mode("view")
+tm_shape(rnet_all) +
+  tm_lines(lwd = "dutch_slc", scale = 9)
+```
+
+
+- V3 (Bonus): Run the following command to show the % of short trips in Isle of Wight made by active modes.
+
+
+```{r setup, out.width="100%", message=FALSE}
+# basic plot
+max_distance = 7
+# plot(zones_all$geometry)
+# plot(lines_all$geometry[lines_all$all > 500], col = "red", add = TRUE)
+
+# create 'active' desire lines (less than 5 km)
+active = lines_all %>% 
+  mutate(`Percent Active` = (bicycle + foot) / all * 100) %>% 
+  filter(e_dist_km < max_distance)
+
+tm_shape(active) +
+  tm_lines("Percent Active", palette = "RdYlBu", lwd = "all", scale = 9)
+```
+
+- V4 (Bonus): Use the same technique to to identify short distance trips with a high mode share by car, as follows:
+
+```{r, out.width="100%"}
+# Create car dependent desire lines
+car_dependent = lines_all %>% 
+  mutate(`Percent Drive` = (car_driver) / all * 100) %>% 
+  filter(e_dist_km < max_distance)
+tm_shape(car_dependent) +
+  tm_lines("Percent Drive", palette = "-RdYlBu", lwd = "all", scale = 9)
+```
+
+Advanced: visualise the PCT data using a range of visualisation techniques.
+For inspiration, check out the [Making maps with R](https://geocompr.robinlovelace.net/adv-map.html) chapter of Geocomputation with R.
+
+## Exploring PCT data
+
+- E1: Using the PCT's online interface, hosted at [www.pct.bike/m/?r=isle-of-wight](https://www.pct.bike/m/?r=isle-of-wight), identify the MSOA **zone** that has the highest number of people who cycle to work.
+
+- E2: Using data downloaded with the command `get_pct_zones()`, identify the zone that has highest level of cycling with the function `top_n()` and save the result as an object called `z_highest_cycling` (hint: you may want to start by 'cleaning' the data you have downloaded to include only a few key columns with the function `select()`, as follows):
+
+```{r}
+z = zones_all %>% 
+  select(geo_code, geo_name, all, foot, bicycle, car_driver)
 ```
 
 ```{r, echo=FALSE}
@@ -246,7 +330,7 @@ z_highest_cycling = z %>%
   top_n(n = 1, wt = bicycle)
 ```
 
-- G3: Use the `plot()` command to visualise where on the Ilse of Wight this 'high cycling' zone is (hint: you will need to use the `plot()` function twice, once to plot `z$geometry`, and again with the argument `add = TRUE` and a `col` argument to add the layer on top of the base layer and give it a colour).
+- E3: Use the `plot()` command to visualise where on the Isle of Wight this 'high cycling' zone is (hint: you will need to use the `plot()` function twice, once to plot `z$geometry`, and again with the argument `add = TRUE` and a `col` argument to add the layer on top of the base layer and give it a colour).
 The result should look something like something this:
 
 ```{r, echo=FALSE}
@@ -254,16 +338,15 @@ plot(z$geometry)
 plot(z_highest_cycling$geometry, col = "red", add = TRUE)
 ```
 
-- G4: Using the online interface, identify the top 5 MSOA to MSOA **desire lines** that have the highest number of people who cycle to work.
+- E4: Using the online interface, identify the top 5 MSOA to MSOA **desire lines** that have the highest number of people who cycle to work.
 
-- G5: Using the function `get_pct_lines()`, identify the top 5 MSOA to MSOA **desire lines** that have the highest number of people who cycle to work (hint: you might want to start with the code shown below).
+- E5: Using the function `top_n(n = 5, wt = bicycle)`, identify the top 5 MSOA to MSOA **desire lines** that have the highest number of people who cycle to work (hint: you might want to start with the code shown below).
     - Bonus: also find the 5 desire lines with the highest number of people driving to work. Plot them and find the straight line distance of these lines with the function `st_length()`.
     
 ```{r get routes}
 # Aim: get top 5 cycle routes
-l_original_msoa = get_pct_lines("isle-of-wight")
-l_msoa = l_original_msoa %>% 
-  select(geo_code1, geo_code2, all, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
+l_msoa = lines_all %>% 
+  select(geo_code1, geo_code2, all, foot, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 5 MSOA to MSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."}
@@ -289,30 +372,29 @@ plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 # tm_shape(l_top_driving) + tm_lines("red", lwd = 7) + tm_basemap(server = leaflet::providers$OpenStreetMap.BlackAndWhite)
 ```
 
-- G6 (Bonus):  Repeat the exercise but for LSOA to LSOA desire lines (by setting the argument `geography = "lsoa"`, remember to change the names of the objects you create). The results should look something like this:
+- E6 (Bonus):  Repeat the exercise but calculate the top 10 LSOA to LSOA desire lines (by setting the argument `geography = "lsoa"`, remember to change the names of the objects you create). The results should look like this:
 
-```{r, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 5 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."}
+```{r, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 10 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."}
 # at the lsoa level
 l_original_lsoa = get_pct_lines("isle-of-wight", geography = "lsoa")
-l = l_original_lsoa %>% 
-  select(geo_code1, geo_code2, all, bicycle, car_driver)
-l_top_cycling = l %>% 
-  top_n(n = 5, wt = bicycle)
-plot(z$geometry)
-plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "green")
+l_lsoa = l_original_lsoa %>% 
+  select(geo_code1, geo_code2, all, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
+l_top_cycling = l_lsoa %>% 
+  top_n(n = 10, wt = bicycle)
+l_top_driving = l_lsoa %>% 
+  top_n(n = 10, wt = car_driver)
 
-# top 5 driving routes
-l_top_driving = l %>% 
-  top_n(n = 5, wt = car_driver)
+plot(z$geometry)
+plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
 plot(z$geometry)
 plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 ```
 
-- G7: Why are the results different? What are the advantages and disadvantages of using smaller zones, as represented by the LSOA data above?
+- E7: Why are the results different? What are the advantages and disadvantages of using smaller zones, as represented by the LSOA data above?
 
-- G8 (bonus): do the same analysis but with the top **300** routes cycled and driven. Hint: set the line width with `lwd = l_top_cycling$bicycle / mean(l_top_cycling$bicycle)` to portray the relative importance of each route.
+<!-- - E8 (bonus): do the same analysis but with the top **30** routes with a  cycled and driven. Hint: set the line width with `lwd = l_top_cycling$bicycle / mean(l_top_cycling$bicycle)` to portray the relative importance of each route. -->
 
-```{r, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 300 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."}
+```{r, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 300 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight.", eval=FALSE}
 # at the lsoa level
 l_top_cycling = l %>% 
   top_n(n = 300, wt = bicycle)
@@ -328,7 +410,7 @@ plot(st_geometry(l_top_driving), add = TRUE, lwd = l_top_driving$car_driver / me
 
 ## Modifying PCT data to identify routes/roads of interest
 
-- M1: Building on the example above, add a new column called `pcycle` to the object `l_msoa` that contains the % who cycle to work (hint: you might want to start this by typing `l_msoa$pcycle = ...`) and plot the results (shown in left hand panel in plot below).
+- M1: Building on the MSOA examples above, add a new column called `pcycle` to the object `l_msoa` that contains the % who cycle to work (hint: you might want to start this by typing `l_msoa$pcycle = ...`) and plot the results (shown in left hand panel in plot below).
 
 ```{r p2}
 l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
@@ -341,20 +423,40 @@ l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
 rnet = get_pct_rnet("isle-of-wight")
 ```
 
+- M3 Calculate the proportion of trips in the Isle of Wight that are less than 10 km in length and (bonus) plot the cumulative distribution graph for the fastest route distances
+
+```{r, echo=FALSE}
+l_less_than_10km = l %>% 
+  filter(rf_dist_km < 10)
+sum(l_less_than_10km$all) / sum(l$all)
+```
+
+- M4: subset and then plot all the MSOA-MSOA desire lines that have a route distance of less than 10 KM *and* more than 5 people travelling by mode, for each of the following modes:
+   - walking
+   - cycling
+   - driving
+
+```{r, fig.show='hold', out.width="33%"}
+plot(l_less_than_10km %>% filter(foot > 5) %>% select(foot))
+plot(l_less_than_10km %>% filter(bicycle > 5) %>% select(bicycle))
+plot(l_less_than_10km %>% filter(car_driver > 5) %>% select(car_driver))
+```
+
+
 ## Scenarios of change
 
 - S1: Generate a 'Go Dutch' scenario for the Isle of Wight using the function `uptake_pct_godutch()` (hint: the following code chunk will create a 'Government Target' scenario):
 
 ```{r}
 l_msoa$euclidean_distance = as.numeric(sf::st_length(l_msoa))
-l_msoa$pcycle_govtarget = uptake_pct_govtarget(
+l_msoa$pcycle_govtarget = uptake_pct_govtarget_2020(
   distance = l_msoa$rf_dist_km,
   gradient = l_msoa$rf_avslope_perc
   ) * 100 + l_msoa$pcycle
 ```
 
 ```{r change, echo=FALSE}
-l_msoa$pcycle_dutch = uptake_pct_godutch(
+l_msoa$pcycle_dutch = uptake_pct_godutch_2020(
   distance = l_msoa$rf_dist_km,
   gradient = l_msoa$rf_avslope_perc
   ) * 100 + l_msoa$pcycle
@@ -373,19 +475,21 @@ plot(l_msoa["pcycle_dutch"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 
 
 ## Routing
 
-- R1: Using the function `route_osrm()` find the route associated with the most cycled desire line in the Isle of Wight. The result should look similar to that displayed in the map below (hint: you may want to start your answer with the following lines of code - **warning: the function may need to run a few times before it works**):
+- R1: Using the function `route()` find the route associated with the most cycled desire line in the Isle of Wight. If you use the arguments `route_fun = osrmRoute` `returnclass = "sf"`, the result should look similar to that displayed in the map below (hint: you may want to start your answer with the following lines of code):
 
 ```{r}
-library(stplanr)
 l_top = l_msoa %>% 
   top_n(n = 1, wt = bicycle)
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
-r_top = stplanr::route_osrm(l_top)
-sf::write_sf(sf::st_as_sf(r_top), "r_top.geojson")
+library(osrm)
+r_top = route(l = l_top, route_fun = osrmRoute, returnclass = "sf")
+# r_top = route(l = l_top, route_fun = cyclestreets::journey)
+mapview::mapview(r_top)
+sf::write_sf(r_top, "r_top.geojson")
 piggyback::pb_upload("r_top.geojson")
-piggyback::pb_download_url()
+piggyback::pb_download_url("r_top.geojson")
 ```
 
 ```{r, echo=FALSE}
@@ -394,12 +498,13 @@ tm_shape(r_top) +
   tm_lines(lwd = 5)
 ```
 
-- R2: What are the problems associated with this route from a cycling perspective? Take a look at the help page opened by entering `?route_osrm` to identify the reason why the route is not particularly useful from a cycling perspective.
+- R2: What are the problems associated with this route from a cycling perspective? Take a look at the help page opened by entering `?route ` to identify the reason why the route is not particularly useful from a cycling perspective.
 
-- R3: Regenerate the route using the function `line2route()`. What is the difference in the length between each route, and what other differences can you spot? **Note: this exercise requires an API Key from CycleStreets.net.**
+- R3: Regenerate the route using the following command: `route(l = l_top, route_fun = cyclestreets::journey)`. What is the difference in the length between each route, and what other differences can you spot? **Note: this exercise requires an API Key from CycleStreets.net.**
 
 ```{r, echo=FALSE, eval=FALSE}
-r_cs = stplanr::line2route(l_top)
+r_cs = route(l = l_top, route_fun = cyclestreets::journey)
+library(leaflet)
 leaflet() %>% 
   addTiles() %>% 
   addPolylines(data = r_cs)
@@ -409,14 +514,15 @@ leaflet() %>%
 
 ## Route networks
 
-- RN1: Generate a 'route network' showing number of people walking in the top 30 routes in the Isle of Wight, allocated to the transport network (hint: use the `overline2()` function and begin the script as follows, the results should look similar to the results below):
+- RN1: Generate a 'route network' showing number of people walking in the top 30 routes in the Isle of Wight, allocated to the transport network (hint: use the `overline()` function and begin the script as follows, the results should look similar to the results below):
 
 ```{r}
 route_data = sf::st_sf(wight_lines_30, geometry = wight_routes_30$geometry)
 ```
 
 ```{r, echo=FALSE, message=FALSE}
-rnet_walk = overline2(route_data, attrib = "foot")
+library(stplanr) # required for the overline function
+rnet_walk = overline(route_data, attrib = "foot")
 tm_shape(rnet_walk) +
   tm_lines(lwd = "foot", scale = 9)
 ```
@@ -497,5 +603,20 @@ mapview::mapview(rnet_both, at = c(50,100,200,500,1000))
 <!-- - Identify priority routes to improve for bike share users by using OD data from TfL's bike share (if we get time to do this) -->
 
 <!-- Demonstrate routing with cyclestreets.net -->
+
+```{r, echo=FALSE, eval=FALSE}
+# old code - create with leaflet
+pal = colorBin(palette = "RdYlBu", domain = active$`Percent Active`, bins = c(0, 2, 4, 10, 15, 20, 30, 40, 90))
+leaflet(data = active) %>% 
+  addProviderTiles(providers$OpenStreetMap.BlackAndWhite) %>% 
+  addPolylines(color = ~pal(`Percent Active`), weight = active$all / 100) %>% 
+  addLegend(pal = pal, values = ~`Percent Active`)
+
+pal = colorBin(palette = "RdYlBu", domain = car_dependent$`Percent Active`, bins = c(0, 20, 40, 60, 80, 100), reverse = TRUE)
+leaflet(data = car_dependent) %>% 
+  addProviderTiles(providers$OpenStreetMap.BlackAndWhite) %>% 
+  addPolylines(color = ~pal(`Percent Drive`), weight = active$all / 100) %>% 
+  addLegend(pal = pal, values = ~`Percent Drive`)
+```
 
 # References

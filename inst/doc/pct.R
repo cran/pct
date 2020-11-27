@@ -20,26 +20,28 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 library(pct)
 
-## -----------------------------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 library(sf)
+library(dplyr)
 library(stplanr)
 library(leaflet)
+library(ggplot2)
+library(pbapply)
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  library(pct)
-#  wight_centroids = get_pct_centroids(region = "isle-of-wight")
-#  wight_zones = get_pct_zones(region = "isle-of-wight")
+## -----------------------------------------------------------------------------
+wight_centroids = get_pct_centroids(region = "isle-of-wight", geography = "msoa")
+wight_zones = get_pct_zones(region = "isle-of-wight", geography = "msoa")
 
 ## ----centroids, fig.show='hold'-----------------------------------------------
 plot(wight_centroids[, "bicycle"])
 plot(wight_zones[, "bicycle"])
 
-## ----get_pct_lines, eval=FALSE------------------------------------------------
-#  wight_lines_pct = get_pct_lines(region = "isle-of-wight")
+## ----get_pct_lines------------------------------------------------------------
+wight_lines_pct = get_pct_lines(region = "isle-of-wight", geography = "msoa")
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  line_order = order(wight_lines_pct$bicycle, decreasing = TRUE)
-#  wight_lines_30 = wight_lines_pct[line_order[1:30], ]
+## -----------------------------------------------------------------------------
+wight_lines_30 = wight_lines_pct %>% 
+  top_n(30, bicycle)
 
 ## ---- pct-lines-min-----------------------------------------------------------
 lwd = wight_lines_30$all / mean(wight_lines_30$all) * 5
@@ -59,16 +61,23 @@ knitr::include_graphics("https://user-images.githubusercontent.com/1825120/54882
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  wight_od_all = get_od(region = "wight")
-#  summary(wight_od_all$geo_code1 %in% wight_centroids$geo_code)
-#  #>    Mode    TRUE
-#  #> logical    2851
-#  summary(wight_od_all$geo_code2 %in% wight_centroids$geo_code)
-#  #>    Mode   FALSE    TRUE
-#  #> logical    2527     324
 
-## ---- eval=FALSE--------------------------------------------------------------
-#  wight_od = wight_od_all[
-#    wight_od_all$geo_code2 %in% wight_centroids$geo_code,]
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
+#  saveRDS(wight_od_all, "wight_od_all.Rds")
+#  piggyback::pb_upload("wight_od_all.Rds")
+#  piggyback::pb_download_url("wight_od_all.Rds")
+
+## ----echo=FALSE---------------------------------------------------------------
+u = "https://github.com/ITSLeeds/pct/releases/download/0.5.0/wight_od_all.Rds"
+wight_od_all = readRDS(url(u))
+
+## ---- message=FALSE-----------------------------------------------------------
+summary(wight_od_all$geo_code1 %in% wight_centroids$geo_code)
+summary(wight_od_all$geo_code2 %in% wight_centroids$geo_code)
+
+## -----------------------------------------------------------------------------
+wight_od = wight_od_all %>% 
+  filter(geo_code2 %in% wight_centroids$geo_code)
 
 ## ----pct-lines----------------------------------------------------------------
 wight_lines = od2line(wight_od, wight_centroids)
@@ -87,13 +96,13 @@ sum(wight_lines$all)
 #  nrow(wight_lines_census2)
 
 ## -----------------------------------------------------------------------------
-wight_lines_census = wight_lines[
-  wight_lines$geo_code1 != wight_lines$geo_code2, ]
+wight_lines_census = wight_lines %>% 
+  filter(geo_code1 != geo_code2)
 nrow(wight_lines_census)
 sum(wight_lines_census$all)
 
 ## -----------------------------------------------------------------------------
-wight_lines_census1 = onewaygeo(
+wight_lines_census1 = od_oneway(
   wight_lines_census,
   attrib = c("all", "bicycle")
   )
@@ -101,59 +110,81 @@ nrow(wight_lines_census1) / nrow(wight_lines_census)
 sum(wight_lines_census1$all) / sum(wight_lines_census$all)
 
 ## ----pct-routes-fast, eval=FALSE----------------------------------------------
-#  wight_routes_fast = line2route(
+#  wight_routes_fast = route(
 #    l = wight_lines_census1,
-#    route_fun = route_cyclestreet,
+#    route_fun = cyclestreets::journey,
 #    plan = "fastest")
 
-## -----------------------------------------------------------------------------
-line_order = order(wight_lines_census1$bicycle, decreasing = TRUE)
-wight_lines_census_30 = wight_lines_census1[line_order[1:30], ]
+## ---- echo=FALSE, eval=FALSE--------------------------------------------------
+#  saveRDS(wight_routes_fast, "wight_routes_fast.Rds")
+#  piggyback::pb_upload("wight_routes_fast.Rds")
+#  piggyback::pb_download_url("wight_routes_fast.Rds")
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  wight_routes_30 = wight_routes_fast[line_order[1:30], ]
+#  u = "https://github.com/ITSLeeds/pct/releases/download/0.5.0/wight_routes_fast.Rds"
+#  wight_routes_fast = readRDS(url(u))
 
 ## -----------------------------------------------------------------------------
-d = as.numeric(st_length(wight_lines_census_30))
-plot(d, wight_routes_30$length)
+wight_lines_census_30 = wight_lines_census1 %>% 
+  top_n(30, bicycle)
+
+## ---- eval=FALSE--------------------------------------------------------------
+#  wight_routes_30_cs = wight_routes_fast %>%
+#    group_by(geo_code1, geo_code2) %>%
+#    summarise(
+#      all = mean(all),
+#      bicycle = mean(bicycle),
+#      av_incline = weighted.mean(gradient_smooth, w = distances),
+#      length = sum(distances),
+#      time = sum(time)
+#      ) %>%
+#    ungroup() %>%
+#    top_n(30, bicycle)
+
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
+#  usethis::use_data(wight_routes_30_cs, overwrite = TRUE)
 
 ## -----------------------------------------------------------------------------
-plot(wight_lines_30$rf_dist_km, wight_routes_30$length)
+d = as.numeric(st_length(wight_lines_census_30)) / 1000
+plot(d, wight_routes_30_cs$length / 1000, xlim = c(0, 10))
+abline(a = c(0, 1))
+
+## -----------------------------------------------------------------------------
+plot(wight_lines_30$rf_dist_km, wight_routes_30_cs$length)
 
 ## ----pct-goducth--------------------------------------------------------------
 pcycle_govtarget = uptake_pct_govtarget(
-  distance = wight_routes_30$length,
-  gradient = wight_routes_30$av_incline * 100
+  distance = wight_routes_30_cs$length,
+  gradient = wight_routes_30_cs$av_incline * 100
 )
 
 ## -----------------------------------------------------------------------------
-wight_routes_30$govtarget = wight_lines_census_30$bicycle +
+wight_routes_30_cs$govtarget = wight_lines_census_30$bicycle +
   pcycle_govtarget * wight_lines_census_30$all
-wight_routes_30$govtarget_pct = wight_lines_30$govtarget_slc
-library(ggplot2)
-ggplot(wight_routes_30) +
-  geom_point(aes(
-    length,
-    govtarget,
-    colour = "red"
-  )) +
-  geom_point(aes(
-    length,
-    govtarget_pct,
-    colour = "godutch"
-  ))
-cor(wight_routes_30$govtarget, wight_routes_30$govtarget_pct)
+wight_routes_30_cs$govtarget_pct = wight_lines_30$govtarget_slc
+
+ggplot(wight_routes_30_cs) +
+  geom_point(aes(length, govtarget), colour = "red") +
+  geom_point(aes(length, govtarget_pct), colour = "blue") 
+cor(wight_routes_30_cs$govtarget, wight_routes_30_cs$govtarget_pct)
 
 ## -----------------------------------------------------------------------------
-rnet = overline2(wight_routes_30, "govtarget")
+wight_routes_30_ls = sf::st_cast(wight_routes_30_cs, "LINESTRING")
+rnet = overline(wight_routes_30_ls, "govtarget")
 plot(rnet)
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  wight_routes_fast$govtarget = uptake_pct_govtarget(
-#    distance = wight_routes_fast$length,
-#    gradient = wight_routes_fast$av_incline * 100
-#    ) * wight_lines_census1$all + wight_lines_census1$bicycle
-#  wight_rnet = overline2(wight_routes_fast, "govtarget")
+#  wight_routes_fast_gt = wight_routes_fast %>%
+#    group_by(geo_code1, geo_code2) %>%
+#    mutate(
+#      govtarget = uptake_pct_govtarget(sum(distances), mean(gradient_smooth)) *
+#        (sum(all) + sum(bicycle))
+#    )
+#  wight_routes_fast_gt = sf::st_cast(wight_routes_fast_gt, "LINESTRING")
+#  wight_rnet = overline(wight_routes_fast_gt, "govtarget")
+
+## ---- eval=FALSE, echo=FALSE--------------------------------------------------
+#  usethis::use_data(wight_rnet, overwrite = TRUE)
 
 ## ---- out.width="100%"--------------------------------------------------------
 pal = colorNumeric(palette = "RdYlBu", domain = wight_rnet$govtarget)
