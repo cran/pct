@@ -54,6 +54,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/
 
 ## -----------------------------------------------------------------------------
 library(pct)
+library(sf)      # key package for working with spatial vector data
 library(dplyr)   # in the tidyverse
 library(tmap)    # installed alongside mapview
 
