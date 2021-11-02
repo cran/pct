@@ -1,3 +1,12 @@
+# pct 0.9.3 (November 2021)
+
+- Updated URLs to comply with CRAN policies
+- Make package tests quicker
+
+# pct 0.9.2
+
+- New vignette on getting and modelling PCT data
+
 # pct 0.9.1
 
 - Minor updates to vignettes to support `sf` 1.0 (#101)

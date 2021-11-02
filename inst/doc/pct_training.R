@@ -13,19 +13,13 @@
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  out.width = "50%"
+  out.width = "50%",
+  cache = TRUE,
+  eval = FALSE
 )
 
 ## ---- eval=FALSE, echo=FALSE--------------------------------------------------
-#  # get citations
-#  refs = RefManageR::ReadZotero(group = "418217", .params = list(collection = "JFR868KJ", limit = 100))
-#  refs2 = RefManageR::ReadBib("vignettes/refs.bib")
-#  refs = c(refs, refs2)
-#  refs_df = as.data.frame(refs)
-#  # View(refs_df)
-#  # citr::insert_citation(bib_file = "vignettes/refs_training.bib")
-#  RefManageR::WriteBib(refs, "vignettes/refs_training.bib")
-#  # citr::tidy_bib_file(rmd_file = "vignettes/pct_training.Rmd", messy_bibliography = "vignettes/refs_training.bib")
+#  rbbt::bbt_update_bib(path_rmd = "vignettes/pct_training.Rmd")
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  install.packages("remotes")
@@ -45,35 +39,36 @@ knitr::opts_chunk$set(
 ## ----testcode, eval = FALSE---------------------------------------------------
 #  source("https://github.com/ITSLeeds/pct/raw/master/inst/test-setup.R")
 
-## ---- echo=FALSE, out.width="90%"---------------------------------------------
-# u = "https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png"
-# f = "vignettes/flow-diag2.png"
-# download.file(u, f)
-# knitr::include_graphics("flow-diag2.png")
-knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png")
+## ----flow, echo=FALSE, out.width="75%", fig.cap="Flow diagram illustrating key processesing stages involved in creating the datasets underlying the PCT."----
+#  # u = "https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png"
+#  # f = "vignettes/flow-diag2.png"
+#  # download.file(u, f)
+#  # knitr::include_graphics("flow-diag2.png")
+#  # knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/flow-model/flow-diag2.png")
+#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130079051-378fcaf1-9cac-4768-a42e-28c287497618.png")
 
 ## -----------------------------------------------------------------------------
-library(pct)
-library(sf)      # key package for working with spatial vector data
-library(dplyr)   # in the tidyverse
-library(tmap)    # installed alongside mapview
+#  library(pct)
+#  library(sf)      # key package for working with spatial vector data
+#  library(dplyr)   # in the tidyverse
+#  library(tmap)    # installed alongside mapview
 
 ## -----------------------------------------------------------------------------
-region_name = "isle-of-wight"
-zones_all = get_pct_zones(region_name, geography = "msoa")
-lines_all = get_pct_lines(region_name, geography = "msoa")
-routes_all = get_pct_routes_fast(region_name, geography = "msoa")
-rnet_all = get_pct_rnet(region_name)
+#  region_name = "isle-of-wight"
+#  zones_all = get_pct_zones(region_name, geography = "msoa")
+#  lines_all = get_pct_lines(region_name, geography = "msoa")
+#  routes_all = get_pct_routes_fast(region_name, geography = "msoa")
+#  rnet_all = get_pct_rnet(region_name)
+
+## ----plotall, out.width="70%"-------------------------------------------------
+#  plot(zones_all$geometry)
+#  plot(lines_all$geometry, col = "blue", add = TRUE)
+#  plot(routes_all$geometry, col = "green", add = TRUE)
+#  plot(rnet_all$geometry, col = "red", lwd = sqrt(rnet_all$bicycle), add = TRUE)
 
 ## -----------------------------------------------------------------------------
-plot(zones_all$geometry)
-plot(lines_all$geometry, col = "blue", add = TRUE)
-plot(routes_all$geometry, col = "green", add = TRUE)
-plot(rnet_all$geometry, col = "red", lwd = rnet_all$bicycle / 10, add = TRUE)
-
-## -----------------------------------------------------------------------------
-tm_shape(rnet_all) +
-  tm_lines(lwd = "dutch_slc", scale = 9)
+#  tm_shape(rnet_all) +
+#    tm_lines(lwd = "dutch_slc", scale = 9)
 
 ## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  # tmap_mode("plot")
@@ -83,88 +78,88 @@ tm_shape(rnet_all) +
 #    tm_lines(lwd = c("bicycle", "dutch_slc"), scale = 9)
 
 ## -----------------------------------------------------------------------------
-# interactive plot
-tmap_mode("view")
-tm_shape(rnet_all) +
-  tm_lines(lwd = "dutch_slc", scale = 9)
+#  # interactive plot
+#  tmap_mode("view")
+#  tm_shape(rnet_all) +
+#    tm_lines(lwd = "dutch_slc", scale = 9)
 
 ## ----setup, out.width="100%", message=FALSE-----------------------------------
-# basic plot
-max_distance = 7
-# plot(zones_all$geometry)
-# plot(lines_all$geometry[lines_all$all > 500], col = "red", add = TRUE)
-
-# create 'active' desire lines (less than 5 km)
-active = lines_all %>% 
-  mutate(`Percent Active` = (bicycle + foot) / all * 100) %>% 
-  filter(e_dist_km < max_distance)
-
-tm_shape(active) +
-  tm_lines("Percent Active", palette = "RdYlBu", lwd = "all", scale = 9)
+#  # basic plot
+#  max_distance = 7
+#  # plot(zones_all$geometry)
+#  # plot(lines_all$geometry[lines_all$all > 500], col = "red", add = TRUE)
+#  
+#  # create 'active' desire lines (less than 5 km)
+#  active = lines_all %>%
+#    mutate(`Percent Active` = (bicycle + foot) / all * 100) %>%
+#    filter(e_dist_km < max_distance)
+#  
+#  tm_shape(active) +
+#    tm_lines("Percent Active", palette = "RdYlBu", lwd = "all", scale = 9)
 
 ## ---- out.width="100%"--------------------------------------------------------
-# Create car dependent desire lines
-car_dependent = lines_all %>% 
-  mutate(`Percent Drive` = (car_driver) / all * 100) %>% 
-  filter(e_dist_km < max_distance)
-tm_shape(car_dependent) +
-  tm_lines("Percent Drive", palette = "-RdYlBu", lwd = "all", scale = 9)
+#  # Create car dependent desire lines
+#  car_dependent = lines_all %>%
+#    mutate(`Percent Drive` = (car_driver) / all * 100) %>%
+#    filter(e_dist_km < max_distance)
+#  tm_shape(car_dependent) +
+#    tm_lines("Percent Drive", palette = "-RdYlBu", lwd = "all", scale = 9)
 
 ## -----------------------------------------------------------------------------
-z = zones_all %>% 
-  select(geo_code, geo_name, all, foot, bicycle, car_driver)
+#  z = zones_all %>%
+#    select(geo_code, geo_name, all, foot, bicycle, car_driver)
 
 ## ---- echo=FALSE--------------------------------------------------------------
-# the solution:
-# View(z)
-z_highest_cycling = z %>% 
-  top_n(n = 1, wt = bicycle)
+#  # the solution:
+#  # View(z)
+#  z_highest_cycling = z %>%
+#    top_n(n = 1, wt = bicycle)
 
 ## ---- echo=FALSE--------------------------------------------------------------
-plot(z$geometry)
-plot(z_highest_cycling$geometry, col = "red", add = TRUE)
+#  plot(z$geometry)
+#  plot(z_highest_cycling$geometry, col = "red", add = TRUE)
 
 ## ----get routes---------------------------------------------------------------
-# Aim: get top 5 cycle routes
-l_msoa = lines_all %>% 
-  select(geo_code1, geo_code2, all, foot, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
+#  # Aim: get top 5 cycle routes
+#  l_msoa = lines_all %>%
+#    select(geo_code1, geo_code2, all, foot, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
 
 ## ---- echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 5 MSOA to MSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."----
-# View(l)
-l = l_msoa
-l_top_cycling = l %>% 
-  top_n(n = 5, wt = bicycle)
-plot(z$geometry)
-plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
- 
-# top 5 driving routes
-l_top_driving = l %>% 
-  top_n(n = 5, wt = car_driver)
-plot(z$geometry)
-plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
-
-# summary(sf::st_length(l_top_cycling))
-# summary(sf::st_length(l_top_driving))
-
-# library(tmap)
-# tmap_mode("view")
-# tm_shape(l_top_cycling) + tm_lines("green", lwd = 7) + tm_basemap(server = leaflet::providers$OpenStreetMap.BlackAndWhite)
-# tm_shape(l_top_driving) + tm_lines("red", lwd = 7) + tm_basemap(server = leaflet::providers$OpenStreetMap.BlackAndWhite)
+#  # View(l)
+#  l = l_msoa
+#  l_top_cycling = l %>%
+#    top_n(n = 5, wt = bicycle)
+#  plot(z$geometry)
+#  plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
+#  
+#  # top 5 driving routes
+#  l_top_driving = l %>%
+#    top_n(n = 5, wt = car_driver)
+#  plot(z$geometry)
+#  plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
+#  
+#  # summary(sf::st_length(l_top_cycling))
+#  # summary(sf::st_length(l_top_driving))
+#  
+#  # library(tmap)
+#  # tmap_mode("view")
+#  # tm_shape(l_top_cycling) + tm_lines("green", lwd = 7) + tm_basemap(server = leaflet::providers$OpenStreetMap.BlackAndWhite)
+#  # tm_shape(l_top_driving) + tm_lines("red", lwd = 7) + tm_basemap(server = leaflet::providers$OpenStreetMap.BlackAndWhite)
 
 ## ---- echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 10 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight."----
-# at the lsoa level
-l_original_lsoa = get_pct_lines("isle-of-wight", geography = "lsoa")
-l_lsoa = l_original_lsoa %>% 
-  select(geo_code1, geo_code2, all, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
-l_top_cycling = l_lsoa %>% 
-  top_n(n = 10, wt = bicycle)
-l_top_driving = l_lsoa %>% 
-  top_n(n = 10, wt = car_driver)
-
-plot(z$geometry)
-plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
-plot(z$geometry)
-plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
+#  # at the lsoa level
+#  l_original_lsoa = get_pct_lines("isle-of-wight", geography = "lsoa")
+#  l_lsoa = l_original_lsoa %>%
+#    select(geo_code1, geo_code2, all, bicycle, car_driver, rf_avslope_perc, rf_dist_km)
+#  l_top_cycling = l_lsoa %>%
+#    top_n(n = 10, wt = bicycle)
+#  l_top_driving = l_lsoa %>%
+#    top_n(n = 10, wt = car_driver)
+#  
+#  plot(z$geometry)
+#  plot(st_geometry(l_top_cycling), add = TRUE, lwd = 5, col = "green")
+#  plot(z$geometry)
+#  plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 
 ## ---- echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Top 300 LSOA-LSOA desire lines with highest number of people cycling (left) and driving (right) in the Isle of Wight.", eval=FALSE----
 #  # at the lsoa level
@@ -180,45 +175,45 @@ plot(st_geometry(l_top_driving), add = TRUE, lwd = 5, col = "red")
 #  plot(st_geometry(l_top_driving), add = TRUE, lwd = l_top_driving$car_driver / mean(l_top_driving$car_driver), col = "red")
 
 ## ----p2-----------------------------------------------------------------------
-l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
-# plot(l_msoa["pcycle"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
+#  l_msoa$pcycle = l_msoa$bicycle / l_msoa$all * 100
+#  # plot(l_msoa["pcycle"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
 
 ## ----eval=FALSE, echo=FALSE---------------------------------------------------
 #  rnet = get_pct_rnet("isle-of-wight")
 
 ## ---- echo=FALSE--------------------------------------------------------------
-l_less_than_10km = l %>% 
-  filter(rf_dist_km < 10)
-sum(l_less_than_10km$all) / sum(l$all)
+#  l_less_than_10km = l %>%
+#    filter(rf_dist_km < 10)
+#  sum(l_less_than_10km$all) / sum(l$all)
 
 ## ---- fig.show='hold', out.width="33%"----------------------------------------
-plot(l_less_than_10km %>% filter(foot > 5) %>% select(foot))
-plot(l_less_than_10km %>% filter(bicycle > 5) %>% select(bicycle))
-plot(l_less_than_10km %>% filter(car_driver > 5) %>% select(car_driver))
+#  plot(l_less_than_10km %>% filter(foot > 5) %>% select(foot))
+#  plot(l_less_than_10km %>% filter(bicycle > 5) %>% select(bicycle))
+#  plot(l_less_than_10km %>% filter(car_driver > 5) %>% select(car_driver))
 
 ## -----------------------------------------------------------------------------
-l_msoa$euclidean_distance = as.numeric(sf::st_length(l_msoa))
-l_msoa$pcycle_govtarget = uptake_pct_govtarget_2020(
-  distance = l_msoa$rf_dist_km,
-  gradient = l_msoa$rf_avslope_perc
-  ) * 100 + l_msoa$pcycle
+#  l_msoa$euclidean_distance = as.numeric(sf::st_length(l_msoa))
+#  l_msoa$pcycle_govtarget = uptake_pct_govtarget_2020(
+#    distance = l_msoa$rf_dist_km,
+#    gradient = l_msoa$rf_avslope_perc
+#    ) * 100 + l_msoa$pcycle
 
 ## ----change, echo=FALSE-------------------------------------------------------
-l_msoa$pcycle_dutch = uptake_pct_godutch_2020(
-  distance = l_msoa$rf_dist_km,
-  gradient = l_msoa$rf_avslope_perc
-  ) * 100 + l_msoa$pcycle
+#  l_msoa$pcycle_dutch = uptake_pct_godutch_2020(
+#    distance = l_msoa$rf_dist_km,
+#    gradient = l_msoa$rf_avslope_perc
+#    ) * 100 + l_msoa$pcycle
 
 ## ----dutch_pcycle, echo=FALSE, warning=FALSE, fig.show='hold', fig.cap="Percent cycling currently (left) and under a 'Go Dutch' scenario (right) in the Isle of Wight."----
-plot(l_msoa["pcycle"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
-plot(l_msoa["pcycle_dutch"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
-# cor(l_original_msoa$dutch_slc / l_original_msoa$all, l_msoa$pcycle_dutch)
-# cor(l_original_msoa$govtarget_slc / l_original_msoa$all, l_msoa$pcycle_govtarget)
-# plot(l_original_msoa$dutch_slc / l_original_msoa$all, l_msoa$pcycle_dutch)
+#  plot(l_msoa["pcycle"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
+#  plot(l_msoa["pcycle_dutch"], lwd = l_msoa$all / mean(l_msoa$all), breaks = c(0, 5, 10, 20, 50))
+#  # cor(l_original_msoa$dutch_slc / l_original_msoa$all, l_msoa$pcycle_dutch)
+#  # cor(l_original_msoa$govtarget_slc / l_original_msoa$all, l_msoa$pcycle_govtarget)
+#  # plot(l_original_msoa$dutch_slc / l_original_msoa$all, l_msoa$pcycle_dutch)
 
 ## -----------------------------------------------------------------------------
-l_top = l_msoa %>% 
-  top_n(n = 1, wt = bicycle)
+#  l_top = l_msoa %>%
+#    top_n(n = 1, wt = bicycle)
 
 ## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  library(osrm)
@@ -230,9 +225,9 @@ l_top = l_msoa %>%
 #  piggyback::pb_download_url("r_top.geojson")
 
 ## ---- echo=FALSE--------------------------------------------------------------
-r_top = sf::read_sf("https://github.com/ITSLeeds/pct/releases/download/0.0.1/r_top.geojson")
-tm_shape(r_top) +
-  tm_lines(lwd = 5)
+#  r_top = sf::read_sf("https://github.com/ITSLeeds/pct/releases/download/0.0.1/r_top.geojson")
+#  tm_shape(r_top) +
+#    tm_lines(lwd = 5)
 
 ## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  r_cs = route(l = l_top, route_fun = cyclestreets::journey)
@@ -242,13 +237,13 @@ tm_shape(r_top) +
 #    addPolylines(data = r_cs)
 
 ## -----------------------------------------------------------------------------
-route_data = sf::st_sf(wight_lines_30, geometry = wight_routes_30$geometry)
+#  route_data = sf::st_sf(wight_lines_30, geometry = wight_routes_30$geometry)
 
 ## ---- echo=FALSE, message=FALSE-----------------------------------------------
-library(stplanr) # required for the overline function
-rnet_walk = overline(route_data, attrib = "foot")
-tm_shape(rnet_walk) +
-  tm_lines(lwd = "foot", scale = 9)
+#  library(stplanr) # required for the overline function
+#  rnet_walk = overline(route_data, attrib = "foot")
+#  tm_shape(rnet_walk) +
+#    tm_lines(lwd = "foot", scale = 9)
 
 ## ---- eval=FALSE, echo=FALSE--------------------------------------------------
 #  rnet_school = get_pct_rnet(region = "isle-of-wight", purpose = "school")

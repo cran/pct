@@ -30,7 +30,7 @@ zones$mkm_cycled_for_commuting_per_year_estimated = cycled_m_per_zone$m_cycled_p
       col = "mkm_cycled_for_commuting_per_year_estimated",
       style = "quantile",
       palette = "plasma",
-      title = "Yearly million km's cycled by commuters per day\n(2011 Census Data)",
+      title = "Yearly distance cycled by commuters per day\n(2011 Census Data)",
       legend.size.is.portrait = TRUE
     ) +
     tm_layout(
