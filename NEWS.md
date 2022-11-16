@@ -1,3 +1,11 @@
+# pct 0.9.5 (November 2022)
+
+- Updated docs to fix CRAN check errors (#119)
+
+# pct 0.9.4 (November 2021)
+
+- Typos fixed in README
+
 # pct 0.9.3 (November 2021)
 
 - Updated URLs to comply with CRAN policies

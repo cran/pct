@@ -14,25 +14,38 @@
 
 <title>Cycling potential in UK cities</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -50,55 +63,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -107,13 +119,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -125,7 +144,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -141,11 +340,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<p>Note: this vignette is not evaluated to reduce package build times. See <a href="https://rpubs.com/RobinLovelace/749112" class="uri">https://rpubs.com/RobinLovelace/749112</a> for the results with the code running.</p>
-<p>What modal shift to cycling do you think we could achieve in UK cities in an ideal scenario? Answers to that question are vital to support high level ambition for active transport and wider sustainability policies in settlements worldwide. In UK cities such as Leeds (where the motivation for this article originated, via <a href="https://twitter.com/PaulChatterton9/status/1190925153322098690">Twitter</a>) there is already a wealth of freely available data on cycling potential, based on the Propensity to Cycle Tool (<a href="https://www.pct.bike/">PCT</a>) project, of which this package is a part. This article will briefly explain how to get cycling potential data for any city in England and Wales, based on a case study of Leeds.</p>
+<p>Note: this vignette is not evaluated to reduce package build times.
+See <a href="https://rpubs.com/RobinLovelace/749112" class="uri">https://rpubs.com/RobinLovelace/749112</a> for the results
+with the code running.</p>
+<p>What modal shift to cycling do you think we could achieve in UK
+cities in an ideal scenario? Answers to that question are vital to
+support high level ambition for active transport and wider
+sustainability policies in settlements worldwide. In UK cities such as
+Leeds (where the motivation for this article originated, via <a href="https://twitter.com/PaulChatterton9/status/1190925153322098690">Twitter</a>)
+there is already a wealth of freely available data on cycling potential,
+based on the Propensity to Cycle Tool (<a href="https://www.pct.bike/">PCT</a>) project, of which this package is
+a part. This article will briefly explain how to get cycling potential
+data for any city in England and Wales, based on a case study of
+Leeds.</p>
 <div id="getting-the-region-of-interest" class="section level1">
 <h1>Getting the region of interest</h1>
-<p>The first stage in many projects involving geographic data is to define the region of interest. In our case we will use the boundary of the Leeds local authority as the basis of analysis. The PCT is based on ‘PCT regions’ that we can visualise as follows:</p>
+<p>The first stage in many projects involving geographic data is to
+define the region of interest. In our case we will use the boundary of
+the Leeds local authority as the basis of analysis. The PCT is based on
+‘PCT regions’ that we can visualise as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pct)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -153,24 +366,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(pct_regions) <span class="sc">+</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">&quot;region_name&quot;</span>, <span class="at">size =</span> <span class="fl">0.6</span>)</span></code></pre></div>
-<p>We are interested in Leeds in the <code>west-yorkshire</code> area. Using the <code>pct</code> package we can get zone data from the PCT as follows (note: this would work by setting <code>region_of_interest</code> to any of the regions shown in the map above:</p>
+<p>We are interested in Leeds in the <code>west-yorkshire</code> area.
+Using the <code>pct</code> package we can get zone data from the PCT as
+follows (note: this would work by setting
+<code>region_of_interest</code> to any of the regions shown in the map
+above:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>region_of_interest <span class="ot">=</span> <span class="st">&quot;west-yorkshire&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>zones_region <span class="ot">=</span> <span class="fu">get_pct_zones</span>(<span class="at">region =</span> region_of_interest)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># zones_region = get_pct_zones(region = region_of_interest, geography = &quot;lsoa&quot;) # for smaller zones</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(zones_region)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zones_region[<span class="st">&quot;bicycle&quot;</span>])</span></code></pre></div>
-<p>This shows the number of people who say they cycled to work in the 2011 Census. This may have changed slightly as cycling becomes more popular in some places, but is a good proxy for current cycling levels. But there are two big problems with this: the map is of West Yorkshire not Leeds, and it’s showing current cycling rates, not future potential.</p>
+<p>This shows the number of people who say they cycled to work in the
+2011 Census. This may have changed slightly as cycling becomes more
+popular in some places, but is a good proxy for current cycling levels.
+But there are two big problems with this: the map is of West Yorkshire
+not Leeds, and it’s showing current cycling rates, not future
+potential.</p>
 </div>
 <div id="getting-cycling-potential-accross-local-authorities" class="section level1">
 <h1>Getting cycling potential accross local authorities</h1>
-<p>We can find out what local authorities there are in the zones as follows:</p>
+<p>We can find out what local authorities there are in the zones as
+follows:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(zones_region<span class="sc">$</span>lad_name)</span></code></pre></div>
-<p>We are interested in the zones in Leeds, which we can get as follows:</p>
+<p>We are interested in the zones in Leeds, which we can get as
+follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>zones <span class="ot">=</span> zones_region <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(lad_name <span class="sc">==</span> <span class="st">&quot;Leeds&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(zones) <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(<span class="st">&quot;bicycle&quot;</span>, <span class="at">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>) </span></code></pre></div>
-<p>Great, this represents the current level of cycling across the region of interest. What about cycling potential? Based on the modelling work in the PCT, we have pre-calculated this for a number of scenarios. Let’s take a look at cycling to work under the Government Target (near market), Go Dutch and Ebikes scenarios for cycling to work:</p>
+<p>Great, this represents the current level of cycling across the region
+of interest. What about cycling potential? Based on the modelling work
+in the PCT, we have pre-calculated this for a number of scenarios. Let’s
+take a look at cycling to work under the Government Target (near
+market), Go Dutch and Ebikes scenarios for cycling to work:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scenarios_of_interest <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;govnearmkt_slc&quot;</span>, <span class="st">&quot;dutch_slc&quot;</span>, <span class="st">&quot;ebike_slc&quot;</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tm_shape</span>(zones) <span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(scenarios_of_interest, <span class="at">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>, <span class="at">n =</span> <span class="dv">9</span>, <span class="at">title =</span> <span class="st">&quot;N. cycling&quot;</span>) <span class="sc">+</span></span>
@@ -180,7 +408,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cycling-mode-share" class="section level1">
 <h1>Cycling mode share</h1>
-<p>We can calculate this by dividing the number of people cycling to work by the total:</p>
+<p>We can calculate this by dividing the number of people cycling to
+work by the total:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>zones_mode_share <span class="ot">=</span> zones <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(scenarios_of_interest) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(scenarios_of_interest, <span class="at">.funs =</span> <span class="fu">list</span>(<span class="sc">~</span> .<span class="sc">/</span>zones<span class="sc">$</span>all <span class="sc">*</span> <span class="dv">100</span>))</span>
@@ -188,7 +417,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_fill</span>(scenarios_of_interest, <span class="at">palette =</span> <span class="st">&quot;RdYlBu&quot;</span>, <span class="at">title =</span> <span class="st">&quot;% cycling&quot;</span>) <span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_facets</span>(<span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">free.scales =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">panel.labels =</span> scenarios_of_interest)</span></code></pre></div>
-<p>The summary mode shares can be estimated as follows, with results showing the % cycling currently (according to the 2011 census) and under scenarios of change:</p>
+<p>The summary mode shares can be estimated as follows, with results
+showing the % cycling currently (according to the 2011 census) and under
+scenarios of change:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>zones_region <span class="sc">%&gt;%</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lad_name) <span class="sc">%&gt;%</span> </span>
@@ -201,15 +432,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cycling-potential-nationwide" class="section level1">
 <h1>Cycling potential nationwide</h1>
-<p>To generalise the analysis outlined above, we can download national data from the PCT project as follows:</p>
+<p>To generalise the analysis outlined above, we can download national
+data from the PCT project as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>zones_national <span class="ot">=</span> <span class="fu">read_sf</span>(<span class="st">&quot;https://github.com/npct/pct-outputs-national/raw/master/commute/msoa/z_all.geojson&quot;</span>)</span></code></pre></div>
-<p>A summary of cycling potential nationwide can then be calculated as follows:</p>
+<p>A summary of cycling potential nationwide can then be calculated as
+follows:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>national_commute_totals <span class="ot">=</span> zones_national <span class="sc">%&gt;%</span> </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(all, <span class="at">census_2011 =</span> bicycle, govtarget_slc, dutch_slc) <span class="sc">%&gt;%</span> </span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_all</span>(<span class="at">.funs =</span> <span class="sc">~</span><span class="fu">sum</span>(.))</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>national_commute_percentages <span class="ot">=</span> national_commute_totals <span class="sc">/</span> national_commute_totals<span class="sc">$</span>all <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div>
-<p>We can calculate the mode share of cycling under these same scenarios for any area (e.g. the boundary of Greater London) or for a list of named local authorities, as follows:</p>
+<p>We can calculate the mode share of cycling under these same scenarios
+for any area (e.g. the boundary of Greater London) or for a list of
+named local authorities, as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>, <span class="at">text =</span> <span class="st">&quot;area</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">Greater London</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">Greater Manchester</span></span>
@@ -261,16 +496,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="considerations" class="section level1">
 <h1>Considerations</h1>
-<p>The results above show that there is huge potential for cycling grow across England and Wales. Around 16% of commuters in Leeds could cycle to work if we ‘Go Dutch’ (25% if we Go Dutch and see high uptake of electric bikes) for the single mode journey to work data under consideration. However, there are some wider considerations that are not captured in the numbers (see the <a href="https://www.jtlu.org/index.php/jtlu/article/view/862">PCT paper</a> for details and other considerations):</p>
+<p>The results above show that there is huge potential for cycling grow
+across England and Wales. Around 16% of commuters in Leeds could cycle
+to work if we ‘Go Dutch’ (25% if we Go Dutch and see high uptake of
+electric bikes) for the single mode journey to work data under
+consideration. However, there are some wider considerations that are not
+captured in the numbers (see the <a href="https://www.jtlu.org/index.php/jtlu/article/view/862">PCT
+paper</a> for details and other considerations):</p>
 <ul>
-<li>The PCT commute layer (don’t forget the travel to schools layer!) only considers single stage journeys - if we were to include cycling to the station or bus stop potential it would be greater than 16%, perhaps more like 30% if potential cycle/rail and cycle/bus trips are accounted for.</li>
-<li>Work patterns are changing, and with new digital work practices or a shift towards local economies, more people could work from home or at least near to home.</li>
-<li>The scenarios are snapshots of how cycling levels could change based current trip patterns, not predictions of what will happen. There are many other scenarios that could be developed, including intermediate scenarios between Go Dutch and the Government Target, and more ambitious scenarios, e.g. ‘Go Utrecht’, where cycling has reached around 60% of trips (<a href="https://www.bloomberg.com/news/articles/2019-07-05/how-the-dutch-made-utrecht-a-bicycle-first-city">source</a>).</li>
+<li>The PCT commute layer (don’t forget the travel to schools layer!)
+only considers single stage journeys - if we were to include cycling to
+the station or bus stop potential it would be greater than 16%, perhaps
+more like 30% if potential cycle/rail and cycle/bus trips are accounted
+for.</li>
+<li>Work patterns are changing, and with new digital work practices or a
+shift towards local economies, more people could work from home or at
+least near to home.</li>
+<li>The scenarios are snapshots of how cycling levels could change based
+current trip patterns, not predictions of what will happen. There are
+many other scenarios that could be developed, including intermediate
+scenarios between Go Dutch and the Government Target, and more ambitious
+scenarios, e.g. ‘Go Utrecht’, where cycling has reached around 60% of
+trips (<a href="https://www.bloomberg.com/news/articles/2019-07-05/how-the-dutch-made-utrecht-a-bicycle-first-city">source</a>).</li>
 </ul>
-<p>Other considerations that are often mentioned are hills and people who are unable to cycle. In fact the PCT accounts for hills and, as the example of Bristol shows, hilly cities can see rapid increases in cycling. Regarding ability to cycle, it is a more inclusive mode than driving, with 8 to 80 year-olds being able to cycle, and many more people being able to afford a bike than a car (which, thanks to the expense of buying, running and insuring the vehicle, is largely the mode of choice of the wealthy). The PCT does not account for the fact that some trips to work are also ‘caregiving’ trips, but with electric cargo bikes and <a href="https://en.wikipedia.org/wiki/Cycle_rickshaw">multi-person cycles</a> cycling-focused cities can, to a greater extent than car-dominated transport systems, deliver for all.</p>
+<p>Other considerations that are often mentioned are hills and people
+who are unable to cycle. In fact the PCT accounts for hills and, as the
+example of Bristol shows, hilly cities can see rapid increases in
+cycling. Regarding ability to cycle, it is a more inclusive mode than
+driving, with 8 to 80 year-olds being able to cycle, and many more
+people being able to afford a bike than a car (which, thanks to the
+expense of buying, running and insuring the vehicle, is largely the mode
+of choice of the wealthy). The PCT does not account for the fact that
+some trips to work are also ‘caregiving’ trips, but with electric cargo
+bikes and <a href="https://en.wikipedia.org/wiki/Cycle_rickshaw">multi-person
+cycles</a> cycling-focused cities can, to a greater extent than
+car-dominated transport systems, deliver for all.</p>
 <div id="challenge" class="section level2">
 <h2>Challenge</h2>
-<p>To anyone interested in cycling in your city: try re-running the reproducible code above for your PCT region and local authority. Let us know on <a href="https://twitter.com/robinlovelace/status/1191378869728763904">social media</a> and <a href="https://github.com/ITSLeeds/pct/issues">GitHub</a> how you get on. Any comments/contributions to this analysis: <a href="https://github.com/ITSLeeds/pct/edit/master/vignettes/cycling-potential-uk.Rmd">welcome.</a></p>
+<p>To anyone interested in cycling in your city: try re-running the
+reproducible code above for your PCT region and local authority. Let us
+know on <a href="https://twitter.com/robinlovelace/status/1191378869728763904">social
+media</a> and <a href="https://github.com/ITSLeeds/pct/issues">GitHub</a> how you get on.
+Any comments/contributions to this analysis: <a href="https://github.com/ITSLeeds/pct/edit/master/vignettes/cycling-potential-uk.Rmd">welcome.</a></p>
 </div>
 </div>
 

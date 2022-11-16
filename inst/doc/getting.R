@@ -1,15 +1,15 @@
 ## ---- include=FALSE-----------------------------------------------------------
 # knitr::opts_chunk$set(cache = TRUE, class.source = "fold-show")
-knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
+knitr::opts_chunk$set(cache = TRUE)
 
 ## ----clifton, echo=FALSE, fig.cap="Areas that may benefit from improved cycle provision on Clifton Bridge, according to the PCT."----
-#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130370123-5b8885de-4aed-43b4-8a49-b2f875ffff1b.png")
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130370123-5b8885de-4aed-43b4-8a49-b2f875ffff1b.png")
 
 ## ----downloads, echo=FALSE, fig.cap="The Region data tab in the PCT."---------
-#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130371496-bd0d22ba-c969-4634-904a-0bd0dd924516.png")
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130371496-bd0d22ba-c969-4634-904a-0bd0dd924516.png")
 
 ## ----pctqgis1, echo=FALSE, fig.cap="Three PCT layers visualised in QGIS."-----
-#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130372558-629b7fb5-452c-4a44-80bb-2d88a0492be9.png")
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130372558-629b7fb5-452c-4a44-80bb-2d88a0492be9.png")
 
 ## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  # zip and upload qgis folder to share
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #  # https://github.com/ITSLeeds/pct/releases/download/0.8.0/pctqgis.zip
 
 ## ----cliftonbuffer, echo=FALSE, fig.cap="All fast routes that intersect with Clifton Bridge in QGIS."----
-#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130374644-549c6de7-97fb-4fff-8356-fa59aa7d481e.png")
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130374644-549c6de7-97fb-4fff-8356-fa59aa7d481e.png")
 
 ## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  cycle_infra = osminfra::oi_get(place = "north yorkshire", infra_type = "cycle_infrastructure")
@@ -28,7 +28,10 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #  sf::write_sf(cycle_infra_projected, "pctqgis/cycle_infra_projected.gpkg")
 
 ## ----buffer, echo=FALSE, fig.cap="Route network layer and buffer representing cycle infrastructure, to identify gaps in the network."----
-#  knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130415597-e7bcb8a1-4792-48de-ba83-118c082584cb.png")
+knitr::include_graphics("https://user-images.githubusercontent.com/1825120/130415597-e7bcb8a1-4792-48de-ba83-118c082584cb.png")
+
+## -----------------------------------------------------------------------------
+knitr::opts_chunk$set(eval = FALSE)
 
 ## ---- message=FALSE-----------------------------------------------------------
 #  library(pct)
@@ -83,12 +86,15 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #  # plot(l_originalines_all$dutch_slc / l_originalines_all$all, lines_all$pcycle_dutch)
 
 ## ----cities, out.width="45%", fig.show='hold', fig.cap="Classification of areas in Great Britain (left) and North Yorkshire (right).", message=FALSE, warning=FALSE----
+#  # Get data on the urban_rural status of LSOA zones
 #  urban_rural = readr::read_csv("https://researchbriefings.files.parliament.uk/documents/CBP-8322/oa-classification-csv.csv")
 #  ggplot(urban_rural) +
 #    geom_bar(aes(citytownclassification)) +
 #    coord_flip()
 #  
 #  # summary(routes_all$geo_code1 %in% urban_rural$lsoa_code)
+#  
+#  # Join this with the PCT commute data that we previously downloaded
 #  urban_rural = rename(urban_rural, geo_code = lsoa_code)
 #  zones_all_joined = left_join(zones_all, urban_rural)
 #  routes_all_joined = left_join(routes_all, urban_rural, by = c("geo_code1" = "geo_code"))
@@ -96,21 +102,27 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #    tm_polygons("citytownclassification")
 
 ## -----------------------------------------------------------------------------
+#  # Select only zones for which the field `citytownclassification` contains the word "Town" or "City"
 #  routes_towns = routes_all_joined %>%
 #    filter(grepl(pattern = "Town|City", x = citytownclassification))
 #  round(sum(routes_towns$foot + routes_towns$bicycle) / sum(routes_towns$all) * 100)
 
-## ----distmode, echo=FALSE, fig.cap="Relationship between distance (x axis) and mode share (y axis) in towns and cities in North Yorkshire.", out.width="49%", fig.show='hold', message=FALSE----
-#  col_modes = c("#457b9d", "#90be6d", "#ffd166", "grey", "#fe5f55")
-#  col_modes = rev(col_modes)
-#  old_theme = theme_set(theme_bw())
+## ----distmode, fig.cap="Relationship between distance (x axis) and mode share (y axis) in towns and cities in North Yorkshire. (a) left: existing mode shares; (b) right: mode shares under high active travel uptake scenario.", out.width="49%", fig.show='hold', message=FALSE----
+#  # Reduce the number of transport mode categories
 #  routes_towns_recode = routes_towns %>%
 #    mutate(public_transport = train_tube + bus,
 #           car = car_driver + car_passenger,
 #           other = taxi_other + motorbike
 #           ) %>%
 #    dplyr::select(-car_driver, -car_passenger, -train_tube, -bus)
+#  
+#  # Set distance bands to use in the bar charts
 #  routes_towns_recode$dist_bands = cut(x = routes_towns_recode$rf_dist_km, breaks = c(0, 1, 3, 6, 10, 15, 20, 30, 1000), include.lowest = TRUE)
+#  
+#  # Set the colours to use in the bar charts
+#  col_modes = c("#fe5f55", "grey", "#ffd166", "#90be6d", "#457b9d")
+#  
+#  # Plot bar chart showing modal share by distance band for existing journeys
 #  base_results = routes_towns_recode %>%
 #    sf::st_drop_geometry() %>%
 #    dplyr::select(dist_bands, car, other, public_transport, bicycle, foot) %>%
@@ -122,10 +134,22 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #    geom_col(aes(dist_bands, Trips, fill = mode)) +
 #    scale_fill_manual(values = col_modes) + ylab("Trips")
 #  g1
+#  
+#  # Create the new scenario:
+#  # First we replace some car journeys with walking, then replace some of the
+#  # remaining car journeys with cycling
 #  routes_towns_recode_go_active = routes_towns_recode %>%
 #    mutate(
-#      foot_increase_proportion = case_when(rf_dist_km < 1 ~ 0.5, rf_dist_km >= 1 & rf_dist_km < 2 ~ 0.1, TRUE ~ 0),
+#      foot_increase_proportion = case_when(
+#        # specifies that 50% of car journeys <1km in length will be replaced with walking
+#        rf_dist_km < 1 ~ 0.5,
+#        # specifies that 10% of car journeys 1-2km in length will be replaced with walking
+#        rf_dist_km >= 1 & rf_dist_km < 2 ~ 0.1,
+#        TRUE ~ 0
+#        ),
+#      # Specify the Go Dutch scenario we will use to replace remaining car trips with cycling
 #      bicycle_increase_proportion = uptake_pct_godutch_2020(distance = rf_dist_km, gradient = rf_avslope_perc),
+#      # Make the changes specified above
 #      car_reduction = car * foot_increase_proportion,
 #      car = car - car_reduction,
 #      foot = foot + car_reduction,
@@ -133,6 +157,8 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #      car = car - car_reduction,
 #      bicycle = bicycle + car_reduction
 #      )
+#  
+#  # Plot bar chart showing how modal share has changed in our new scenario
 #  active_results = routes_towns_recode_go_active %>%
 #    sf::st_drop_geometry() %>%
 #    dplyr::select(dist_bands, car, other, public_transport, bicycle, foot) %>%
@@ -144,7 +170,6 @@ knitr::opts_chunk$set(cache = TRUE, eval = FALSE)
 #    geom_col(aes(dist_bands, Trips, fill = mode)) +
 #    scale_fill_manual(values = col_modes) + ylab("Trips")
 #  g2
-#  
 
 ## ---- echo=FALSE, eval=FALSE--------------------------------------------------
 #  # % active under go active scenario
