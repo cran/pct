@@ -1,6 +1,6 @@
-a4e98ab921ef9c18546d9bfa8c527f34 *DESCRIPTION
+fc829373d758c2a22cf9f823c5346fcb *DESCRIPTION
 6a6e048932e06f8c9bb3ff7323e72292 *NAMESPACE
-9618370cc3524360de4aa91e5ee19cdf *NEWS.md
+1b0b8a505d8c569204ba7eba42a7d6f1 *NEWS.md
 823a9f6e87c59fb41ea8266472a8ff38 *R/data.R
 3a96222b4234c1c2af55b82e4fff3035 *R/desire_lines.R
 237ddec989bba166cd2ee20abb7f57f8 *R/get_pct.R
@@ -40,10 +40,10 @@ e361baee4b8a6e9fc669481215e2305e *inst/doc/km-cycled.Rmd
 ef6c4dc3934a81b0c9899a3c182215b7 *inst/doc/km-cycled.html
 229fddd9dc442e1077f5373fb0ba9bc5 *inst/doc/pct-international.R
 88a5117fa6af999b855bc23318352eef *inst/doc/pct-international.Rmd
-813c69f92723be43b165ef86889505b8 *inst/doc/pct-international.html
+857f1a89e5e7b9297d0eb62c7268ea03 *inst/doc/pct-international.html
 fda4fe550e14c2827a3fd9e852dfcc2d *inst/doc/pct.R
 70cef8e7969e85f70a764bdd51928544 *inst/doc/pct.Rmd
-b0108751eca3f2d4d45dfbbaf90bd7d6 *inst/doc/pct.html
+19a706b9de30626752bdf8b44eefbd98 *inst/doc/pct.html
 171cdd81b2dc5393cf4a3d1f0cac5f18 *inst/doc/uk-cities.R
 20ffeb9f82e555e74840778669963e3a *inst/doc/uk-cities.Rmd
 9219510c9b9d0aefc4c9eb763af60e2b *inst/doc/uk-cities.html
