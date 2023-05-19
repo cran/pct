@@ -12,7 +12,7 @@
 
 <meta name="author" content="Robin Lovelace, Layik Hama" />
 
-<meta name="date" content="2023-02-16" />
+<meta name="date" content="2023-05-19" />
 
 <title>International application of the PCT methods</title>
 
@@ -29,31 +29,46 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 <style type="text/css">
-code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-ul.task-list{list-style: none;}
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 <style type="text/css">
-code {
-white-space: pre;
-}
-.sourceCode {
-overflow: visible;
-}
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -65,54 +80,55 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-{ counter-reset: source-line 0; }
+  { counter-reset: source-line 0; }
 pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
+  { position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-{ }
+  {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } 
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.at { color: #7d9029; } 
-code span.bn { color: #40a070; } 
-code span.bu { color: #008000; } 
-code span.cf { color: #007020; font-weight: bold; } 
-code span.ch { color: #4070a0; } 
-code span.cn { color: #880000; } 
-code span.co { color: #60a0b0; font-style: italic; } 
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.do { color: #ba2121; font-style: italic; } 
-code span.dt { color: #902000; } 
-code span.dv { color: #40a070; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.fl { color: #40a070; } 
-code span.fu { color: #06287e; } 
-code span.im { color: #008000; font-weight: bold; } 
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
-code span.kw { color: #007020; font-weight: bold; } 
-code span.op { color: #666666; } 
-code span.ot { color: #007020; } 
-code span.pp { color: #bc7a00; } 
-code span.sc { color: #4070a0; } 
-code span.ss { color: #bb6688; } 
-code span.st { color: #4070a0; } 
-code span.va { color: #19177c; } 
-code span.vs { color: #4070a0; } 
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -338,154 +354,108 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">International application of the PCT
-methods</h1>
+<h1 class="title toc-ignore">International application of the PCT methods</h1>
 <h4 class="author">Robin Lovelace, Layik Hama</h4>
-<h4 class="date">2023-02-16</h4>
+<h4 class="date">2023-05-19</h4>
 
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The package README shows how the PCT can be used to get and reproduce
-some of the datasets from the PCT package, based on an example in the
-city of Leeds. This vignette shows how the package can be used to create
-estimates of cycling potential in other cities.</p>
+<p>The package README shows how the PCT can be used to get and reproduce some of the datasets from the PCT package, based on an example in the city of Leeds. This vignette shows how the package can be used to create estimates of cycling potential in other cities.</p>
 <p>Set <code>eval=TRUE</code> to run this code when knitting:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">eval =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">eval =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Let’s start by loading the package:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;ATFutures/geoplumber&quot;)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># require(&quot;geojsonsf&quot;)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pct)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># devtools::install_github(&quot;ATFutures/geoplumber&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="co"># require(&quot;geojsonsf&quot;)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">library</span>(pct)</span></code></pre></div>
 </div>
 <div id="input-data" class="section level2">
 <h2>Input data</h2>
-<p>The input data for this vignetted was created using code in the <a href="https://github.com/pedalea/pctSantiago">pctSantiago</a> project.
-It looks like this, in terms of the flow data:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(santiago_od)</span></code></pre></div>
+<p>The input data for this vignetted was created using code in the <a href="https://github.com/pedalea/pctSantiago">pctSantiago</a> project. It looks like this, in terms of the flow data:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">head</span>(santiago_od)</span></code></pre></div>
 <p>In terms of the zone data, they look like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sf<span class="sc">:::</span><span class="fu">print.sf</span>(santiago_zones)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(santiago_zones)</span></code></pre></div>
-<p>Note that we have cycling estimates for each desire line. If this
-data is not known, current cycling levels can be approximated for all
-desire lines as the city-wide average, e.g. around 5% for Santiago.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>sf<span class="op">:::</span><span class="kw">print.sf</span>(santiago_zones)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="kw">plot</span>(santiago_zones)</span></code></pre></div>
+<p>Note that we have cycling estimates for each desire line. If this data is not known, current cycling levels can be approximated for all desire lines as the city-wide average, e.g. around 5% for Santiago.</p>
 </div>
 <div id="creating-desire-lines" class="section level2">
 <h2>Creating desire lines</h2>
-<p>The origin-destination data can be converted to geographic desire
-lines using the <code>stplanr</code> function <code>od2line</code> as
-follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>desire_lines <span class="ot">=</span> stplanr<span class="sc">::</span><span class="fu">od2line</span>(<span class="at">flow =</span> santiago_od, <span class="at">zones =</span> santiago_zones)</span></code></pre></div>
-<p>The resulting lines can then be plotted on top of zone data as
-follows:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(santiago_zones<span class="sc">$</span>geometry)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(santiago_lines[<span class="st">&quot;pcycle&quot;</span>], <span class="at">lwd =</span> santiago_lines<span class="sc">$</span>n <span class="sc">/</span> <span class="dv">3</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># gj = geojsonsf::sf_geojson(santiago_lines)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># path = file.path(tempdir(), &quot;dl.geojson&quot;)</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># write(gj, path)</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># html_map = geoplumber::gp_map(path, browse_map = FALSE)</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># htmltools::includeHTML(html_map)</span></span></code></pre></div>
-<p>The previous map suggests that the data is reliable: we have created
-a good approximation of the travel pattern in central Santiago.</p>
+<p>The origin-destination data can be converted to geographic desire lines using the <code>stplanr</code> function <code>od2line</code> as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>desire_lines =<span class="st"> </span>stplanr<span class="op">::</span><span class="kw">od2line</span>(<span class="dt">flow =</span> santiago_od, <span class="dt">zones =</span> santiago_zones)</span></code></pre></div>
+<p>The resulting lines can then be plotted on top of zone data as follows:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">plot</span>(santiago_zones<span class="op">$</span>geometry)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="kw">plot</span>(santiago_lines[<span class="st">&quot;pcycle&quot;</span>], <span class="dt">lwd =</span> santiago_lines<span class="op">$</span>n <span class="op">/</span><span class="st"> </span><span class="dv">3</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co"># gj = geojsonsf::sf_geojson(santiago_lines)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co"># path = file.path(tempdir(), &quot;dl.geojson&quot;)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co"># write(gj, path)</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="co"># html_map = geoplumber::gp_map(path, browse_map = FALSE)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="co"># htmltools::includeHTML(html_map)</span></span></code></pre></div>
+<p>The previous map suggests that the data is reliable: we have created a good approximation of the travel pattern in central Santiago.</p>
 </div>
 <div id="estimating-cycling-uptake" class="section level2">
 <h2>Estimating cycling uptake</h2>
-<p>To estimate cycling potential, we need estimates of distance and
-hilliness. The area under investigation is relatively flat so we can
-make the simplifying assumption that hilliness is 0% for all lines
-(normally we would get this information from a routing service):</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>desire_lines<span class="sc">$</span>hilliness <span class="ot">=</span> <span class="dv">0</span></span></code></pre></div>
-<p>And what about the distance? We can calculated it as follows (note we
-converted this into a numeric object to prevent issues associated with
-the <code>units</code> package):</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>desire_lines<span class="sc">$</span>distance <span class="ot">=</span> <span class="fu">as.numeric</span>(sf<span class="sc">::</span><span class="fu">st_length</span>(desire_lines))</span></code></pre></div>
-<p>Now we have (very) crude estimates of distance and hilliness, we can
-estimate the cycling potential as follows:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>desire_lines<span class="sc">$</span>godutch_pcycle <span class="ot">=</span> <span class="fu">uptake_pct_godutch</span>(<span class="at">distance =</span> desire_lines<span class="sc">$</span>distance, <span class="at">gradient =</span> <span class="dv">0</span>)</span></code></pre></div>
-<p>Let’s take a look at the results, compared with the current levels of
-cycling, and compared with distance:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> desire_lines<span class="sc">$</span>pcycle, <span class="at">y =</span> desire_lines<span class="sc">$</span>godutch_pcycle)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> desire_lines<span class="sc">$</span>pcycle, <span class="at">y =</span> desire_lines<span class="sc">$</span>godutch_pcycle)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> desire_lines<span class="sc">$</span>distance, <span class="at">y =</span> desire_lines<span class="sc">$</span>godutch_pcycle, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
-<p>As expected, there is a positive (albeit small) positive correlation
-between current and potential levels of cycling. The result shows
-clearly that distance decay kicks in just after 2km, but still at 8 km
-there is a 25% mode share, suggesting a major switch to cycling.</p>
+<p>To estimate cycling potential, we need estimates of distance and hilliness. The area under investigation is relatively flat so we can make the simplifying assumption that hilliness is 0% for all lines (normally we would get this information from a routing service):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>desire_lines<span class="op">$</span>hilliness =<span class="st"> </span><span class="dv">0</span></span></code></pre></div>
+<p>And what about the distance? We can calculated it as follows (note we converted this into a numeric object to prevent issues associated with the <code>units</code> package):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>desire_lines<span class="op">$</span>distance =<span class="st"> </span><span class="kw">as.numeric</span>(sf<span class="op">::</span><span class="kw">st_length</span>(desire_lines))</span></code></pre></div>
+<p>Now we have (very) crude estimates of distance and hilliness, we can estimate the cycling potential as follows:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>desire_lines<span class="op">$</span>godutch_pcycle =<span class="st"> </span><span class="kw">uptake_pct_godutch</span>(<span class="dt">distance =</span> desire_lines<span class="op">$</span>distance, <span class="dt">gradient =</span> <span class="dv">0</span>)</span></code></pre></div>
+<p>Let’s take a look at the results, compared with the current levels of cycling, and compared with distance:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">cor</span>(<span class="dt">x =</span> desire_lines<span class="op">$</span>pcycle, <span class="dt">y =</span> desire_lines<span class="op">$</span>godutch_pcycle)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dt">x =</span> desire_lines<span class="op">$</span>pcycle, <span class="dt">y =</span> desire_lines<span class="op">$</span>godutch_pcycle)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="kw">plot</span>(<span class="dt">x =</span> desire_lines<span class="op">$</span>distance, <span class="dt">y =</span> desire_lines<span class="op">$</span>godutch_pcycle, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</span></code></pre></div>
+<p>As expected, there is a positive (albeit small) positive correlation between current and potential levels of cycling. The result shows clearly that distance decay kicks in just after 2km, but still at 8 km there is a 25% mode share, suggesting a major switch to cycling.</p>
 <p>We can put the results on a map as follows:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(<span class="at">width =</span> <span class="st">&quot;100%&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolylines</span>(<span class="at">data =</span> desire_lines, <span class="at">weight =</span> desire_lines<span class="sc">$</span>pcycle <span class="sc">*</span> <span class="dv">5</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>(<span class="at">width =</span> <span class="st">&quot;100%&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolylines</span>(<span class="at">data =</span> desire_lines, <span class="at">weight =</span> desire_lines<span class="sc">$</span>godutch_pcycle <span class="sc">*</span> <span class="dv">5</span>)</span></code></pre></div>
-<p>The results show that there is substantial potential for increasing
-the levels of cycling in central Santiago, based on origin-destination
-data alone. However, to inform policy, more detailed estimates of
-cycling potential are needed, with results that go down to the level of
-individual streets. This involves routing.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">library</span>(leaflet)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="kw">leaflet</span>(<span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">addPolylines</span>(<span class="dt">data =</span> desire_lines, <span class="dt">weight =</span> desire_lines<span class="op">$</span>pcycle <span class="op">*</span><span class="st"> </span><span class="dv">5</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a><span class="kw">leaflet</span>(<span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a><span class="st">  </span><span class="kw">addPolylines</span>(<span class="dt">data =</span> desire_lines, <span class="dt">weight =</span> desire_lines<span class="op">$</span>godutch_pcycle <span class="op">*</span><span class="st"> </span><span class="dv">5</span>)</span></code></pre></div>
+<p>The results show that there is substantial potential for increasing the levels of cycling in central Santiago, based on origin-destination data alone. However, to inform policy, more detailed estimates of cycling potential are needed, with results that go down to the level of individual streets. This involves routing.</p>
 </div>
 <div id="routing" class="section level2">
 <h2>Routing</h2>
-<p>There are many ways to do calculate a path on the street network. The
-main options are local routing, where the calculation is done based on
-data stored locally (on your computer) and routing services, where the
-data is done remotely (‘in the cloud’). Let’s use a remote routing
-service to convert the straight lines generated in the previous section
-into routes that could realistically be taken by people cycling (the
-next line does not run by default because it requires an API key saved
-as an environment variable, see the <a href="https://docs.ropensci.org/stplanr/reference/index.html#section-routing">documentation
-of <code>route_cyclestreets()</code> for details</a> for details).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>santiago_routes_cs <span class="ot">=</span> stplanr<span class="sc">::</span><span class="fu">line2route</span>(desire_lines)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 10 % out of 200 distances calculated</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 20 % out of 200 distances calculated</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 30 % out of 200 distances calculated</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 40 % out of 200 distances calculated</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 50 % out of 200 distances calculated</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 60 % out of 200 distances calculated</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 70 % out of 200 distances calculated</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 80 % out of 200 distances calculated</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 90 % out of 200 distances calculated</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; 100 % out of 200 distances calculated</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; Warning message:</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt; In value[[3L]](cond) : Fail for line number 32</span></span></code></pre></div>
-<p>Note that one of the routes failed. We can look at this route as
-follows, to try to understand what happened:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addTiles</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addPolylines</span>(<span class="at">data =</span> santiago_routes_cs[<span class="dv">32</span>, ])</span></code></pre></div>
-<p>The result shows that one end of the route connects to the Sendero
-Ciclistas, which the routing service may be unable to reach. At this
-stage there are 2 main options: 1) to omit the data point from the
-analysis, acknowledging that the data is incomplete; or 2) identify a
-nearby location where the service <em>can</em> route to. In this case we
-will take option 1. Before we remove the offending line 32 from the
-analysis, we will join the data from the desire lines back onto the
-results:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>routes <span class="ot">=</span> sf<span class="sc">::</span><span class="fu">st_sf</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>(santiago_routes_cs),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>(desire_lines)),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> santiago_routes_cs<span class="sc">$</span>geometry</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>There are many ways to do calculate a path on the street network. The main options are local routing, where the calculation is done based on data stored locally (on your computer) and routing services, where the data is done remotely (‘in the cloud’). Let’s use a remote routing service to convert the straight lines generated in the previous section into routes that could realistically be taken by people cycling (the next line does not run by default because it requires an API key saved as an environment variable, see the <a href="https://docs.ropensci.org/stplanr/reference/index.html#section-routing">documentation of <code>route_cyclestreets()</code> for details</a> for details).</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>santiago_routes_cs =<span class="st"> </span>stplanr<span class="op">::</span><span class="kw">line2route</span>(desire_lines)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="co"># &gt; 10 % out of 200 distances calculated</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a><span class="co"># &gt; 20 % out of 200 distances calculated</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="co"># &gt; 30 % out of 200 distances calculated</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="co"># &gt; 40 % out of 200 distances calculated</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="co"># &gt; 50 % out of 200 distances calculated</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a><span class="co"># &gt; 60 % out of 200 distances calculated</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a><span class="co"># &gt; 70 % out of 200 distances calculated</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a><span class="co"># &gt; 80 % out of 200 distances calculated</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a><span class="co"># &gt; 90 % out of 200 distances calculated</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a><span class="co"># &gt; 100 % out of 200 distances calculated</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a><span class="co"># &gt; Warning message:</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a><span class="co"># &gt; In value[[3L]](cond) : Fail for line number 32</span></span></code></pre></div>
+<p>Note that one of the routes failed. We can look at this route as follows, to try to understand what happened:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">leaflet</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">addPolylines</span>(<span class="dt">data =</span> santiago_routes_cs[<span class="dv">32</span>, ])</span></code></pre></div>
+<p>The result shows that one end of the route connects to the Sendero Ciclistas, which the routing service may be unable to reach. At this stage there are 2 main options: 1) to omit the data point from the analysis, acknowledging that the data is incomplete; or 2) identify a nearby location where the service <em>can</em> route to. In this case we will take option 1. Before we remove the offending line 32 from the analysis, we will join the data from the desire lines back onto the results:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>routes =<span class="st"> </span>sf<span class="op">::</span><span class="kw">st_sf</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>  <span class="kw">cbind</span>(sf<span class="op">::</span><span class="kw">st_drop_geometry</span>(santiago_routes_cs),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>  sf<span class="op">::</span><span class="kw">st_drop_geometry</span>(desire_lines)),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>  <span class="dt">geometry =</span> santiago_routes_cs<span class="op">$</span>geometry</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>)</span></code></pre></div>
 <p>Update results…</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>routes<span class="sc">$</span>godutch_slc <span class="ot">=</span> <span class="fu">round</span>(routes<span class="sc">$</span>godutch_pcycle <span class="sc">*</span> routes<span class="sc">$</span>all)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rnet <span class="ot">=</span> stplanr<span class="sc">::</span><span class="fu">overline2</span>(routes, <span class="st">&quot;godutch_slc&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rnet, <span class="at">lwd =</span> rnet<span class="sc">$</span>godutch_slc <span class="sc">/</span> <span class="fu">mean</span>(rnet<span class="sc">$</span>godutch_slc))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># library(tmap)</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># tmap_mode(&quot;view&quot;)</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   tm_shape(rnet) +</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   tm_lines(lwd = &quot;godutch_slc&quot;, scale = 9) </span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>routes<span class="op">$</span>godutch_slc =<span class="st"> </span><span class="kw">round</span>(routes<span class="op">$</span>godutch_pcycle <span class="op">*</span><span class="st"> </span>routes<span class="op">$</span>all)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>rnet =<span class="st"> </span>stplanr<span class="op">::</span><span class="kw">overline2</span>(routes, <span class="st">&quot;godutch_slc&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="kw">plot</span>(rnet, <span class="dt">lwd =</span> rnet<span class="op">$</span>godutch_slc <span class="op">/</span><span class="st"> </span><span class="kw">mean</span>(rnet<span class="op">$</span>godutch_slc))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="co"># library(tmap)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="co"># tmap_mode(&quot;view&quot;)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="co">#   tm_shape(rnet) +</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="co">#   tm_lines(lwd = &quot;godutch_slc&quot;, scale = 9) </span></span></code></pre></div>
 </div>
 <div id="next-steps" class="section level2">
 <h2>Next steps</h2>
-<p>Clearly to do this in a production environment we would use a larger
-dataset, but the concepts would be the same. We would refine the method
-in multiple ways. The next basic step, however, would be to convert the
-straight desire lines into routes, to calculate more accurate distance
-and hilliness levels for each OD pair. Then we would be able to create a
-route network to help prioritise cycling across the city.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>route_segments_1_5 <span class="ot">=</span> <span class="fu">route</span>(<span class="at">l =</span> desire_lines[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ], <span class="at">route_fun =</span> cyclestreets<span class="sc">::</span>journey)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mapview<span class="sc">::</span><span class="fu">mapview</span>(route_segments_1_5)</span></code></pre></div>
+<p>Clearly to do this in a production environment we would use a larger dataset, but the concepts would be the same. We would refine the method in multiple ways. The next basic step, however, would be to convert the straight desire lines into routes, to calculate more accurate distance and hilliness levels for each OD pair. Then we would be able to create a route network to help prioritise cycling across the city.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>route_segments_<span class="dv">1</span>_<span class="dv">5</span> =<span class="st"> </span><span class="kw">route</span>(<span class="dt">l =</span> desire_lines[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ], <span class="dt">route_fun =</span> cyclestreets<span class="op">::</span>journey)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>mapview<span class="op">::</span><span class="kw">mapview</span>(route_segments_<span class="dv">1</span>_<span class="dv">5</span>)</span></code></pre></div>
 </div>
 
 
